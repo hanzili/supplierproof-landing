@@ -7,23 +7,24 @@ def read(name):
     return (ROOT / name).read_text(encoding="utf-8")
 
 
-def test_site_has_separate_audience_pages_and_navigation():
+def test_site_has_public_audience_navigation_and_hidden_investor_page():
     for filename in ["index.html", "buyers.html", "suppliers.html", "vision.html", "styles.css"]:
         assert (ROOT / filename).exists(), filename
 
     html = read("index.html")
     for phrase in [
         "SupplierProof",
-        "One workflow, three views",
+        "One workflow, two entry points",
         "For buyers",
         "For suppliers",
-        "For investors",
         "buyers.html",
         "suppliers.html",
-        "vision.html",
         "Talk about a pilot",
     ]:
         assert phrase in html
+    assert "For investors" not in html
+    assert "See investor page" not in html
+    assert "vision.html" not in html
 
 
 def test_home_page_has_external_facing_positioning_not_meta_copy():
