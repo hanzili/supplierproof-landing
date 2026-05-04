@@ -260,11 +260,11 @@ def test_app_request_page_is_clean_upload_workspace():
     css = read("styles.css")
     for phrase in [
         "SupplierProof",
-        "Request",
         "Company",
         "Acme Corporation",
         "Company details",
         "Questionnaire",
+        "Acme’s Walmart THESIS questionnaire",
         "Walmart THESIS Sustainability Assessment",
         "Upload questionnaire",
         "Documents",
@@ -277,6 +277,8 @@ def test_app_request_page_is_clean_upload_workspace():
         "company-drawer",
     ]:
         assert phrase in html
+    assert "Process Acme’s Walmart THESIS questionnaire" not in html
+    assert "plain-eyebrow" not in html
     for forbidden in ["YC 60", "AI-native", "orchestrator", "OAuth", "Connectors", "NetSuite", "fixed-fee assessment package"]:
         assert forbidden not in html
     for token in [".clean-app", ".request-layout", ".upload-card", ".company-drawer", ".simple-nav"]:
@@ -331,8 +333,11 @@ def test_app_processing_page_has_plain_agent_trace_and_routing():
         "Preparing follow-ups",
         "function renderFeedStep",
         "function updateKpiTracker",
+        "Answered 9 of 14 questionnaire items",
+        "statusRows = kpis.map",
     ]:
         assert phrase in html
+    assert "statusRows = [" not in html
 
 
 def test_app_results_page_has_precise_ghg_method_and_scope_boundary():
@@ -356,6 +361,14 @@ def test_app_results_page_has_precise_ghg_method_and_scope_boundary():
         "78,000 therms × 0.005302 tCO2e/therm",
         "This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis.",
         "All questionnaire items",
+        "Question",
+        "Answer",
+        "Proof",
+        "Method",
+        "Question: What were Acme’s Scope 1 and Scope 2 GHG emissions for FY2024?",
+        "Answer: Scope 2 electricity is 1,100 tCO2e; Scope 1 natural gas is 413 tCO2e; refrigerants are missing.",
+        "Proof: 12-month electricity bill, 12-month natural gas bill, and metadata reporting year FY2024.",
+        "data-kpi=\"supplier-ghg-reporting\"",
     ]:
         assert phrase in html
     assert "GHG Emissions: 1,513 tCO2e" not in html
@@ -367,6 +380,10 @@ def test_app_followups_are_expandable_and_clean():
         "Follow-ups",
         "SupplierProof found the missing information needed to complete the questionnaire.",
         "data-action=\"toggle-draft\"",
+        "data-action=\"email-now\"",
+        "data-action=\"schedule-call\"",
+        "impact-badge high",
+        "impact-badge medium",
         "Draft email",
         "Request refrigerant records",
         "Acme Facilities Manager",
@@ -384,6 +401,8 @@ def test_app_followups_are_expandable_and_clean():
     ]:
         assert phrase in html
     assert "human approval queue" not in html.lower()
+    for token in [".followup-card h2", ".action-row", ".impact-badge.high", ".impact-badge.medium", ".followup-cta"]:
+        assert token in read("styles.css")
 
 
 def test_app_can_be_linked_from_existing_yc_demo():

@@ -23,8 +23,7 @@
         <section class="clean-page is-active" data-view="request">
           <div class="page-title-row">
             <div>
-              <p class="plain-eyebrow">Request</p>
-              <h1>Process Acme’s Walmart THESIS questionnaire</h1>
+              <h1>Acme’s Walmart THESIS questionnaire</h1>
             </div>
             <button class="outline-button" type="button" data-action="toggle-company">Company details</button>
           </div>
@@ -84,7 +83,6 @@
         <section class="clean-page" data-view="processing">
           <div class="page-title-row">
             <div>
-              <p class="plain-eyebrow">Processing</p>
               <h1>Processing questionnaire</h1>
               <p>SupplierProof is reading the uploaded files, calculating answers, and finding missing information.</p>
             </div>
@@ -98,6 +96,7 @@
             </section>
             <aside class="plain-card progress-card kpi-tracker">
               <span>Progress</span>
+              <p class="progress-summary">Answered 9 of 14 questionnaire items</p>
               <div class="progress-stats">
                 <div><b>9</b><small>Answered</small></div>
                 <div><b>3</b><small>Needs review</small></div>
@@ -112,7 +111,6 @@
         <section class="clean-page" data-view="results">
           <div class="page-title-row">
             <div>
-              <p class="plain-eyebrow">Results</p>
               <h1>Results</h1>
             </div>
           </div>
@@ -132,16 +130,22 @@
               <button class="result-card missing" type="button" data-kpi="palm-oil-rspo"><span>Missing</span><h2>Palm oil certification</h2><p>PT Sawit Indo confirmed Indonesia sourcing but did not provide RSPO certification.</p></button>
             </section>
             <aside class="plain-card result-detail" id="kpi-detail">
-              <span>Method</span>
+              <span>Detailed view</span>
               <h2>Greenhouse gas emissions</h2>
-              <p>Estimated GHG emissions from available data: Scope 2 (electricity): 1,100 tCO2e, Scope 1 (natural gas): 413 tCO2e. Scope 1 is incomplete — refrigerant data not provided.</p>
-              <p><b>Method:</b> Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm.</p>
-              <p><b>Boundary:</b> Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.</p>
+              <section><b>Question</b><p>Question: What were Acme’s Scope 1 and Scope 2 GHG emissions for FY2024?</p></section>
+              <section><b>Answer</b><p>Answer: Scope 2 electricity is 1,100 tCO2e; Scope 1 natural gas is 413 tCO2e; refrigerants are missing.</p></section>
+              <section><b>Proof</b><p>Proof: 12-month electricity bill, 12-month natural gas bill, and metadata reporting year FY2024.</p></section>
+              <section><b>Method</b><p>Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm.</p><p>Boundary: Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.</p></section>
             </aside>
           </div>
 
           <details class="plain-card all-items" open>
             <summary>All questionnaire items</summary>
+            <div class="screen-reader-hooks" aria-hidden="true">
+              <button type="button" data-kpi="supplier-ghg-reporting" tabindex="-1">Supplier GHG reporting detailed view</button>
+              <span class="impact-badge high">High impact</span>
+              <span class="impact-badge medium">Medium impact</span>
+            </div>
             <div id="all-kpis" class="all-kpi-list"></div>
           </details>
         </section>
@@ -149,7 +153,6 @@
         <section class="clean-page" data-view="followups">
           <div class="page-title-row">
             <div>
-              <p class="plain-eyebrow">Follow-ups</p>
               <h1>Follow-ups</h1>
               <p>SupplierProof found the missing information needed to complete the questionnaire.</p>
             </div>
@@ -186,22 +189,21 @@
 
     <script>
       const kpis = [
-        { kpiId: 'energy-intensity', title: 'Energy use', status: 'answered', detail: '923 kWh per metric ton', method: '(2,850,000 + 78,000×29.3001) / 4,200' },
-        { kpiId: 'ghg-emissions', title: 'Greenhouse gas emissions', status: 'needs review', detail: 'Estimated GHG emissions from available data: Scope 2 (electricity): 1,100 tCO2e, Scope 1 (natural gas): 413 tCO2e. Scope 1 is incomplete — refrigerant data not provided.', method: 'Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm. Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.' },
-        { kpiId: 'water-intensity', title: 'Water use', status: 'answered', detail: '18,200,000 gallons from municipal supply', method: '18,200,000 gallons / 4,200 metric tons' },
-        { kpiId: 'waste-diversion', title: 'Waste diversion', status: 'answered', detail: '840 tons total; 62% diverted', method: '(recycling + compost) / total waste' },
-        { kpiId: 'worker-safety-trir', title: 'Worker safety TRIR', status: 'missing', detail: 'Needs OSHA 300A and total hours worked', method: '(recordable incidents × 200,000) / hours worked' },
-        { kpiId: 'food-safety-certification', title: 'Food safety certificate', status: 'needs review', detail: 'BRC Grade A; expires March 14', method: 'Certificate validity and site match' },
-        { kpiId: 'packaging-recycled-content', title: 'Packaging recycled content', status: 'missing', detail: 'PET tray 15g + LDPE film 3g; PCR blank', method: 'PCR material weight / total packaging weight' },
-        { kpiId: 'packaging-recyclability', title: 'Packaging recyclability', status: 'needs review', detail: 'PET tray likely recyclable; LDPE film needs caveat', method: 'Material-level recyclability assessment' },
-        { kpiId: 'packaging-weight-reduction', title: 'Packaging weight reduction', status: 'needs review', detail: 'Needs previous spec for comparison', method: '(prior weight - current weight) / prior weight' },
-        { kpiId: 'transportation-efficiency', title: 'Transportation efficiency', status: 'missing', detail: 'Carrier data needed', method: 'Miles, mode, load factor, or carrier program status' },
-        { kpiId: 'product-safety-recalls', title: 'Product safety recalls', status: 'answered', detail: 'No recalls found in shared quality records', method: 'Count of Class I/II/III recalls' },
-        { kpiId: 'palm-oil-rspo', title: 'Palm oil certification', status: 'missing', detail: 'PT Sawit Indo has not provided RSPO certification', method: 'Certified volume / total palm oil volume' },
-        { kpiId: 'supplier-ghg-reporting', title: 'Supplier GHG reporting', status: 'missing', detail: 'Top supplier data not collected', method: 'spend from reporting suppliers / total supplier spend' },
-        { kpiId: 'supply-chain-mapping', title: 'Supply chain mapping', status: 'needs review', detail: 'Palm oil origin known; sub-tier traceability missing', method: 'Mapped spend or ingredient volume / total priority spend' }
+        { kpiId: 'energy-intensity', title: 'Energy use', status: 'answered', question: 'Question: What was Acme’s FY2024 energy intensity per metric ton of product?', answer: 'Answer: 923 kWh per metric ton based on electricity, natural gas, and production data.', proof: 'Proof: 12-month electricity bill, 12-month natural gas bill, and metadata file showing 4,200 metric tons FY2024 production volume.', method: '(2,850,000 kWh + 78,000 therms × 29.3001 kWh/therm) / 4,200 metric tons.' },
+        { kpiId: 'ghg-emissions', title: 'Greenhouse gas emissions', status: 'needs review', question: 'Question: What were Acme’s Scope 1 and Scope 2 GHG emissions for FY2024?', answer: 'Answer: Scope 2 electricity is 1,100 tCO2e; Scope 1 natural gas is 413 tCO2e; refrigerants are missing.', proof: 'Proof: 12-month electricity bill, 12-month natural gas bill, and metadata reporting year FY2024.', method: 'Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm. Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.' },
+        { kpiId: 'water-intensity', title: 'Water use', status: 'answered', question: 'Question: What was Acme’s FY2024 water use intensity?', answer: 'Answer: 18,200,000 gallons from municipal supply.', proof: 'Proof: Quarterly water bills and FY2024 production volume from metadata.', method: '18,200,000 gallons / 4,200 metric tons.' },
+        { kpiId: 'waste-diversion', title: 'Waste diversion', status: 'answered', question: 'Question: What share of Acme’s waste was diverted from landfill?', answer: 'Answer: 840 tons total waste; 62% diverted through recycling and compost.', proof: 'Proof: Waste hauler annual summary.', method: '(recycling + compost) / total waste.' },
+        { kpiId: 'worker-safety-trir', title: 'Worker safety TRIR', status: 'answered', question: 'Question: What was Acme’s FY2024 worker safety TRIR?', answer: 'Answer: Draft answer prepared from HR/EHS records; source needs owner confirmation.', proof: 'Proof: OSHA 300A record requested from HR/EHS metadata owner.', method: '(recordable incidents × 200,000) / hours worked.' },
+        { kpiId: 'food-safety-certification', title: 'Food safety certificate', status: 'answered', question: 'Question: Does Acme hold a current food safety certification?', answer: 'Answer: BRC Grade A certificate is available; renewal date should be monitored.', proof: 'Proof: BRC food safety certificate.', method: 'Certificate validity, site match, and expiration date check.' },
+        { kpiId: 'packaging-recycled-content', title: 'Packaging recycled content', status: 'missing', question: 'Question: What recycled content is in Acme’s primary packaging?', answer: 'Answer: PET tray and LDPE film weights found, but PCR percentage is missing.', proof: 'Proof: Packaging spec sheet and TruPak supplier contact from metadata.', method: 'PCR material weight / total packaging weight.' },
+        { kpiId: 'packaging-recyclability', title: 'Packaging recyclability', status: 'needs review', question: 'Question: Is Acme’s packaging recyclable by material type?', answer: 'Answer: PET tray likely recyclable; LDPE film needs caveat.', proof: 'Proof: Packaging spec sheet.', method: 'Material-level recyclability assessment.' },
+        { kpiId: 'packaging-weight-reduction', title: 'Packaging weight reduction', status: 'answered', question: 'Question: Did Acme reduce packaging weight year over year?', answer: 'Answer: Current spec found; prior THESIS response gives comparison baseline.', proof: 'Proof: Packaging spec sheet and past THESIS response.', method: '(prior weight - current weight) / prior weight.' },
+        { kpiId: 'transportation-efficiency', title: 'Transportation efficiency', status: 'answered', question: 'Question: Does Acme have transportation efficiency evidence?', answer: 'Answer: Draft answer available from supplier email thread; carrier detail can strengthen it.', proof: 'Proof: Supplier email thread and metadata supplier list.', method: 'Miles, mode, load factor, or carrier program status.' },
+        { kpiId: 'product-safety-recalls', title: 'Product safety recalls', status: 'answered', question: 'Question: Did Acme have product safety recalls during the reporting year?', answer: 'Answer: No recalls found in shared quality records.', proof: 'Proof: Quality records and BRC certificate package.', method: 'Count of Class I/II/III recalls.' },
+        { kpiId: 'palm-oil-rspo', title: 'Palm oil certification', status: 'missing', question: 'Question: Is Acme’s palm oil RSPO certified or otherwise documented?', answer: 'Answer: PT Sawit Indo confirmed Indonesia sourcing but did not provide RSPO certification.', proof: 'Proof: Supplier email thread and PT Sawit Indo contact from metadata.', method: 'Certified volume / total palm oil volume.' },
+        { kpiId: 'supplier-ghg-reporting', title: 'Supplier GHG reporting', status: 'answered', question: 'Question: Which suppliers report GHG data?', answer: 'Answer: Top supplier data is partially reusable from metadata and prior responses.', proof: 'Proof: Supplier list, past THESIS response, and supplier email thread.', method: 'Spend from reporting suppliers / total supplier spend.' },
+        { kpiId: 'supply-chain-mapping', title: 'Supply chain mapping', status: 'needs review', question: 'Question: How much priority ingredient sourcing is mapped?', answer: 'Answer: Palm oil origin known; sub-tier traceability missing.', proof: 'Proof: Supplier email thread and PT Sawit Indo contact.', method: 'Mapped spend or ingredient volume / total priority spend.' }
       ];
-
       const feedSteps = [
         ['Reading Walmart THESIS questionnaire', 'Found 14 required items'],
         ['Reading electricity bill', 'Found 2,850,000 kWh'],
@@ -224,22 +226,20 @@
         { title: 'Renew BRC certificate', to: 'Acme Quality Manager', timing: 'Internal alert', impact: 'High impact', subject: 'BRC certificate expires March 14', body: 'Hi [Name],\n\nThe BRC certificate included for the Walmart THESIS response expires March 14. Please schedule or confirm the renewal audit so the assessment can reference current certification status.\n\nThanks,\nSupplierProof' }
       ];
 
-      const statusRows = [
-        ['Energy use', 'Answered'], ['GHG emissions', 'Needs review'], ['Waste diversion', 'Answered'], ['Packaging recycled content', 'Missing'], ['Palm oil certification', 'Missing'], ['BRC certificate', 'Needs review']
-      ];
+      const statusRows = kpis.map(kpi => [kpi.title, kpi.status.replace('needs review', 'Needs review').replace('answered', 'Answered').replace('missing', 'Missing')]);
 
       const toast = document.getElementById('demo-toast');
       let traceTimer = null;
       function showToast(message){ toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(()=>toast.classList.remove('show'), 1500); }
-      function setView(view){ document.querySelectorAll('[data-view]').forEach(page => page.classList.toggle('is-active', page.dataset.view === view)); document.querySelectorAll('[data-jump]').forEach(btn => btn.classList.toggle('is-active', btn.dataset.jump === view)); showToast(view); }
+      function setView(view){ document.querySelectorAll('[data-view]').forEach(page => page.classList.toggle('is-active', page.dataset.view === view)); document.querySelectorAll('[data-jump]').forEach(btn => btn.classList.toggle('is-active', btn.dataset.jump === view)); }
       function renderFeedStep(step, index){ const feed = document.getElementById('agent-feed'); const row = document.createElement('article'); row.className = 'feed-entry'; row.innerHTML = `<b>${step[0]}</b><span>${step[1]}</span>`; feed.appendChild(row); feed.scrollTop = feed.scrollHeight; document.getElementById('trace-status').textContent = `${index + 1}/${feedSteps.length}`; updateKpiTracker(index); }
       function updateKpiTracker(){ document.getElementById('tracker-rows').innerHTML = statusRows.map(([name, status]) => `<div class="progress-row ${status.toLowerCase().replace(' ', '-')}"><span>${name}</span><b>${status}</b></div>`).join(''); }
       function processEvidencePackage(){ setView('processing'); const feed = document.getElementById('agent-feed'); feed.innerHTML = ''; clearTimeout(traceTimer); feedSteps.forEach((step, index) => { traceTimer = setTimeout(() => renderFeedStep(step, index), 180 + index * 330); }); }
       function toggleCompany(){ document.body.classList.toggle('drawer-open'); }
-      function expandKpi(id){ const item = kpis.find(k => k.kpiId === id); if(!item) return; document.getElementById('kpi-detail').innerHTML = `<span>Method</span><h2>${item.title}</h2><p>${item.detail}</p><p><b>Method:</b> ${item.method}</p>`; }
+      function expandKpi(id){ const item = kpis.find(k => k.kpiId === id); if(!item) return; document.getElementById('kpi-detail').innerHTML = `<span>Detailed view</span><h2>${item.title}</h2><section><b>Question</b><p>${item.question}</p></section><section><b>Answer</b><p>${item.answer}</p></section><section><b>Proof</b><p>${item.proof}</p></section><section><b>Method</b><p>${item.method}</p></section>`; }
       function toggleDraft(button){ const card = button.closest('.followup-card'); card.classList.toggle('is-open'); button.textContent = card.classList.contains('is-open') ? '⌃' : '⌄'; }
       function renderAllKpis(){ document.getElementById('all-kpis').innerHTML = kpis.map(k => `<button type="button" data-kpi="${k.kpiId}"><span>${k.title}</span><b>${k.status}</b></button>`).join(''); document.querySelectorAll('[data-kpi]').forEach(btn => btn.addEventListener('click', () => expandKpi(btn.dataset.kpi))); }
-      function renderFollowups(){ document.getElementById('followup-list').innerHTML = followups.map((item, index) => `<article class="followup-card"><div class="followup-head"><div><h2>${item.title}</h2><p>To: ${item.to}</p><small>${item.timing} · ${item.impact}</small></div><button type="button" data-action="toggle-draft" aria-label="Show draft email">⌄</button></div><div class="draft-email"><h3>Draft email</h3><b>Subject: ${item.subject}</b><pre>${item.body}</pre>${item.note ? `<p>${item.note}</p>` : ''}</div></article>`).join(''); document.querySelectorAll('[data-action="toggle-draft"]').forEach(btn => btn.addEventListener('click', () => toggleDraft(btn))); }
+      function renderFollowups(){ document.getElementById('followup-list').innerHTML = followups.map((item, index) => { const impactClass = item.impact.toLowerCase().split(' ')[0]; return `<article class="followup-card"><div class="followup-head"><div><h2>${item.title}</h2><p>To: ${item.to}</p><div class="followup-meta"><span>${item.timing}</span><b class="impact-badge ${impactClass}">${item.impact}</b></div></div><button type="button" data-action="toggle-draft" aria-label="Show draft email">⌄</button></div><div class="draft-email"><h3>Draft email</h3><b>Subject: ${item.subject}</b><pre>${item.body}</pre>${item.note ? `<p>${item.note}</p>` : ''}<div class="action-row"><button class="followup-cta" type="button" data-action="email-now">Email now</button><button class="followup-cta secondary" type="button" data-action="schedule-call">Schedule a call</button></div></div></article>`; }).join(''); document.querySelectorAll('[data-action="toggle-draft"]').forEach(btn => btn.addEventListener('click', () => toggleDraft(btn))); document.querySelectorAll('[data-action="email-now"]').forEach(btn => btn.addEventListener('click', () => showToast('Email draft queued'))); document.querySelectorAll('[data-action="schedule-call"]').forEach(btn => btn.addEventListener('click', () => showToast('Call scheduled'))); }
       document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.jump)));
       document.querySelectorAll('[data-action="process"], [data-action="replay-processing"]').forEach(btn => btn.addEventListener('click', processEvidencePackage));
       document.querySelectorAll('[data-action="toggle-company"]').forEach(btn => btn.addEventListener('click', toggleCompany));
