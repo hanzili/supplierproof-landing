@@ -333,8 +333,7 @@ def test_app_processing_page_has_plain_agent_trace_and_routing():
     for phrase in [
         "Processing questionnaire",
         "Agent trace",
-        "Prototype trace: this browser preview replays the processing steps from the uploaded case context.",
-        "production build would connect this screen to the live document parser and enrichment service",
+        "SupplierProof is reading the uploaded files, mapping evidence to the questionnaire, and finding missing information.",
         "Reading Walmart THESIS questionnaire",
         "Found 14 required items",
         "Reading electricity bill",
