@@ -255,120 +255,141 @@ def test_yc_demo_separates_dashboard_state_from_transcript_copy():
         assert token in css
 
 
-def test_app_prototype_is_full_application_shell_not_landing_page():
+def test_app_is_yc_acme_thesis_agent_demo_not_connector_dashboard():
     html = read("app/index.html")
     css = read("styles.css")
     for phrase in [
-        "SupplierProof Ops Console",
-        "app-shell",
-        "app-sidebar",
-        "app-topbar",
-        "data-screen=\"inbox\"",
+        "SupplierProof YC Demo",
+        "Acme Corporation",
+        "frozen baked goods manufacturer",
+        "Walmart THESIS",
+        "due November 15",
+        "Process evidence package",
+        "internal Hermes-style orchestrator",
+        "Human reviews and approves",
+        "9 of 14 KPIs answered",
+        "58/100",
+        "82/100",
+        "32/100",
+    ]:
+        assert phrase in html
+    for forbidden in [
         "data-screen=\"connectors\"",
-        "data-screen=\"evidence\"",
-        "data-screen=\"agents\"",
-        "data-screen=\"approvals\"",
-        "data-screen=\"settings\"",
+        "Connector setup",
         "Connectors",
-        "Evidence Memory",
-        "Always-on agents",
-    ]:
-        assert phrase in html
-    for forbidden in ["Start with one request", "Schedule demo", "Book a demo", "hero", "landing"]:
-        assert forbidden not in html
-    for token in [".app-shell", ".app-sidebar", ".app-topbar", ".app-screen", ".app-screen.is-active", ".connector-card"]:
-        assert token in css
-
-
-def test_app_has_connector_onboarding_for_min_friction_sources():
-    html = read("app/index.html")
-    for phrase in [
-        "Gmail",
-        "Outlook",
-        "Google Drive",
-        "SharePoint",
-        "NetSuite",
-        "EcoVadis",
-        "CDP",
-        "Walmart Retail Link",
+        "OAuth",
         "read-only scan",
-        "selected folders only",
-        "no outbound without approval",
-        "data-connector=\"gmail\"",
-        "data-connector=\"outlook\"",
-        "data-connector=\"drive\"",
-        "data-connector=\"sharepoint\"",
-        "data-connector=\"netsuite\"",
+        "NetSuite",
     ]:
-        assert phrase in html
-
-
-def test_app_clickable_navigation_and_state_hooks_exist():
-    html = read("app/index.html")
-    for phrase in [
-        "const appState",
-        "function setScreen",
-        "function selectRequest",
-        "function toggleConnector",
-        "function openEvidence",
-        "function approveAction",
-        "addEventListener",
-        "data-request=\"walmart-thesis\"",
-        "data-request=\"ecovadis-refresh\"",
-        "data-request=\"cdp-climate\"",
-        "data-evidence=\"brc-cert\"",
-        "data-evidence=\"utility-bills\"",
-        "data-action=\"approve\"",
-        "app-toast",
-    ]:
-        assert phrase in html
-
-
-def test_app_surfaces_proactive_ops_layer_not_only_reactive_packet():
-    html = read("app/index.html")
-    for phrase in [
-        "Detected customer request",
-        "Certificate expires in 24 days",
-        "NetSuite production volume changed",
-        "Proactive readiness",
-        "watch inbox for new customer asks",
-        "monitor certificate expiries",
-        "reuse approved answers",
-        "scan ERP changes",
-        "Agent activity",
-        "Readiness moved",
-    ]:
-        assert phrase in html
-    assert "forward us everything" not in html.lower()
-    assert "give them a packet" not in html.lower()
-
-
-def test_app_reads_as_ai_native_service_not_generic_saas_dashboard():
-    html = read("app/index.html")
-    css = read("styles.css")
-    for phrase in [
-        "AI-native evidence service",
-        "Service OS",
-        "Agent workforce",
-        "Human QA",
-        "Evidence ops desk",
-        "software-margin service",
-        "managed outcome",
-        "case runbook",
-        "operator review",
-        "agent trace",
-        "service-metrics",
-        "human-in-the-loop",
-    ]:
-        assert phrase in html
-    for token in [
-        ".service-command-strip",
-        ".agent-worker-grid",
-        ".operator-review-card",
-        ".service-metrics",
-        ".runbook-step",
-    ]:
+        assert forbidden not in html
+    for token in [".yc-demo-app", ".demo-stage", ".agent-feed", ".kpi-tracker", ".score-gauge", ".followup-card"]:
         assert token in css
+
+
+def test_app_contains_ten_messy_documents_and_internal_data():
+    html = read("app/index.html")
+    for phrase in [
+        "Walmart THESIS notification email",
+        "12-month electricity bill",
+        "12-month natural gas bill",
+        "Quarterly water bill",
+        "Waste hauler annual summary",
+        "BRC food safety certificate",
+        "Environmental policy",
+        "Packaging spec sheet",
+        "Past THESIS response from last year",
+        "Supplier email thread",
+        "2,850,000 kWh",
+        "78,000 therms",
+        "18,200,000 gallons",
+        "840 tons total",
+        "62% diverted",
+        "4,200 metric tons",
+        "23 active suppliers",
+    ]:
+        assert phrase in html
+
+
+def test_app_has_timed_agent_processing_feed_and_calculations():
+    html = read("app/index.html")
+    for phrase in [
+        "setTimeout",
+        "processEvidencePackage",
+        "Processing ConEdison electricity bill",
+        "Extracted: 2,850,000 kWh across 12 months",
+        "Processing PSE&G natural gas bill",
+        "Extracted: 78,000 therms across 12 months",
+        "Calculating energy intensity",
+        "923 kWh per metric ton",
+        "Calculating GHG emissions",
+        "Scope 2: 1,100 tCO2e",
+        "Scope 1 (partial): 413 tCO2e",
+        "Refrigerant data missing",
+        "EXPIRES IN 30 DAYS",
+        "Recycled content: NOT SPECIFIED",
+    ]:
+        assert phrase in html
+
+
+def test_app_has_four_screen_flow_and_clickable_state_hooks():
+    html = read("app/index.html")
+    for phrase in [
+        "data-view=\"intake\"",
+        "data-view=\"processing\"",
+        "data-view=\"assessment\"",
+        "data-view=\"actions\"",
+        "function setView",
+        "function expandKpi",
+        "function expandAction",
+        "function renderFeedStep",
+        "function updateKpiTracker",
+        "data-kpi=\"energy-intensity\"",
+        "data-kpi=\"packaging-recycled-content\"",
+        "data-kpi=\"palm-oil-rspo\"",
+        "data-action=\"send-draft\"",
+        "data-action=\"schedule-voice\"",
+        "demo-toast",
+    ]:
+        assert phrase in html
+
+
+def test_app_has_fourteen_kpis_but_spotlights_only_key_cards():
+    html = read("app/index.html")
+    assert "const kpis = [" in html
+    assert html.count("kpiId:") == 14
+    for phrase in [
+        "Facility KPIs",
+        "Category KPIs",
+        "Supply Chain KPIs",
+        "Energy intensity",
+        "GHG emissions",
+        "Waste diversion",
+        "Packaging recycled content",
+        "Palm oil RSPO certification",
+        "Worker safety TRIR",
+        "hover or click for detail",
+        "showing 5 spotlight cards; all 14 are tracked",
+    ]:
+        assert phrase in html
+
+
+def test_app_has_followups_after_x_days_and_proactive_insights():
+    html = read("app/index.html")
+    for phrase in [
+        "Email follow-up now",
+        "Voice follow-up scheduled Day 7",
+        "Acme Facilities Manager",
+        "TruPak Packaging Co",
+        "PT Sawit Indo",
+        "Acme HR/EHS",
+        "Acme Quality Manager",
+        "BRC certificate expires March 14",
+        "Same evidence library covers 45% of your CDP requirements",
+        "52% of EcoVadis requirements",
+        "3 quick wins could raise your score from 58 to 72",
+        "THESIS rewards improvement trajectories",
+    ]:
+        assert phrase in html
 
 
 def test_app_can_be_linked_from_existing_yc_demo():

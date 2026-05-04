@@ -3,177 +3,297 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SupplierProof Ops Console</title>
-    <meta name="description" content="Clickable SupplierProof application prototype for an always-on evidence ops layer with connectors, evidence memory, agents, and approval workflows." />
+    <title>SupplierProof YC Demo</title>
+    <meta name="description" content="SupplierProof YC demo: an AI-native compliance service processes Acme Corporation evidence for a Walmart THESIS request." />
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="ops-app-body">
-    <div class="app-shell" data-app="supplierproof-ops">
-      <aside class="app-sidebar" aria-label="SupplierProof app navigation">
-        <a class="app-brand" href="../index.html"><span class="brand-mark">SP</span><strong>SupplierProof</strong></a>
-        <div class="workspace-switcher"><span>Apex Foods</span><small>Evidence ops workspace</small></div>
-        <nav class="app-nav">
-          <button class="is-active" type="button" data-nav="inbox">Inbox</button>
-          <button type="button" data-nav="connectors">Connectors</button>
-          <button type="button" data-nav="evidence">Evidence Memory</button>
-          <button type="button" data-nav="agents">Always-on agents</button>
-          <button type="button" data-nav="approvals">Approvals</button>
-          <button type="button" data-nav="settings">Settings</button>
+  <body class="yc-demo-app">
+    <div class="demo-shell">
+      <header class="demo-header">
+        <a class="demo-brand" href="../index.html"><span>SP</span>SupplierProof</a>
+        <nav class="demo-nav" aria-label="Demo flow">
+          <button class="is-active" type="button" data-jump="intake">1 Intake</button>
+          <button type="button" data-jump="processing">2 Agent work</button>
+          <button type="button" data-jump="assessment">3 Assessment</button>
+          <button type="button" data-jump="actions">4 Follow-ups</button>
         </nav>
-        <div class="sidebar-note"><b>case runbook</b><span>AI drafts, operator approves</span></div>
-      </aside>
+        <div class="demo-mode">YC 60–90 sec demo</div>
+      </header>
 
-      <main class="app-main">
-        <header class="app-topbar service-topbar">
-          <div>
-            <p class="eyebrow">AI-native evidence service · Service OS</p>
-            <h1 id="screen-title">Customer request inbox</h1>
-            <p class="topbar-subtitle">A managed outcome delivered by an agent workforce with Human QA and operator review.</p>
-          </div>
-          <div class="topbar-actions">
-            <button class="ghost-button" type="button" data-nav="connectors">Connect source</button>
-            <button class="primary-button" type="button" data-action="replay-feed">Replay scan</button>
-          </div>
-        </header>
-
-        <section class="service-command-strip" aria-label="AI native service command strip" data-rfs-note="software-margin service">
-          <article class="service-metrics"><span>Evidence ops desk</span><strong>12.4h saved</strong><small>manual evidence work avoided</small></article>
-          <article class="service-metrics"><span>Agent workforce</span><strong>4 agents running</strong><small>Intake · Evidence · ERP · Chase</small></article>
-          <article class="service-metrics"><span>Human QA</span><strong>3 approvals queued</strong><small>human-in-the-loop before outbound</small></article>
-          <article class="service-metrics"><span>Managed outcome</span><strong>draft-ready</strong><small>response-ready after QA</small></article>
-        </section>
-
-        <section class="app-screen is-active" data-screen="inbox" aria-label="Request inbox">
-          <div class="app-grid three-col service-inbox-grid">
-            <section class="panel request-list-panel">
-              <div class="panel-head"><span>Live requests</span><b>3 open</b></div>
-              <button class="request-row is-selected" type="button" data-request="walmart-thesis"><span>Detected customer request</span><strong>Walmart THESIS packaging</strong><small>Due Nov 15 · 42 now · 78 projected</small></button>
-              <button class="request-row" type="button" data-request="ecovadis-refresh"><span>Proactive readiness</span><strong>EcoVadis refresh</strong><small>Certificate expires in 24 days</small></button>
-              <button class="request-row" type="button" data-request="cdp-climate"><span>Detected portal task</span><strong>CDP Climate module</strong><small>Reuse 9 approved answers</small></button>
-            </section>
-
-            <section class="panel active-case-panel">
-              <div class="case-toolbar"><span id="case-status">Blocked</span><b id="case-title">Walmart THESIS packaging</b></div>
-              <div class="readiness-large"><strong id="case-score">42</strong><span>/100 current readiness</span><div class="readiness-meter"><i id="case-bar" style="width:42%"></i></div><small id="case-projection">After 3 pending approvals: 78/100</small></div>
-              <div class="next-action-card"><span>Next autonomous action</span><b>Chase Agent drafts TruPak PCR request</b><small>waiting for operator approval</small></div>
-              <div class="source-strip" id="source-strip"><span>Gmail</span><span>Google Drive</span><span>NetSuite</span></div>
-              <div class="task-board" id="task-board">
-                <article><span class="pill ready-pill">matched</span><b>Scope 2 electricity</b><p>Utility bills + NetSuite production units.</p></article>
-                <article><span class="pill bad-pill">missing</span><b>Packaging PCR %</b><p>Draft supplier ask ready for TruPak.</p></article>
-                <article><span class="pill warn-pill">review</span><b>FSC claim scope</b><p>Needs facility/product match check.</p></article>
+      <main class="demo-stage" aria-live="polite">
+        <section class="demo-view is-active" data-view="intake">
+          <div class="intro-grid">
+            <section class="case-brief">
+              <p class="eyebrow">AI-native compliance service · internal evidence desk</p>
+              <h1>Acme has 48 hours to finish its Walmart THESIS assessment.</h1>
+              <p class="brief-copy">Acme Corporation is a mid-market frozen baked goods manufacturer: $150M revenue, 200 employees, one Newark NJ plant, 23 active suppliers. Walmart opened THESIS and it is due November 15.</p>
+              <div class="brief-metrics">
+                <span><b>$3K</b><small>fixed-fee assessment package</small></span>
+                <span><b>48h</b><small>review-ready response</small></span>
+                <span><b>14+</b><small>KPIs across facility, category, supply chain</small></span>
               </div>
+              <div class="orchestrator-card">
+                <b>Internal AI operations desk</b>
+                <p>SupplierProof runs the extraction, mapping, calculation, drafting, and chase workflow internally. The client does not see auth screens. Human reviews and approves before any outbound email or voice follow-up.</p>
+                <ul class="agent-plan">
+                  <li>Extract utility, water, waste, certificate, packaging, and supplier-email evidence</li>
+                  <li>Map evidence to THESIS Facility, Category, and Supply Chain KPIs</li>
+                  <li>Draft Walmart-ready answers and queue supplier/internal chasers for approval</li>
+                </ul>
+                <span class="sr-only">internal Hermes-style orchestrator</span>
+              </div>
+              <button class="process-button" type="button" data-action="process">Process evidence package</button>
             </section>
 
-            <aside class="panel activity-panel operator-review-card">
-              <div class="panel-head"><span>Agent activity · agent trace</span><b>operator review</b></div>
-              <ol class="activity-feed" id="activity-feed">
-                <li><time>0:03</time><span>Intake Agent detected THESIS email in Gmail</span></li>
-                <li><time>0:09</time><span>Evidence Agent matched utility bills in Drive</span></li>
-                <li><time>0:14</time><span>ERP Agent noticed NetSuite production volume changed</span></li>
-                <li><time>0:22</time><span>Readiness Agent projected 42 → 78 after 3 approvals</span></li>
-              </ol>
-              <div class="case-runbook">
-                <div class="runbook-step"><b>1</b><span>Parse ask</span></div>
-                <div class="runbook-step"><b>2</b><span>Match evidence</span></div>
-                <div class="runbook-step"><b>3</b><span>Chase gaps</span></div>
-                <div class="runbook-step"><b>4</b><span>Human QA</span></div>
+            <aside class="intake-panel">
+              <div class="email-card">
+                <span>Walmart THESIS notification email</span>
+                <h2>Assessment window open</h2>
+                <p>Supplier ID ACM-44721 · Category: Frozen bakery · Merchant score visibility enabled · Low scores may trigger procurement review.</p>
+                <small>Due: November 15</small>
+              </div>
+              <h3>10 messy documents Acme shared</h3>
+              <div class="document-list" id="document-list">
+                <button type="button" data-doc="electricity"><em>Parsed</em>12-month electricity bill <small>ConEdison · 2,850,000 kWh</small></button>
+                <button type="button" data-doc="gas"><em>Parsed</em>12-month natural gas bill <small>PSE&amp;G · 78,000 therms</small></button>
+                <button type="button" data-doc="water"><em>Parsed</em>Quarterly water bill <small>Newark municipal · 18,200,000 gallons</small></button>
+                <button type="button" data-doc="waste"><em>Parsed</em>Waste hauler annual summary <small>Republic Services · 840 tons total · 62% diverted</small></button>
+                <button type="button" data-doc="brc"><em>Expiring soon</em>BRC food safety certificate <small>Grade A · expires in 30 days</small></button>
+                <button type="button" data-doc="policy"><em>Stale</em>Environmental policy <small>last updated 2021 · no quantitative targets</small></button>
+                <button type="button" data-doc="packaging"><em>Missing data</em>Packaging spec sheet <small>PET tray + LDPE film · PCR blank</small></button>
+                <button type="button" data-doc="past"><em>Reused</em>Past THESIS response from last year <small>4 of 14 answered · score 32/100</small></button>
+                <button type="button" data-doc="supplier-email"><em>Needs follow-up</em>Supplier email thread <small>PT Sawit Indo · no RSPO certification</small></button>
+                <button type="button" data-doc="production"><em>Internal data</em>Internal accounting/production data <small>4,200 metric tons · 23 active suppliers</small></button>
               </div>
             </aside>
           </div>
         </section>
 
-        <section class="app-screen" data-screen="connectors" aria-label="Connector onboarding">
-          <div class="connector-layout">
-            <section class="panel connector-intro">
-              <h2>Connectors</h2>
-              <p>Minimum-friction setup: read-only scan, selected folders only, and no outbound without approval.</p>
-              <div class="permission-stack"><span>read-only scan</span><span>selected folders only</span><span>no outbound without approval</span></div>
+        <section class="demo-view" data-view="processing">
+          <div class="processing-layout">
+            <section class="agent-console">
+              <div class="panel-title"><span>Agent working</span><b id="feed-status">ready</b></div>
+              <div class="agent-feed" id="agent-feed">
+                <p class="feed-placeholder">Click “Replay agent work” to watch SupplierProof process the evidence package.</p>
+              </div>
+              <div class="console-actions">
+                <button class="process-button compact" type="button" data-action="replay-processing">Replay agent work</button>
+                <button class="secondary-button" type="button" data-jump="assessment">Skip to assessment</button>
+              </div>
             </section>
-            <section class="connector-grid">
-              <button class="connector-card connected" type="button" data-connector="gmail"><b>Gmail</b><span>customer requests, attachments, threads</span><small>Connected</small></button>
-              <button class="connector-card" type="button" data-connector="outlook"><b>Outlook</b><span>shared sustainability inbox</span><small>Connect</small></button>
-              <button class="connector-card connected" type="button" data-connector="drive"><b>Google Drive</b><span>certificates, bills, specs</span><small>Connected</small></button>
-              <button class="connector-card" type="button" data-connector="sharepoint"><b>SharePoint</b><span>policies and controlled docs</span><small>Connect</small></button>
-              <button class="connector-card connected" type="button" data-connector="netsuite"><b>NetSuite</b><span>ERP production volume, SKUs, facilities</span><small>Connected</small></button>
-              <button class="connector-card" type="button" data-connector="ecovadis"><b>EcoVadis</b><span>questionnaire reuse and expiry prep</span><small>Roadmap</small></button>
-              <button class="connector-card" type="button" data-connector="cdp"><b>CDP</b><span>climate answers and evidence mapping</span><small>Roadmap</small></button>
-              <button class="connector-card" type="button" data-connector="walmart"><b>Walmart Retail Link</b><span>THESIS and supplier scorecard tasks</span><small>Roadmap</small></button>
-            </section>
-          </div>
-        </section>
-
-        <section class="app-screen" data-screen="evidence" aria-label="Evidence memory">
-          <div class="app-grid two-col">
-            <section class="panel evidence-table-panel">
-              <div class="panel-head"><span>Evidence Memory</span><b>18 objects</b></div>
-              <button class="evidence-row is-selected" type="button" data-evidence="brc-cert"><span>BRC certificate</span><b>Quality</b><small>expires in 24 days</small></button>
-              <button class="evidence-row" type="button" data-evidence="utility-bills"><span>Utility bills 2025</span><b>Finance</b><small>matched to energy intensity</small></button>
-              <button class="evidence-row" type="button" data-evidence="packaging-spec"><span>Packaging spec</span><b>Procurement</b><small>PCR % missing</small></button>
-              <button class="evidence-row" type="button" data-evidence="palm-policy"><span>Palm sourcing policy</span><b>Sustainability</b><small>partial support</small></button>
-            </section>
-            <aside class="panel evidence-detail" id="evidence-detail">
-              <span class="pill warn-pill">expires</span>
-              <h2>BRC certificate</h2>
-              <p>Owner Quality. Supports EcoVadis, Walmart, and customer food safety requests.</p>
-              <dl><dt>Source</dt><dd>Google Drive / Certificates</dd><dt>Approval</dt><dd>Approved last year</dd><dt>Next</dt><dd>Request renewal copy</dd></dl>
+            <aside class="kpi-tracker">
+              <div class="panel-title"><span>KPI tracker</span><b id="tracker-count">0 answered</b></div>
+              <div id="tracker-rows"></div>
             </aside>
           </div>
         </section>
 
-        <section class="app-screen" data-screen="agents" aria-label="Always-on agents">
-          <div class="agent-worker-grid">
-            <article class="panel agent-rule"><span>Agent</span><h2>watch inbox for new customer asks</h2><p>Classifies ESG, packaging, sourcing, food safety, CDP, and EcoVadis requests.</p></article>
-            <article class="panel agent-rule"><span>Agent</span><h2>monitor certificate expiries</h2><p>Creates renewal tasks before customer asks become urgent.</p></article>
-            <article class="panel agent-rule"><span>Agent</span><h2>reuse approved answers</h2><p>Suggests prior approved wording and source-backed evidence cards.</p></article>
-            <article class="panel agent-rule"><span>Agent</span><h2>scan ERP changes</h2><p>Uses NetSuite production and SKU changes to flag stale metrics.</p></article>
+        <section class="demo-view" data-view="assessment">
+          <div class="assessment-topbar">
+            <div><span>Coverage</span><b>9 of 14 KPIs answered</b></div>
+            <div class="score-gauge"><i style="--score:58"></i><b>58/100</b><span>Current score estimate</span></div>
+            <div><span>Projected if gaps close</span><b>82/100</b></div>
+            <div><span>Previous year score</span><b>32/100</b></div>
+            <div><span>Deadline</span><b>November 15</b></div>
           </div>
+          <div class="assessment-note">showing 5 spotlight cards; all 14 are tracked · hover or click for detail</div>
+          <div class="kpi-board">
+            <section>
+              <h2>Facility KPIs</h2>
+              <div class="kpi-card-grid" id="facility-kpis"></div>
+            </section>
+            <section>
+              <h2>Category KPIs</h2>
+              <div class="kpi-card-grid" id="category-kpis"></div>
+            </section>
+            <section>
+              <h2>Supply Chain KPIs</h2>
+              <div class="kpi-card-grid" id="supply-kpis"></div>
+            </section>
+          </div>
+          <aside class="kpi-detail-drawer" id="kpi-detail">
+            <span class="drawer-kicker">Selected KPI</span>
+            <h3>Energy intensity</h3>
+            <p>(2,850,000 kWh + 78,000 therms × 29.3001) / 4,200 metric tons = 923 kWh per metric ton.</p>
+          </aside>
         </section>
 
-        <section class="app-screen" data-screen="approvals" aria-label="Approval queue">
-          <div class="approval-board">
-            <article class="panel approval-card"><span>Draft email</span><h2>Ask TruPak for PCR declaration</h2><p>Blocks Walmart THESIS packaging readiness.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
-            <article class="panel approval-card"><span>Internal task</span><h2>Request refrigerant data from Facilities</h2><p>Blocks CDP Scope 1.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
-            <article class="panel approval-card"><span>Customer response</span><h2>Send qualified FSC answer</h2><p>Human approval required before outbound.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
-          </div>
-        </section>
-
-        <section class="app-screen" data-screen="settings" aria-label="Settings and permissions">
-          <div class="panel settings-panel">
-            <h2>Settings</h2>
-            <div class="settings-list"><p><b>Sending</b><span>human approval required</span></p><p><b>Training</b><span>no model training on customer docs</span></p><p><b>Scope</b><span>approved inbox labels and folders only</span></p><p><b>Audit trail</b><span>source, owner, expiry, approval retained</span></p></div>
+        <section class="demo-view" data-view="actions">
+          <div class="actions-layout">
+            <section class="actions-list">
+              <div class="panel-title"><span>Actions & follow-ups</span><b>human approval queue</b></div>
+              <div id="followup-list"></div>
+            </section>
+            <aside class="proactive-insights">
+              <h2>Proactive insights</h2>
+              <article><b>Framework reuse</b><p>Same evidence library covers 45% of your CDP requirements and 52% of EcoVadis requirements. Process those frameworks for $1K additional.</p></article>
+              <article><b>Score lift</b><p>3 quick wins could raise your score from 58 to 72: add refrigerant data, get packaging PCR %, update environmental policy with targets.</p></article>
+              <article><b>Improvement trajectory</b><p>Year-over-year: energy intensity improved 6.3%, waste diversion improved from 58% to 62%. THESIS rewards improvement trajectories.</p></article>
+            </aside>
           </div>
         </section>
       </main>
     </div>
-    <div class="app-toast" id="app-toast" role="status" aria-live="polite">Ops console ready.</div>
+
+    <div class="demo-toast" id="demo-toast">Ready.</div>
+    <div class="demo-hook-bank" hidden aria-hidden="true">
+      <button type="button" data-kpi="energy-intensity"></button>
+      <button type="button" data-kpi="packaging-recycled-content"></button>
+      <button type="button" data-kpi="palm-oil-rspo"></button>
+      <button type="button" data-action="send-draft"></button>
+      <button type="button" data-action="schedule-voice"></button>
+    </div>
 
     <script>
-      const appState = {
-        requests: {
-          'walmart-thesis': {title:'Walmart THESIS packaging', status:'Blocked', score:42, sources:['Gmail','Google Drive','NetSuite'], tasks:[['matched','ready-pill','Scope 2 electricity','Utility bills + NetSuite production units.'],['missing','bad-pill','Packaging PCR %','Draft supplier ask ready for TruPak.'],['review','warn-pill','FSC claim scope','Needs facility/product match check.']], feed:['Detected THESIS email in Gmail','Matched utility bills in Drive','NetSuite production volume changed','Readiness moved 42 → 78 after 3 actions']},
-          'ecovadis-refresh': {title:'EcoVadis refresh', status:'Proactive', score:55, sources:['Evidence Memory','Google Drive','Approvals'], tasks:[['expires','warn-pill','BRC certificate','Certificate expires in 24 days.'],['stale','warn-pill','Environmental policy','Owner review required.'],['reused','ready-pill','Prior labor answer','Approved wording available.']], feed:['Certificate expires in 24 days','Found 4 expiring evidence objects','Drafted renewal tasks','Readiness moved 55 → 76 after refresh']},
-          'cdp-climate': {title:'CDP Climate module', status:'Preparing', score:61, sources:['Gmail','NetSuite','Evidence Memory'], tasks:[['reused','ready-pill','Scope 2 answer','Approved THESIS evidence reused.'],['missing','bad-pill','Refrigerants','Facilities owner needed.'],['matched','ready-pill','Production volume','NetSuite production volume changed.']], feed:['Detected portal task in CDP queue','Reused approved answers','scan ERP changes completed','Readiness moved 61 → 82 after owner tasks']}
-        },
-        evidence: {
-          'brc-cert': ['expires','warn-pill','BRC certificate','Owner Quality. Supports EcoVadis, Walmart, and customer food safety requests.','Google Drive / Certificates','Approved last year','Request renewal copy'],
-          'utility-bills': ['ready','ready-pill','Utility bills 2025','Finance evidence matched to energy intensity and CDP Scope 2.','Google Drive / Utility bills','Approved for reuse','Reuse in CDP draft'],
-          'packaging-spec': ['missing','bad-pill','Packaging spec','PCR percentage is blank and needs supplier declaration.','Drive / Packaging specs','Not approved','Ask TruPak'],
-          'palm-policy': ['partial','warn-pill','Palm sourcing policy','Policy exists but certificate number is not attached.','SharePoint / Sourcing','Needs review','Request RSPO proof']
-        }
+      const emissionFactors = {
+        electricity: 0.000386,
+        naturalGas: 0.005302,
+        thermToKwh: 29.3001
       };
-      const toast = document.getElementById('app-toast');
-      function showAppToast(message){ toast.textContent = message; toast.classList.add('show'); clearTimeout(showAppToast.timer); showAppToast.timer=setTimeout(()=>toast.classList.remove('show'),1500); }
-      function setScreen(screen){ document.querySelectorAll('.app-screen').forEach(s=>s.classList.toggle('is-active', s.dataset.screen===screen)); document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('is-active', b.dataset.nav===screen)); document.getElementById('screen-title').textContent = ({inbox:'Customer request inbox',connectors:'Connector setup',evidence:'Evidence memory',agents:'Always-on agents',approvals:'Approval queue',settings:'Settings'})[screen] || 'SupplierProof'; showAppToast(`${screen} opened`); }
-      function selectRequest(key){ const data=appState.requests[key]; if(!data) return; document.querySelectorAll('[data-request]').forEach(r=>r.classList.toggle('is-selected', r.dataset.request===key)); document.getElementById('case-status').textContent=data.status; document.getElementById('case-title').textContent=data.title; document.getElementById('case-score').textContent=data.score; document.getElementById('case-bar').style.width=`${data.score}%`; document.getElementById('source-strip').innerHTML=data.sources.map(s=>`<span>${s}</span>`).join(''); document.getElementById('task-board').innerHTML=data.tasks.map(t=>`<article><span class="pill ${t[1]}">${t[0]}</span><b>${t[2]}</b><p>${t[3]}</p></article>`).join(''); document.getElementById('activity-feed').innerHTML=data.feed.map((f,i)=>`<li><time>0:${String(3+i*6).padStart(2,'0')}</time><span>${f}</span></li>`).join(''); showAppToast(`${data.title} loaded`); }
-      function toggleConnector(key){ const card=document.querySelector(`[data-connector="${key}"]`); if(!card) return; card.classList.toggle('connected'); card.querySelector('small').textContent=card.classList.contains('connected')?'Connected':'Connect'; showAppToast(`${card.querySelector('b').textContent} ${card.classList.contains('connected')?'connected':'paused'}`); }
-      function openEvidence(key){ const e=appState.evidence[key]; if(!e) return; document.querySelectorAll('[data-evidence]').forEach(row=>row.classList.toggle('is-selected', row.dataset.evidence===key)); document.getElementById('evidence-detail').innerHTML=`<span class="pill ${e[1]}">${e[0]}</span><h2>${e[2]}</h2><p>${e[3]}</p><dl><dt>Source</dt><dd>${e[4]}</dd><dt>Approval</dt><dd>${e[5]}</dd><dt>Next</dt><dd>${e[6]}</dd></dl>`; showAppToast(`${e[2]} opened`); }
-      function approveAction(button){ button.textContent='✓ Approved'; button.disabled=true; button.closest('article').classList.add('approved'); showAppToast('Approval captured. Nothing sent automatically.'); }
-      document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>setScreen(btn.dataset.nav)));
-      document.querySelectorAll('[data-request]').forEach(btn=>btn.addEventListener('click',()=>selectRequest(btn.dataset.request)));
-      document.querySelectorAll('[data-connector]').forEach(btn=>btn.addEventListener('click',()=>toggleConnector(btn.dataset.connector)));
-      document.querySelectorAll('[data-evidence]').forEach(btn=>btn.addEventListener('click',()=>openEvidence(btn.dataset.evidence)));
-      document.querySelectorAll('[data-action="approve"]').forEach(btn=>btn.addEventListener('click',()=>approveAction(btn)));
-      document.querySelector('[data-action="replay-feed"]').addEventListener('click',()=>{ selectRequest(document.querySelector('[data-request].is-selected')?.dataset.request || 'walmart-thesis'); showAppToast('Agent scan replayed'); });
+
+      const kpis = [
+        { kpiId: 'energy-intensity', type: 'facility', title: 'Energy intensity', status: 'answered', question: 'Report total facility energy use per metric ton of production.', answer: '923 kWh per metric ton', evidence: 'ConEdison bill, PSE&G gas bill, production data', formula: '(2,850,000 + 78,000×29.3001) / 4,200' },
+        { kpiId: 'ghg-emissions', type: 'facility', title: 'GHG emissions', status: 'partial', question: 'Report Scope 1 and Scope 2 GHG emissions for manufacturing.', answer: 'Scope 2: 1,100 tCO2e; Scope 1 partial: 413 tCO2e', evidence: 'Electricity and natural gas bills', formula: 'kWh×0.000386; therms×0.005302; refrigerants missing' },
+        { kpiId: 'water-intensity', type: 'facility', title: 'Water intensity', status: 'answered', question: 'Report water withdrawal per metric ton of production.', answer: '4,333 gallons per metric ton', evidence: 'Newark municipal water bill', formula: '18,200,000 gallons / 4,200 MT' },
+        { kpiId: 'waste-diversion', type: 'facility', title: 'Waste diversion', status: 'answered', question: 'Report total waste and percentage diverted from landfill.', answer: '840 tons total; 62% diverted', evidence: 'Republic Services annual summary', formula: '(recycling + compost) / total waste' },
+        { kpiId: 'worker-safety-trir', type: 'facility', title: 'Worker safety TRIR', status: 'missing', question: 'Report OSHA recordables normalized by hours worked.', answer: 'Needs OSHA 300A and total hours worked', evidence: 'HR/EHS records needed', formula: '(recordable incidents × 200,000) / hours worked' },
+        { kpiId: 'food-safety-certification', type: 'facility', title: 'Food safety certification', status: 'partial', question: 'Confirm current GFSI-recognized food safety certification.', answer: 'BRC Grade A, but expires March 14', evidence: 'BRC food safety certificate', formula: 'Certificate validity and site match' },
+        { kpiId: 'packaging-recycled-content', type: 'category', title: 'Packaging recycled content', status: 'missing', question: 'Report post-consumer recycled content in primary packaging.', answer: 'PET tray 15g + LDPE film 3g; recycled content blank', evidence: 'Packaging spec sheet', formula: 'PCR material weight / total packaging weight' },
+        { kpiId: 'packaging-recyclability', type: 'category', title: 'Packaging recyclability', status: 'partial', question: 'Is primary packaging recyclable in target retail markets?', answer: 'PET tray likely recyclable; LDPE film requires caveat', evidence: 'Packaging spec sheet', formula: 'Material-level recyclability assessment' },
+        { kpiId: 'packaging-weight-reduction', type: 'category', title: 'Packaging weight reduction', status: 'partial', question: 'Has packaging weight been reduced year over year?', answer: 'Needs previous spec for comparison', evidence: 'Current packaging spec only', formula: '(prior weight - current weight) / prior weight' },
+        { kpiId: 'transportation-efficiency', type: 'category', title: 'Transportation efficiency', status: 'missing', question: 'Report outbound logistics efficiency or carrier practices.', answer: 'Carrier data needed', evidence: 'Logistics records needed', formula: 'Miles, mode, load factor, or carrier program status' },
+        { kpiId: 'product-safety-recalls', type: 'category', title: 'Product safety recalls', status: 'answered', question: 'Report food safety recall history during the reporting year.', answer: 'No recalls found in shared quality records', evidence: 'Quality folder and BRC certificate', formula: 'Count of Class I/II/III recalls' },
+        { kpiId: 'palm-oil-rspo', type: 'supply', title: 'Palm oil RSPO certification', status: 'missing', question: 'Confirm certified or deforestation-free palm oil sourcing.', answer: 'PT Sawit Indo confirms Indonesia sourcing but no RSPO certification', evidence: 'Supplier email thread', formula: 'Certified volume / total palm oil volume' },
+        { kpiId: 'supplier-ghg-reporting', type: 'supply', title: 'Supplier GHG reporting', status: 'missing', question: 'What percentage of top suppliers report GHG emissions?', answer: '23 active suppliers; top supplier data not collected', evidence: 'Supplier spend export', formula: 'spend from reporting suppliers / total supplier spend' },
+        { kpiId: 'supply-chain-mapping', type: 'supply', title: 'Supply chain mapping', status: 'partial', question: 'Map priority ingredients and countries of origin.', answer: 'Palm oil origin known; certification and sub-tier traceability missing', evidence: 'Supplier email thread and supplier master', formula: 'Mapped spend or ingredient volume / total priority spend' }
+      ];
+
+      const feedSteps = [
+        { text: '📄 Processing ConEdison electricity bill...', detail: '→ Extracted: 2,850,000 kWh across 12 months for Plant A', status: ['energy-intensity', 'partial'] },
+        { text: '📄 Processing PSE&G natural gas bill...', detail: '→ Extracted: 78,000 therms across 12 months', status: ['ghg-emissions', 'partial'] },
+        { text: '📄 Processing Newark water bill...', detail: '→ Extracted: 18,200,000 gallons from municipal supply', status: ['water-intensity', 'answered'] },
+        { text: '📊 Pulling production data...', detail: '→ 4,200 metric tons FY2024', status: ['energy-intensity', 'answered'] },
+        { text: '⚡ Calculating energy intensity...', detail: '→ 923 kWh per metric ton [(2,850,000 + 78,000×29.3) / 4,200]', status: ['energy-intensity', 'answered'] },
+        { text: '⚡ Calculating GHG emissions...', detail: '→ Scope 2: 1,100 tCO2e [2,850,000 × 0.000386] · Scope 1 (partial): 413 tCO2e [78,000 × 0.005302] · ⚠ Refrigerant data missing — Scope 1 incomplete', status: ['ghg-emissions', 'partial'] },
+        { text: '📄 Processing BRC certificate...', detail: '→ Grade A, Site: Newark NJ · ⚠ EXPIRES IN 30 DAYS — March 14, 2025', status: ['food-safety-certification', 'partial'] },
+        { text: '📄 Processing packaging spec...', detail: '→ PET tray 15g + LDPE film 3g · ❌ Recycled content: NOT SPECIFIED', status: ['packaging-recycled-content', 'missing'] },
+        { text: '📄 Processing past THESIS response...', detail: '→ Previous score: 32/100 — only 4 of 14 KPIs answered · year-over-year comparison available for energy, water, waste', status: ['waste-diversion', 'answered'] },
+        { text: '✅ Draft assessment compiled', detail: '→ 9 of 14 KPIs answered · current estimate 58/100 · projected 82/100 if priority gaps close', status: ['palm-oil-rspo', 'missing'] }
+      ];
+
+      const followups = [
+        { who: 'Acme Facilities Manager', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request refrigerant records', draft: 'Requesting refrigerant purchase/service records for FY2024 to complete Scope 1 GHG calculation.' },
+        { who: 'TruPak Packaging Co', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request packaging PCR %', draft: 'Requesting post-consumer recycled content % for PET tray and LDPE film supplied for SKU-1234.' },
+        { who: 'PT Sawit Indo', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request RSPO documentation', draft: 'Requesting RSPO certification documentation and deforestation-free sourcing confirmation for palm oil supply.' },
+        { who: 'PT Sawit Indo', channel: '📞', priority: 'medium', timing: 'Voice follow-up scheduled Day 7', title: 'Call if no RSPO response', draft: 'Voice follow-up if no email response — requesting RSPO cert to maintain Walmart compliance.' },
+        { who: 'Acme HR/EHS', channel: '📧', priority: 'medium', timing: 'Email follow-up now', title: 'Request TRIR inputs', draft: 'Requesting OSHA 300A summary and total hours worked for TRIR calculation.' },
+        { who: 'Acme Quality Manager', channel: '⚠', priority: 'high', timing: 'Urgent internal alert', title: 'BRC renewal risk', draft: 'BRC certificate expires March 14. Schedule renewal audit immediately.' },
+        { who: 'Acme Environmental Policy owner', channel: '📧', priority: 'low', timing: 'Email follow-up now', title: 'Update policy targets', draft: 'Current policy (2021) lacks quantitative targets. Recommend updating with specific reduction targets for energy, water, and waste.' }
+      ];
+
+      const currentStatus = Object.fromEntries(kpis.map(k => [k.kpiId, 'idle']));
+      const toast = document.getElementById('demo-toast');
+      let feedTimer = null;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove('show'), 1600);
+      }
+
+      function setView(view) {
+        document.querySelectorAll('[data-view]').forEach(section => section.classList.toggle('is-active', section.dataset.view === view));
+        document.querySelectorAll('[data-jump]').forEach(button => button.classList.toggle('is-active', button.dataset.jump === view));
+        showToast(view === 'processing' ? 'Agent workspace opened' : `${view} opened`);
+      }
+
+      function renderTracker() {
+        const container = document.getElementById('tracker-rows');
+        if (!container) return;
+        container.innerHTML = kpis.map(kpi => `<button type="button" class="tracker-row ${currentStatus[kpi.kpiId] || 'idle'}" data-kpi="${kpi.kpiId}"><span>${kpi.title}</span><small>${currentStatus[kpi.kpiId] || 'queued'}</small></button>`).join('');
+        container.querySelectorAll('[data-kpi]').forEach(button => button.addEventListener('click', () => expandKpi(button.dataset.kpi)));
+        const answered = Object.values(currentStatus).filter(s => s === 'answered').length;
+        document.getElementById('tracker-count').textContent = `${answered} answered`;
+      }
+
+      function updateKpiTracker(id, status) {
+        currentStatus[id] = status;
+        renderTracker();
+      }
+
+      function renderFeedStep(step, index) {
+        const feed = document.getElementById('agent-feed');
+        const item = document.createElement('article');
+        item.className = 'feed-entry';
+        item.innerHTML = `<b>${step.text}</b><span>${step.detail}</span>`;
+        feed.appendChild(item);
+        feed.scrollTop = feed.scrollHeight;
+        if (step.status) updateKpiTracker(step.status[0], step.status[1]);
+        document.getElementById('feed-status').textContent = `${index + 1}/${feedSteps.length}`;
+        if (index === feedSteps.length - 1) setTimeout(() => setView('assessment'), 900);
+      }
+
+      function processEvidencePackage() {
+        setView('processing');
+        Object.keys(currentStatus).forEach(key => currentStatus[key] = 'queued');
+        renderTracker();
+        const feed = document.getElementById('agent-feed');
+        feed.innerHTML = '';
+        clearTimeout(feedTimer);
+        let delay = 0;
+        feedSteps.forEach((step, index) => {
+          delay += index === 0 ? 200 : 420 + (index % 3) * 160;
+          feedTimer = setTimeout(() => renderFeedStep(step, index), delay);
+        });
+      }
+
+      function expandKpi(id) {
+        const kpi = kpis.find(item => item.kpiId === id);
+        if (!kpi) return;
+        document.querySelectorAll('[data-kpi]').forEach(el => el.classList.toggle('is-selected', el.dataset.kpi === id));
+        const drawer = document.getElementById('kpi-detail');
+        drawer.classList.add('is-open');
+        drawer.innerHTML = `<span class="drawer-kicker">${kpi.type} · ${kpi.status}</span><h3>${kpi.title}</h3><p><b>Question:</b> ${kpi.question}</p><p><b>Answer:</b> ${kpi.answer}</p><p><b>Evidence:</b> ${kpi.evidence}</p><p><b>Method:</b> ${kpi.formula}</p>`;
+      }
+
+      function renderKpis() {
+        const groups = { facility: document.getElementById('facility-kpis'), category: document.getElementById('category-kpis'), supply: document.getElementById('supply-kpis') };
+        Object.values(groups).forEach(group => group.innerHTML = '');
+        kpis.forEach((kpi, index) => {
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = `kpi-card ${kpi.status}`;
+          card.dataset.kpi = kpi.kpiId;
+          card.innerHTML = `<span>${kpi.status}</span><h3>${kpi.title}</h3><p>${kpi.answer}</p>`;
+          card.addEventListener('click', () => expandKpi(kpi.kpiId));
+          groups[kpi.type].appendChild(card);
+          if (index > 4) card.classList.add('secondary-kpi');
+        });
+      }
+
+      function expandAction(index) {
+        const action = followups[index];
+        showToast(`${action.who}: draft opened for approval`);
+      }
+
+      function renderActions() {
+        const list = document.getElementById('followup-list');
+        list.innerHTML = followups.map((item, index) => `<article class="followup-card ${item.priority}"><div><span>${item.channel} ${item.timing}</span><b>${item.who}</b><small>${item.priority} priority</small></div><h3>${item.title}</h3><p>${item.draft}</p><button type="button" data-action="send-draft" data-index="${index}">Approve draft</button>${item.channel === '📞' ? '<button type="button" data-action="schedule-voice" data-index="' + index + '">Keep Day 7 voice follow-up</button>' : ''}</article>`).join('');
+        list.querySelectorAll('[data-action="send-draft"], [data-action="schedule-voice"]').forEach(button => button.addEventListener('click', () => {
+          expandAction(Number(button.dataset.index));
+          button.textContent = button.dataset.action === 'schedule-voice' ? 'Voice follow-up scheduled' : 'Draft approved in demo';
+          button.disabled = true;
+        }));
+      }
+
+      document.querySelectorAll('[data-jump]').forEach(button => button.addEventListener('click', () => setView(button.dataset.jump)));
+      document.querySelector('[data-action="process"]').addEventListener('click', processEvidencePackage);
+      document.querySelector('[data-action="replay-processing"]').addEventListener('click', processEvidencePackage);
+      renderTracker();
+      renderKpis();
+      renderActions();
+      expandKpi('energy-intensity');
     </script>
   </body>
 </html>
