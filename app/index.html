@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SupplierProof Ops Console</title>
+    <meta name="description" content="Clickable SupplierProof application prototype for an always-on evidence ops layer with connectors, evidence memory, agents, and approval workflows." />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="ops-app-body">
+    <div class="app-shell" data-app="supplierproof-ops">
+      <aside class="app-sidebar" aria-label="SupplierProof app navigation">
+        <a class="app-brand" href="../index.html"><span class="brand-mark">SP</span><strong>SupplierProof</strong></a>
+        <div class="workspace-switcher"><span>Apex Foods</span><small>Evidence ops workspace</small></div>
+        <nav class="app-nav">
+          <button class="is-active" type="button" data-nav="inbox">Inbox</button>
+          <button type="button" data-nav="connectors">Connectors</button>
+          <button type="button" data-nav="evidence">Evidence Memory</button>
+          <button type="button" data-nav="agents">Always-on agents</button>
+          <button type="button" data-nav="approvals">Approvals</button>
+          <button type="button" data-nav="settings">Settings</button>
+        </nav>
+        <div class="sidebar-note"><b>Guardrail</b><span>no outbound without approval</span></div>
+      </aside>
+
+      <main class="app-main">
+        <header class="app-topbar">
+          <div>
+            <p class="eyebrow">SupplierProof Ops Console</p>
+            <h1 id="screen-title">Customer request inbox</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="ghost-button" type="button" data-nav="connectors">Connect source</button>
+            <button class="primary-button" type="button" data-action="replay-feed">Replay scan</button>
+          </div>
+        </header>
+
+        <section class="app-screen is-active" data-screen="inbox" aria-label="Request inbox">
+          <div class="app-grid three-col">
+            <section class="panel request-list-panel">
+              <div class="panel-head"><span>Live requests</span><b>3 open</b></div>
+              <button class="request-row is-selected" type="button" data-request="walmart-thesis"><span>Detected customer request</span><strong>Walmart THESIS packaging</strong><small>Due Nov 15 · 42/100</small></button>
+              <button class="request-row" type="button" data-request="ecovadis-refresh"><span>Proactive readiness</span><strong>EcoVadis refresh</strong><small>Certificate expires in 24 days</small></button>
+              <button class="request-row" type="button" data-request="cdp-climate"><span>Detected portal task</span><strong>CDP Climate module</strong><small>Reuse 9 approved answers</small></button>
+            </section>
+
+            <section class="panel active-case-panel">
+              <div class="case-toolbar"><span id="case-status">Blocked</span><b id="case-title">Walmart THESIS packaging</b></div>
+              <div class="readiness-large"><strong id="case-score">42</strong><span>/100 readiness</span><div class="readiness-meter"><i id="case-bar" style="width:42%"></i></div></div>
+              <div class="source-strip" id="source-strip"><span>Gmail</span><span>Google Drive</span><span>NetSuite</span></div>
+              <div class="task-board" id="task-board">
+                <article><span class="pill ready-pill">matched</span><b>Scope 2 electricity</b><p>Utility bills + NetSuite production units.</p></article>
+                <article><span class="pill bad-pill">missing</span><b>Packaging PCR %</b><p>Draft supplier ask ready for TruPak.</p></article>
+                <article><span class="pill warn-pill">review</span><b>FSC claim scope</b><p>Needs facility/product match check.</p></article>
+              </div>
+            </section>
+
+            <aside class="panel activity-panel">
+              <div class="panel-head"><span>Agent activity</span><b>live</b></div>
+              <ol class="activity-feed" id="activity-feed">
+                <li><time>0:03</time><span>Detected THESIS email in Gmail</span></li>
+                <li><time>0:09</time><span>Matched utility bills in Drive</span></li>
+                <li><time>0:14</time><span>NetSuite production volume changed</span></li>
+                <li><time>0:22</time><span>Readiness moved 42 → 78 after 3 actions</span></li>
+              </ol>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="connectors" aria-label="Connector onboarding">
+          <div class="connector-layout">
+            <section class="panel connector-intro">
+              <h2>Connectors</h2>
+              <p>Minimum-friction setup: read-only scan, selected folders only, and no outbound without approval.</p>
+              <div class="permission-stack"><span>read-only scan</span><span>selected folders only</span><span>no outbound without approval</span></div>
+            </section>
+            <section class="connector-grid">
+              <button class="connector-card connected" type="button" data-connector="gmail"><b>Gmail</b><span>customer requests, attachments, threads</span><small>Connected</small></button>
+              <button class="connector-card" type="button" data-connector="outlook"><b>Outlook</b><span>shared sustainability inbox</span><small>Connect</small></button>
+              <button class="connector-card connected" type="button" data-connector="drive"><b>Google Drive</b><span>certificates, bills, specs</span><small>Connected</small></button>
+              <button class="connector-card" type="button" data-connector="sharepoint"><b>SharePoint</b><span>policies and controlled docs</span><small>Connect</small></button>
+              <button class="connector-card connected" type="button" data-connector="netsuite"><b>NetSuite</b><span>ERP production volume, SKUs, facilities</span><small>Connected</small></button>
+              <button class="connector-card" type="button" data-connector="ecovadis"><b>EcoVadis</b><span>questionnaire reuse and expiry prep</span><small>Roadmap</small></button>
+              <button class="connector-card" type="button" data-connector="cdp"><b>CDP</b><span>climate answers and evidence mapping</span><small>Roadmap</small></button>
+              <button class="connector-card" type="button" data-connector="walmart"><b>Walmart Retail Link</b><span>THESIS and supplier scorecard tasks</span><small>Roadmap</small></button>
+            </section>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="evidence" aria-label="Evidence memory">
+          <div class="app-grid two-col">
+            <section class="panel evidence-table-panel">
+              <div class="panel-head"><span>Evidence Memory</span><b>18 objects</b></div>
+              <button class="evidence-row is-selected" type="button" data-evidence="brc-cert"><span>BRC certificate</span><b>Quality</b><small>expires in 24 days</small></button>
+              <button class="evidence-row" type="button" data-evidence="utility-bills"><span>Utility bills 2025</span><b>Finance</b><small>matched to energy intensity</small></button>
+              <button class="evidence-row" type="button" data-evidence="packaging-spec"><span>Packaging spec</span><b>Procurement</b><small>PCR % missing</small></button>
+              <button class="evidence-row" type="button" data-evidence="palm-policy"><span>Palm sourcing policy</span><b>Sustainability</b><small>partial support</small></button>
+            </section>
+            <aside class="panel evidence-detail" id="evidence-detail">
+              <span class="pill warn-pill">expires</span>
+              <h2>BRC certificate</h2>
+              <p>Owner Quality. Supports EcoVadis, Walmart, and customer food safety requests.</p>
+              <dl><dt>Source</dt><dd>Google Drive / Certificates</dd><dt>Approval</dt><dd>Approved last year</dd><dt>Next</dt><dd>Request renewal copy</dd></dl>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="agents" aria-label="Always-on agents">
+          <div class="agent-rule-grid">
+            <article class="panel agent-rule"><span>On</span><h2>watch inbox for new customer asks</h2><p>Classifies ESG, packaging, sourcing, food safety, CDP, and EcoVadis requests.</p></article>
+            <article class="panel agent-rule"><span>On</span><h2>monitor certificate expiries</h2><p>Creates renewal tasks before customer asks become urgent.</p></article>
+            <article class="panel agent-rule"><span>On</span><h2>reuse approved answers</h2><p>Suggests prior approved wording and source-backed evidence cards.</p></article>
+            <article class="panel agent-rule"><span>On</span><h2>scan ERP changes</h2><p>Uses NetSuite production and SKU changes to flag stale metrics.</p></article>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="approvals" aria-label="Approval queue">
+          <div class="approval-board">
+            <article class="panel approval-card"><span>Draft email</span><h2>Ask TruPak for PCR declaration</h2><p>Blocks Walmart THESIS packaging readiness.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
+            <article class="panel approval-card"><span>Internal task</span><h2>Request refrigerant data from Facilities</h2><p>Blocks CDP Scope 1.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
+            <article class="panel approval-card"><span>Customer response</span><h2>Send qualified FSC answer</h2><p>Human approval required before outbound.</p><button class="primary-button" type="button" data-action="approve">Approve</button></article>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="settings" aria-label="Settings and permissions">
+          <div class="panel settings-panel">
+            <h2>Settings</h2>
+            <div class="settings-list"><p><b>Sending</b><span>human approval required</span></p><p><b>Training</b><span>no model training on customer docs</span></p><p><b>Scope</b><span>approved inbox labels and folders only</span></p><p><b>Audit trail</b><span>source, owner, expiry, approval retained</span></p></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="app-toast" id="app-toast" role="status" aria-live="polite">Ops console ready.</div>
+
+    <script>
+      const appState = {
+        requests: {
+          'walmart-thesis': {title:'Walmart THESIS packaging', status:'Blocked', score:42, sources:['Gmail','Google Drive','NetSuite'], tasks:[['matched','ready-pill','Scope 2 electricity','Utility bills + NetSuite production units.'],['missing','bad-pill','Packaging PCR %','Draft supplier ask ready for TruPak.'],['review','warn-pill','FSC claim scope','Needs facility/product match check.']], feed:['Detected THESIS email in Gmail','Matched utility bills in Drive','NetSuite production volume changed','Readiness moved 42 → 78 after 3 actions']},
+          'ecovadis-refresh': {title:'EcoVadis refresh', status:'Proactive', score:55, sources:['Evidence Memory','Google Drive','Approvals'], tasks:[['expires','warn-pill','BRC certificate','Certificate expires in 24 days.'],['stale','warn-pill','Environmental policy','Owner review required.'],['reused','ready-pill','Prior labor answer','Approved wording available.']], feed:['Certificate expires in 24 days','Found 4 expiring evidence objects','Drafted renewal tasks','Readiness moved 55 → 76 after refresh']},
+          'cdp-climate': {title:'CDP Climate module', status:'Preparing', score:61, sources:['Gmail','NetSuite','Evidence Memory'], tasks:[['reused','ready-pill','Scope 2 answer','Approved THESIS evidence reused.'],['missing','bad-pill','Refrigerants','Facilities owner needed.'],['matched','ready-pill','Production volume','NetSuite production volume changed.']], feed:['Detected portal task in CDP queue','Reused approved answers','scan ERP changes completed','Readiness moved 61 → 82 after owner tasks']}
+        },
+        evidence: {
+          'brc-cert': ['expires','warn-pill','BRC certificate','Owner Quality. Supports EcoVadis, Walmart, and customer food safety requests.','Google Drive / Certificates','Approved last year','Request renewal copy'],
+          'utility-bills': ['ready','ready-pill','Utility bills 2025','Finance evidence matched to energy intensity and CDP Scope 2.','Google Drive / Utility bills','Approved for reuse','Reuse in CDP draft'],
+          'packaging-spec': ['missing','bad-pill','Packaging spec','PCR percentage is blank and needs supplier declaration.','Drive / Packaging specs','Not approved','Ask TruPak'],
+          'palm-policy': ['partial','warn-pill','Palm sourcing policy','Policy exists but certificate number is not attached.','SharePoint / Sourcing','Needs review','Request RSPO proof']
+        }
+      };
+      const toast = document.getElementById('app-toast');
+      function showAppToast(message){ toast.textContent = message; toast.classList.add('show'); clearTimeout(showAppToast.timer); showAppToast.timer=setTimeout(()=>toast.classList.remove('show'),1500); }
+      function setScreen(screen){ document.querySelectorAll('.app-screen').forEach(s=>s.classList.toggle('is-active', s.dataset.screen===screen)); document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('is-active', b.dataset.nav===screen)); document.getElementById('screen-title').textContent = ({inbox:'Customer request inbox',connectors:'Connector setup',evidence:'Evidence memory',agents:'Always-on agents',approvals:'Approval queue',settings:'Settings'})[screen] || 'SupplierProof'; showAppToast(`${screen} opened`); }
+      function selectRequest(key){ const data=appState.requests[key]; if(!data) return; document.querySelectorAll('[data-request]').forEach(r=>r.classList.toggle('is-selected', r.dataset.request===key)); document.getElementById('case-status').textContent=data.status; document.getElementById('case-title').textContent=data.title; document.getElementById('case-score').textContent=data.score; document.getElementById('case-bar').style.width=`${data.score}%`; document.getElementById('source-strip').innerHTML=data.sources.map(s=>`<span>${s}</span>`).join(''); document.getElementById('task-board').innerHTML=data.tasks.map(t=>`<article><span class="pill ${t[1]}">${t[0]}</span><b>${t[2]}</b><p>${t[3]}</p></article>`).join(''); document.getElementById('activity-feed').innerHTML=data.feed.map((f,i)=>`<li><time>0:${String(3+i*6).padStart(2,'0')}</time><span>${f}</span></li>`).join(''); showAppToast(`${data.title} loaded`); }
+      function toggleConnector(key){ const card=document.querySelector(`[data-connector="${key}"]`); if(!card) return; card.classList.toggle('connected'); card.querySelector('small').textContent=card.classList.contains('connected')?'Connected':'Connect'; showAppToast(`${card.querySelector('b').textContent} ${card.classList.contains('connected')?'connected':'paused'}`); }
+      function openEvidence(key){ const e=appState.evidence[key]; if(!e) return; document.querySelectorAll('[data-evidence]').forEach(row=>row.classList.toggle('is-selected', row.dataset.evidence===key)); document.getElementById('evidence-detail').innerHTML=`<span class="pill ${e[1]}">${e[0]}</span><h2>${e[2]}</h2><p>${e[3]}</p><dl><dt>Source</dt><dd>${e[4]}</dd><dt>Approval</dt><dd>${e[5]}</dd><dt>Next</dt><dd>${e[6]}</dd></dl>`; showAppToast(`${e[2]} opened`); }
+      function approveAction(button){ button.textContent='✓ Approved'; button.disabled=true; button.closest('article').classList.add('approved'); showAppToast('Approval captured. Nothing sent automatically.'); }
+      document.querySelectorAll('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>setScreen(btn.dataset.nav)));
+      document.querySelectorAll('[data-request]').forEach(btn=>btn.addEventListener('click',()=>selectRequest(btn.dataset.request)));
+      document.querySelectorAll('[data-connector]').forEach(btn=>btn.addEventListener('click',()=>toggleConnector(btn.dataset.connector)));
+      document.querySelectorAll('[data-evidence]').forEach(btn=>btn.addEventListener('click',()=>openEvidence(btn.dataset.evidence)));
+      document.querySelectorAll('[data-action="approve"]').forEach(btn=>btn.addEventListener('click',()=>approveAction(btn)));
+      document.querySelector('[data-action="replay-feed"]').addEventListener('click',()=>{ selectRequest(document.querySelector('[data-request].is-selected')?.dataset.request || 'walmart-thesis'); showAppToast('Agent scan replayed'); });
+    </script>
+  </body>
+</html>
