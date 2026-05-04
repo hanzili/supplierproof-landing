@@ -3,297 +3,250 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SupplierProof YC Demo</title>
-    <meta name="description" content="SupplierProof YC demo: an AI-native compliance service processes Acme Corporation evidence for a Walmart THESIS request." />
+    <title>SupplierProof</title>
+    <meta name="description" content="SupplierProof workspace for processing Acme Corporation's Walmart THESIS sustainability assessment." />
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="yc-demo-app">
-    <div class="demo-shell">
-      <header class="demo-header">
-        <a class="demo-brand" href="../index.html"><span>SP</span>SupplierProof</a>
-        <nav class="demo-nav" aria-label="Demo flow">
-          <button class="is-active" type="button" data-jump="intake">1 Intake</button>
-          <button type="button" data-jump="processing">2 Agent work</button>
-          <button type="button" data-jump="assessment">3 Assessment</button>
-          <button type="button" data-jump="actions">4 Follow-ups</button>
+  <body class="clean-app">
+    <div class="clean-shell">
+      <header class="clean-header">
+        <a class="clean-brand" href="../index.html"><span>SP</span>SupplierProof</a>
+        <nav class="simple-nav" aria-label="Workspace pages">
+          <button class="is-active" type="button" data-jump="request">Request</button>
+          <button type="button" data-jump="processing">Processing</button>
+          <button type="button" data-jump="results">Results</button>
+          <button type="button" data-jump="followups">Follow-ups</button>
         </nav>
-        <div class="demo-mode">YC 60–90 sec demo</div>
       </header>
 
-      <main class="demo-stage" aria-live="polite">
-        <section class="demo-view is-active" data-view="intake">
-          <div class="intro-grid">
-            <section class="case-brief">
-              <p class="eyebrow">AI-native compliance service · internal evidence desk</p>
-              <h1>Acme has 48 hours to finish its Walmart THESIS assessment.</h1>
-              <p class="brief-copy">Acme Corporation is a mid-market frozen baked goods manufacturer: $150M revenue, 200 employees, one Newark NJ plant, 23 active suppliers. Walmart opened THESIS and it is due November 15.</p>
-              <div class="brief-metrics">
-                <span><b>$3K</b><small>fixed-fee assessment package</small></span>
-                <span><b>48h</b><small>review-ready response</small></span>
-                <span><b>14+</b><small>KPIs across facility, category, supply chain</small></span>
-              </div>
-              <div class="orchestrator-card">
-                <b>Internal AI operations desk</b>
-                <p>SupplierProof runs the extraction, mapping, calculation, drafting, and chase workflow internally. The client does not see auth screens. Human reviews and approves before any outbound email or voice follow-up.</p>
-                <ul class="agent-plan">
-                  <li>Extract utility, water, waste, certificate, packaging, and supplier-email evidence</li>
-                  <li>Map evidence to THESIS Facility, Category, and Supply Chain KPIs</li>
-                  <li>Draft Walmart-ready answers and queue supplier/internal chasers for approval</li>
-                </ul>
-                <span class="sr-only">internal Hermes-style orchestrator</span>
-              </div>
-              <button class="process-button" type="button" data-action="process">Process evidence package</button>
+      <main class="clean-main">
+        <section class="clean-page is-active" data-view="request">
+          <div class="page-title-row">
+            <div>
+              <p class="plain-eyebrow">Request</p>
+              <h1>Process Acme’s Walmart THESIS questionnaire</h1>
+            </div>
+            <button class="outline-button" type="button" data-action="toggle-company">Company details</button>
+          </div>
+
+          <div class="request-layout">
+            <section class="plain-card company-summary">
+              <span>Company</span>
+              <h2>Acme Corporation</h2>
+              <p>Frozen baked goods manufacturer · Newark, NJ</p>
             </section>
 
-            <aside class="intake-panel">
-              <div class="email-card">
-                <span>Walmart THESIS notification email</span>
-                <h2>Assessment window open</h2>
-                <p>Supplier ID ACM-44721 · Category: Frozen bakery · Merchant score visibility enabled · Low scores may trigger procurement review.</p>
-                <small>Due: November 15</small>
+            <section class="plain-card questionnaire-card">
+              <span>Questionnaire</span>
+              <h2>Walmart THESIS Sustainability Assessment</h2>
+              <p>Due November 15 · Category: Frozen bakery</p>
+              <label class="upload-card">
+                <input type="file" aria-label="Upload questionnaire" />
+                <b>Upload questionnaire</b>
+                <small>PDF, spreadsheet, portal export, or notification email</small>
+              </label>
+            </section>
+
+            <section class="plain-card documents-card">
+              <div class="section-head">
+                <div><span>Documents</span><h2>Documents</h2></div>
+                <label class="small-upload"><input type="file" multiple aria-label="Upload documents" />Upload documents</label>
               </div>
-              <h3>10 messy documents Acme shared</h3>
-              <div class="document-list" id="document-list">
-                <button type="button" data-doc="electricity"><em>Parsed</em>12-month electricity bill <small>ConEdison · 2,850,000 kWh</small></button>
-                <button type="button" data-doc="gas"><em>Parsed</em>12-month natural gas bill <small>PSE&amp;G · 78,000 therms</small></button>
-                <button type="button" data-doc="water"><em>Parsed</em>Quarterly water bill <small>Newark municipal · 18,200,000 gallons</small></button>
-                <button type="button" data-doc="waste"><em>Parsed</em>Waste hauler annual summary <small>Republic Services · 840 tons total · 62% diverted</small></button>
-                <button type="button" data-doc="brc"><em>Expiring soon</em>BRC food safety certificate <small>Grade A · expires in 30 days</small></button>
-                <button type="button" data-doc="policy"><em>Stale</em>Environmental policy <small>last updated 2021 · no quantitative targets</small></button>
-                <button type="button" data-doc="packaging"><em>Missing data</em>Packaging spec sheet <small>PET tray + LDPE film · PCR blank</small></button>
-                <button type="button" data-doc="past"><em>Reused</em>Past THESIS response from last year <small>4 of 14 answered · score 32/100</small></button>
-                <button type="button" data-doc="supplier-email"><em>Needs follow-up</em>Supplier email thread <small>PT Sawit Indo · no RSPO certification</small></button>
-                <button type="button" data-doc="production"><em>Internal data</em>Internal accounting/production data <small>4,200 metric tons · 23 active suppliers</small></button>
+              <div class="simple-list">
+                <button type="button">Walmart THESIS notification email</button>
+                <button type="button">12-month electricity bill</button>
+                <button type="button">12-month natural gas bill</button>
+                <button type="button">Quarterly water bill</button>
+                <button type="button">Waste hauler annual summary</button>
+                <button type="button">BRC food safety certificate</button>
+                <button type="button">Environmental policy</button>
+                <button type="button">Packaging spec sheet</button>
+                <button type="button">Past THESIS response</button>
+                <button type="button">Supplier email thread</button>
               </div>
+            </section>
+
+            <section class="plain-card metadata-card">
+              <span>Metadata file</span>
+              <h2>Contact and company metadata</h2>
+              <p>Include department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels.</p>
+              <label class="upload-card compact-upload">
+                <input type="file" aria-label="Upload metadata file" />
+                <b>Upload metadata file</b>
+                <small>Facilities Manager, HR/EHS, Quality Manager, TruPak Packaging Co contact, PT Sawit Indo contact, 4,200 metric tons production volume, 23 active suppliers.</small>
+              </label>
+            </section>
+          </div>
+
+          <button class="primary-clean-button" type="button" data-action="process">Process questionnaire</button>
+        </section>
+
+        <section class="clean-page" data-view="processing">
+          <div class="page-title-row">
+            <div>
+              <p class="plain-eyebrow">Processing</p>
+              <h1>Processing questionnaire</h1>
+              <p>SupplierProof is reading the uploaded files, calculating answers, and finding missing information.</p>
+            </div>
+            <button class="primary-clean-button small" type="button" data-action="replay-processing">Replay trace</button>
+          </div>
+
+          <div class="processing-clean-layout">
+            <section class="plain-card trace-card">
+              <div class="section-head"><div><span>Agent trace</span><h2>Agent trace</h2></div><b id="trace-status">Ready</b></div>
+              <div class="agent-feed clean-feed" id="agent-feed"><p>Click “Process questionnaire” or “Replay trace” to start.</p></div>
+            </section>
+            <aside class="plain-card progress-card kpi-tracker">
+              <span>Progress</span>
+              <div class="progress-stats">
+                <div><b>9</b><small>Answered</small></div>
+                <div><b>3</b><small>Needs review</small></div>
+                <div><b>2</b><small>Missing</small></div>
+              </div>
+              <div id="tracker-rows" class="progress-list"></div>
+              <button class="primary-clean-button small" type="button" data-jump="followups">View follow-ups</button>
             </aside>
           </div>
         </section>
 
-        <section class="demo-view" data-view="processing">
-          <div class="processing-layout">
-            <section class="agent-console">
-              <div class="panel-title"><span>Agent working</span><b id="feed-status">ready</b></div>
-              <div class="agent-feed" id="agent-feed">
-                <p class="feed-placeholder">Click “Replay agent work” to watch SupplierProof process the evidence package.</p>
-              </div>
-              <div class="console-actions">
-                <button class="process-button compact" type="button" data-action="replay-processing">Replay agent work</button>
-                <button class="secondary-button" type="button" data-jump="assessment">Skip to assessment</button>
-              </div>
+        <section class="clean-page" data-view="results">
+          <div class="page-title-row">
+            <div>
+              <p class="plain-eyebrow">Results</p>
+              <h1>Results</h1>
+            </div>
+          </div>
+          <div class="result-metrics">
+            <article><b>9 / 14 answered</b><span>Coverage</span></article>
+            <article><b>58 / 100 estimated score</b><span>Current estimate</span></article>
+            <article><b>82 / 100 if missing items are resolved</b><span>Projected</span></article>
+            <article><b>32 / 100 last year</b><span>Previous score</span></article>
+          </div>
+
+          <div class="results-layout">
+            <section class="spotlight-results">
+              <button class="result-card answered" type="button" data-kpi="energy-intensity"><span>Answered</span><h2>Energy use</h2><p>923 kWh per metric ton based on electricity, natural gas, and production data.</p></button>
+              <button class="result-card review" type="button" data-kpi="ghg-emissions"><span>Needs review</span><h2>Greenhouse gas emissions</h2><p>Estimated GHG emissions from available data: Scope 2 (electricity): 1,100 tCO2e, Scope 1 (natural gas): 413 tCO2e. Scope 1 is incomplete — refrigerant data not provided.</p></button>
+              <button class="result-card answered" type="button" data-kpi="waste-diversion"><span>Answered</span><h2>Waste diversion</h2><p>840 tons total waste; 62% diverted through recycling and compost.</p></button>
+              <button class="result-card missing" type="button" data-kpi="packaging-recycled-content"><span>Missing</span><h2>Packaging recycled content</h2><p>PET tray and LDPE film weights found, but recycled content percentage is missing.</p></button>
+              <button class="result-card missing" type="button" data-kpi="palm-oil-rspo"><span>Missing</span><h2>Palm oil certification</h2><p>PT Sawit Indo confirmed Indonesia sourcing but did not provide RSPO certification.</p></button>
             </section>
-            <aside class="kpi-tracker">
-              <div class="panel-title"><span>KPI tracker</span><b id="tracker-count">0 answered</b></div>
-              <div id="tracker-rows"></div>
+            <aside class="plain-card result-detail" id="kpi-detail">
+              <span>Method</span>
+              <h2>Greenhouse gas emissions</h2>
+              <p>Estimated GHG emissions from available data: Scope 2 (electricity): 1,100 tCO2e, Scope 1 (natural gas): 413 tCO2e. Scope 1 is incomplete — refrigerant data not provided.</p>
+              <p><b>Method:</b> Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm.</p>
+              <p><b>Boundary:</b> Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.</p>
             </aside>
           </div>
+
+          <details class="plain-card all-items" open>
+            <summary>All questionnaire items</summary>
+            <div id="all-kpis" class="all-kpi-list"></div>
+          </details>
         </section>
 
-        <section class="demo-view" data-view="assessment">
-          <div class="assessment-topbar">
-            <div><span>Coverage</span><b>9 of 14 KPIs answered</b></div>
-            <div class="score-gauge"><i style="--score:58"></i><b>58/100</b><span>Current score estimate</span></div>
-            <div><span>Projected if gaps close</span><b>82/100</b></div>
-            <div><span>Previous year score</span><b>32/100</b></div>
-            <div><span>Deadline</span><b>November 15</b></div>
+        <section class="clean-page" data-view="followups">
+          <div class="page-title-row">
+            <div>
+              <p class="plain-eyebrow">Follow-ups</p>
+              <h1>Follow-ups</h1>
+              <p>SupplierProof found the missing information needed to complete the questionnaire.</p>
+            </div>
           </div>
-          <div class="assessment-note">showing 5 spotlight cards; all 14 are tracked · hover or click for detail</div>
-          <div class="kpi-board">
-            <section>
-              <h2>Facility KPIs</h2>
-              <div class="kpi-card-grid" id="facility-kpis"></div>
-            </section>
-            <section>
-              <h2>Category KPIs</h2>
-              <div class="kpi-card-grid" id="category-kpis"></div>
-            </section>
-            <section>
-              <h2>Supply Chain KPIs</h2>
-              <div class="kpi-card-grid" id="supply-kpis"></div>
-            </section>
-          </div>
-          <aside class="kpi-detail-drawer" id="kpi-detail">
-            <span class="drawer-kicker">Selected KPI</span>
-            <h3>Energy intensity</h3>
-            <p>(2,850,000 kWh + 78,000 therms × 29.3001) / 4,200 metric tons = 923 kWh per metric ton.</p>
-          </aside>
-        </section>
-
-        <section class="demo-view" data-view="actions">
-          <div class="actions-layout">
-            <section class="actions-list">
-              <div class="panel-title"><span>Actions & follow-ups</span><b>human approval queue</b></div>
-              <div id="followup-list"></div>
-            </section>
-            <aside class="proactive-insights">
-              <h2>Proactive insights</h2>
-              <article><b>Framework reuse</b><p>Same evidence library covers 45% of your CDP requirements and 52% of EcoVadis requirements. Process those frameworks for $1K additional.</p></article>
-              <article><b>Score lift</b><p>3 quick wins could raise your score from 58 to 72: add refrigerant data, get packaging PCR %, update environmental policy with targets.</p></article>
-              <article><b>Improvement trajectory</b><p>Year-over-year: energy intensity improved 6.3%, waste diversion improved from 58% to 62%. THESIS rewards improvement trajectories.</p></article>
+          <div class="followup-clean-layout">
+            <section id="followup-list" class="followup-list-clean"></section>
+            <aside class="plain-card reuse-card">
+              <h2>What this also helps with</h2>
+              <article><b>Framework reuse</b><p>Same documents can answer parts of CDP and EcoVadis.</p><small>CDP 45% · EcoVadis 52%</small></article>
+              <article><b>Score lift</b><p>Resolving the top 3 missing items could raise the estimate from 58 to 72.</p><small>Refrigerants · packaging recycled content · environmental targets</small></article>
             </aside>
           </div>
         </section>
       </main>
     </div>
 
+    <aside class="company-drawer" id="company-drawer" aria-label="Company details">
+      <button class="drawer-close" type="button" data-action="toggle-company">×</button>
+      <h2>Acme Corporation</h2>
+      <p>Frozen baked goods manufacturer · Newark, NJ</p>
+      <dl>
+        <dt>Revenue</dt><dd>~$150M</dd>
+        <dt>Employees</dt><dd>200</dd>
+        <dt>Facility</dt><dd>1 manufacturing plant</dd>
+        <dt>Suppliers</dt><dd>23 active suppliers</dd>
+        <dt>Customer</dt><dd>Walmart</dd>
+        <dt>Category</dt><dd>Frozen bakery</dd>
+        <dt>Contact</dt><dd>Sustainability Manager</dd>
+      </dl>
+      <p class="drawer-note">Acme has one overwhelmed sustainability owner. Evidence is split across utility bills, certificates, packaging specs, old questionnaire answers, and supplier emails.</p>
+    </aside>
+    <div class="drawer-backdrop" data-action="toggle-company"></div>
     <div class="demo-toast" id="demo-toast">Ready.</div>
-    <div class="demo-hook-bank" hidden aria-hidden="true">
-      <button type="button" data-kpi="energy-intensity"></button>
-      <button type="button" data-kpi="packaging-recycled-content"></button>
-      <button type="button" data-kpi="palm-oil-rspo"></button>
-      <button type="button" data-action="send-draft"></button>
-      <button type="button" data-action="schedule-voice"></button>
-    </div>
 
     <script>
-      const emissionFactors = {
-        electricity: 0.000386,
-        naturalGas: 0.005302,
-        thermToKwh: 29.3001
-      };
-
       const kpis = [
-        { kpiId: 'energy-intensity', type: 'facility', title: 'Energy intensity', status: 'answered', question: 'Report total facility energy use per metric ton of production.', answer: '923 kWh per metric ton', evidence: 'ConEdison bill, PSE&G gas bill, production data', formula: '(2,850,000 + 78,000×29.3001) / 4,200' },
-        { kpiId: 'ghg-emissions', type: 'facility', title: 'GHG emissions', status: 'partial', question: 'Report Scope 1 and Scope 2 GHG emissions for manufacturing.', answer: 'Scope 2: 1,100 tCO2e; Scope 1 partial: 413 tCO2e', evidence: 'Electricity and natural gas bills', formula: 'kWh×0.000386; therms×0.005302; refrigerants missing' },
-        { kpiId: 'water-intensity', type: 'facility', title: 'Water intensity', status: 'answered', question: 'Report water withdrawal per metric ton of production.', answer: '4,333 gallons per metric ton', evidence: 'Newark municipal water bill', formula: '18,200,000 gallons / 4,200 MT' },
-        { kpiId: 'waste-diversion', type: 'facility', title: 'Waste diversion', status: 'answered', question: 'Report total waste and percentage diverted from landfill.', answer: '840 tons total; 62% diverted', evidence: 'Republic Services annual summary', formula: '(recycling + compost) / total waste' },
-        { kpiId: 'worker-safety-trir', type: 'facility', title: 'Worker safety TRIR', status: 'missing', question: 'Report OSHA recordables normalized by hours worked.', answer: 'Needs OSHA 300A and total hours worked', evidence: 'HR/EHS records needed', formula: '(recordable incidents × 200,000) / hours worked' },
-        { kpiId: 'food-safety-certification', type: 'facility', title: 'Food safety certification', status: 'partial', question: 'Confirm current GFSI-recognized food safety certification.', answer: 'BRC Grade A, but expires March 14', evidence: 'BRC food safety certificate', formula: 'Certificate validity and site match' },
-        { kpiId: 'packaging-recycled-content', type: 'category', title: 'Packaging recycled content', status: 'missing', question: 'Report post-consumer recycled content in primary packaging.', answer: 'PET tray 15g + LDPE film 3g; recycled content blank', evidence: 'Packaging spec sheet', formula: 'PCR material weight / total packaging weight' },
-        { kpiId: 'packaging-recyclability', type: 'category', title: 'Packaging recyclability', status: 'partial', question: 'Is primary packaging recyclable in target retail markets?', answer: 'PET tray likely recyclable; LDPE film requires caveat', evidence: 'Packaging spec sheet', formula: 'Material-level recyclability assessment' },
-        { kpiId: 'packaging-weight-reduction', type: 'category', title: 'Packaging weight reduction', status: 'partial', question: 'Has packaging weight been reduced year over year?', answer: 'Needs previous spec for comparison', evidence: 'Current packaging spec only', formula: '(prior weight - current weight) / prior weight' },
-        { kpiId: 'transportation-efficiency', type: 'category', title: 'Transportation efficiency', status: 'missing', question: 'Report outbound logistics efficiency or carrier practices.', answer: 'Carrier data needed', evidence: 'Logistics records needed', formula: 'Miles, mode, load factor, or carrier program status' },
-        { kpiId: 'product-safety-recalls', type: 'category', title: 'Product safety recalls', status: 'answered', question: 'Report food safety recall history during the reporting year.', answer: 'No recalls found in shared quality records', evidence: 'Quality folder and BRC certificate', formula: 'Count of Class I/II/III recalls' },
-        { kpiId: 'palm-oil-rspo', type: 'supply', title: 'Palm oil RSPO certification', status: 'missing', question: 'Confirm certified or deforestation-free palm oil sourcing.', answer: 'PT Sawit Indo confirms Indonesia sourcing but no RSPO certification', evidence: 'Supplier email thread', formula: 'Certified volume / total palm oil volume' },
-        { kpiId: 'supplier-ghg-reporting', type: 'supply', title: 'Supplier GHG reporting', status: 'missing', question: 'What percentage of top suppliers report GHG emissions?', answer: '23 active suppliers; top supplier data not collected', evidence: 'Supplier spend export', formula: 'spend from reporting suppliers / total supplier spend' },
-        { kpiId: 'supply-chain-mapping', type: 'supply', title: 'Supply chain mapping', status: 'partial', question: 'Map priority ingredients and countries of origin.', answer: 'Palm oil origin known; certification and sub-tier traceability missing', evidence: 'Supplier email thread and supplier master', formula: 'Mapped spend or ingredient volume / total priority spend' }
+        { kpiId: 'energy-intensity', title: 'Energy use', status: 'answered', detail: '923 kWh per metric ton', method: '(2,850,000 + 78,000×29.3001) / 4,200' },
+        { kpiId: 'ghg-emissions', title: 'Greenhouse gas emissions', status: 'needs review', detail: 'Estimated GHG emissions from available data: Scope 2 (electricity): 1,100 tCO2e, Scope 1 (natural gas): 413 tCO2e. Scope 1 is incomplete — refrigerant data not provided.', method: 'Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm. Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.' },
+        { kpiId: 'water-intensity', title: 'Water use', status: 'answered', detail: '18,200,000 gallons from municipal supply', method: '18,200,000 gallons / 4,200 metric tons' },
+        { kpiId: 'waste-diversion', title: 'Waste diversion', status: 'answered', detail: '840 tons total; 62% diverted', method: '(recycling + compost) / total waste' },
+        { kpiId: 'worker-safety-trir', title: 'Worker safety TRIR', status: 'missing', detail: 'Needs OSHA 300A and total hours worked', method: '(recordable incidents × 200,000) / hours worked' },
+        { kpiId: 'food-safety-certification', title: 'Food safety certificate', status: 'needs review', detail: 'BRC Grade A; expires March 14', method: 'Certificate validity and site match' },
+        { kpiId: 'packaging-recycled-content', title: 'Packaging recycled content', status: 'missing', detail: 'PET tray 15g + LDPE film 3g; PCR blank', method: 'PCR material weight / total packaging weight' },
+        { kpiId: 'packaging-recyclability', title: 'Packaging recyclability', status: 'needs review', detail: 'PET tray likely recyclable; LDPE film needs caveat', method: 'Material-level recyclability assessment' },
+        { kpiId: 'packaging-weight-reduction', title: 'Packaging weight reduction', status: 'needs review', detail: 'Needs previous spec for comparison', method: '(prior weight - current weight) / prior weight' },
+        { kpiId: 'transportation-efficiency', title: 'Transportation efficiency', status: 'missing', detail: 'Carrier data needed', method: 'Miles, mode, load factor, or carrier program status' },
+        { kpiId: 'product-safety-recalls', title: 'Product safety recalls', status: 'answered', detail: 'No recalls found in shared quality records', method: 'Count of Class I/II/III recalls' },
+        { kpiId: 'palm-oil-rspo', title: 'Palm oil certification', status: 'missing', detail: 'PT Sawit Indo has not provided RSPO certification', method: 'Certified volume / total palm oil volume' },
+        { kpiId: 'supplier-ghg-reporting', title: 'Supplier GHG reporting', status: 'missing', detail: 'Top supplier data not collected', method: 'spend from reporting suppliers / total supplier spend' },
+        { kpiId: 'supply-chain-mapping', title: 'Supply chain mapping', status: 'needs review', detail: 'Palm oil origin known; sub-tier traceability missing', method: 'Mapped spend or ingredient volume / total priority spend' }
       ];
 
       const feedSteps = [
-        { text: '📄 Processing ConEdison electricity bill...', detail: '→ Extracted: 2,850,000 kWh across 12 months for Plant A', status: ['energy-intensity', 'partial'] },
-        { text: '📄 Processing PSE&G natural gas bill...', detail: '→ Extracted: 78,000 therms across 12 months', status: ['ghg-emissions', 'partial'] },
-        { text: '📄 Processing Newark water bill...', detail: '→ Extracted: 18,200,000 gallons from municipal supply', status: ['water-intensity', 'answered'] },
-        { text: '📊 Pulling production data...', detail: '→ 4,200 metric tons FY2024', status: ['energy-intensity', 'answered'] },
-        { text: '⚡ Calculating energy intensity...', detail: '→ 923 kWh per metric ton [(2,850,000 + 78,000×29.3) / 4,200]', status: ['energy-intensity', 'answered'] },
-        { text: '⚡ Calculating GHG emissions...', detail: '→ Scope 2: 1,100 tCO2e [2,850,000 × 0.000386] · Scope 1 (partial): 413 tCO2e [78,000 × 0.005302] · ⚠ Refrigerant data missing — Scope 1 incomplete', status: ['ghg-emissions', 'partial'] },
-        { text: '📄 Processing BRC certificate...', detail: '→ Grade A, Site: Newark NJ · ⚠ EXPIRES IN 30 DAYS — March 14, 2025', status: ['food-safety-certification', 'partial'] },
-        { text: '📄 Processing packaging spec...', detail: '→ PET tray 15g + LDPE film 3g · ❌ Recycled content: NOT SPECIFIED', status: ['packaging-recycled-content', 'missing'] },
-        { text: '📄 Processing past THESIS response...', detail: '→ Previous score: 32/100 — only 4 of 14 KPIs answered · year-over-year comparison available for energy, water, waste', status: ['waste-diversion', 'answered'] },
-        { text: '✅ Draft assessment compiled', detail: '→ 9 of 14 KPIs answered · current estimate 58/100 · projected 82/100 if priority gaps close', status: ['palm-oil-rspo', 'missing'] }
+        ['Reading Walmart THESIS questionnaire', 'Found 14 required items'],
+        ['Reading electricity bill', 'Found 2,850,000 kWh'],
+        ['Reading natural gas bill', 'Found 78,000 therms'],
+        ['Reading water bill', 'Found 18,200,000 gallons'],
+        ['Reading production data from metadata file', 'Found 4,200 metric tons FY2024'],
+        ['Calculating energy intensity', '923 kWh / metric ton'],
+        ['Calculating greenhouse gas emissions', 'Calculated from utility bills using EPA emission factors · Scope 2: 1,100 tCO2e · Scope 1 partial: 413 tCO2e'],
+        ['Checking BRC certificate', 'Expires in 30 days'],
+        ['Reading packaging spec sheet', 'Recycled content not found'],
+        ['Checking metadata file', 'Found Facilities Manager contact · Found TruPak Packaging Co contact · Found PT Sawit Indo contact'],
+        ['Preparing follow-ups', 'Refrigerant records needed from Facilities · PCR data needed from TruPak · RSPO certificate needed from PT Sawit Indo']
       ];
 
       const followups = [
-        { who: 'Acme Facilities Manager', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request refrigerant records', draft: 'Requesting refrigerant purchase/service records for FY2024 to complete Scope 1 GHG calculation.' },
-        { who: 'TruPak Packaging Co', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request packaging PCR %', draft: 'Requesting post-consumer recycled content % for PET tray and LDPE film supplied for SKU-1234.' },
-        { who: 'PT Sawit Indo', channel: '📧', priority: 'high', timing: 'Email follow-up now', title: 'Request RSPO documentation', draft: 'Requesting RSPO certification documentation and deforestation-free sourcing confirmation for palm oil supply.' },
-        { who: 'PT Sawit Indo', channel: '📞', priority: 'medium', timing: 'Voice follow-up scheduled Day 7', title: 'Call if no RSPO response', draft: 'Voice follow-up if no email response — requesting RSPO cert to maintain Walmart compliance.' },
-        { who: 'Acme HR/EHS', channel: '📧', priority: 'medium', timing: 'Email follow-up now', title: 'Request TRIR inputs', draft: 'Requesting OSHA 300A summary and total hours worked for TRIR calculation.' },
-        { who: 'Acme Quality Manager', channel: '⚠', priority: 'high', timing: 'Urgent internal alert', title: 'BRC renewal risk', draft: 'BRC certificate expires March 14. Schedule renewal audit immediately.' },
-        { who: 'Acme Environmental Policy owner', channel: '📧', priority: 'low', timing: 'Email follow-up now', title: 'Update policy targets', draft: 'Current policy (2021) lacks quantitative targets. Recommend updating with specific reduction targets for energy, water, and waste.' }
+        { title: 'Request refrigerant records', to: 'Acme Facilities Manager', timing: 'Email now', impact: 'High impact', subject: 'FY2024 refrigerant records for Walmart THESIS', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need FY2024 refrigerant purchase or service records to complete the Scope 1 emissions calculation.\n\nCould you send any records for refrigerant refills, leak repairs, or HVAC service from FY2024?\n\nThanks,\nSupplierProof' },
+        { title: 'Request packaging recycled content', to: 'TruPak Packaging Co', timing: 'Email now', impact: 'High impact', subject: 'PCR content for PET tray and LDPE film', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need the post-consumer recycled content percentage for the PET tray and LDPE film supplied for SKU-1234.\n\nCould you confirm the PCR percentage and send the supporting specification or declaration?\n\nThanks,\nSupplierProof' },
+        { title: 'Request RSPO documentation', to: 'PT Sawit Indo', timing: 'Email now · Voice follow-up scheduled Day 7', impact: 'High impact', note: 'If no response by Day 7, SupplierProof will call using the supplier contact from the metadata file.', subject: 'RSPO documentation for Acme Walmart THESIS response', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need RSPO certification documentation or deforestation-free sourcing confirmation for the palm oil supplied to Acme.\n\nCould you send the certificate or current sourcing confirmation?\n\nThanks,\nSupplierProof' },
+        { title: 'Request OSHA 300A and hours worked', to: 'Acme HR/EHS', timing: 'Email now', impact: 'Medium impact', subject: 'OSHA 300A and total hours worked for FY2024', body: 'Hi [Name],\n\nWe need the FY2024 OSHA 300A summary and total hours worked to complete the worker safety item in the Walmart THESIS questionnaire.\n\nThanks,\nSupplierProof' },
+        { title: 'Renew BRC certificate', to: 'Acme Quality Manager', timing: 'Internal alert', impact: 'High impact', subject: 'BRC certificate expires March 14', body: 'Hi [Name],\n\nThe BRC certificate included for the Walmart THESIS response expires March 14. Please schedule or confirm the renewal audit so the assessment can reference current certification status.\n\nThanks,\nSupplierProof' }
       ];
 
-      const currentStatus = Object.fromEntries(kpis.map(k => [k.kpiId, 'idle']));
+      const statusRows = [
+        ['Energy use', 'Answered'], ['GHG emissions', 'Needs review'], ['Waste diversion', 'Answered'], ['Packaging recycled content', 'Missing'], ['Palm oil certification', 'Missing'], ['BRC certificate', 'Needs review']
+      ];
+
       const toast = document.getElementById('demo-toast');
-      let feedTimer = null;
-
-      function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add('show');
-        clearTimeout(showToast.timer);
-        showToast.timer = setTimeout(() => toast.classList.remove('show'), 1600);
-      }
-
-      function setView(view) {
-        document.querySelectorAll('[data-view]').forEach(section => section.classList.toggle('is-active', section.dataset.view === view));
-        document.querySelectorAll('[data-jump]').forEach(button => button.classList.toggle('is-active', button.dataset.jump === view));
-        showToast(view === 'processing' ? 'Agent workspace opened' : `${view} opened`);
-      }
-
-      function renderTracker() {
-        const container = document.getElementById('tracker-rows');
-        if (!container) return;
-        container.innerHTML = kpis.map(kpi => `<button type="button" class="tracker-row ${currentStatus[kpi.kpiId] || 'idle'}" data-kpi="${kpi.kpiId}"><span>${kpi.title}</span><small>${currentStatus[kpi.kpiId] || 'queued'}</small></button>`).join('');
-        container.querySelectorAll('[data-kpi]').forEach(button => button.addEventListener('click', () => expandKpi(button.dataset.kpi)));
-        const answered = Object.values(currentStatus).filter(s => s === 'answered').length;
-        document.getElementById('tracker-count').textContent = `${answered} answered`;
-      }
-
-      function updateKpiTracker(id, status) {
-        currentStatus[id] = status;
-        renderTracker();
-      }
-
-      function renderFeedStep(step, index) {
-        const feed = document.getElementById('agent-feed');
-        const item = document.createElement('article');
-        item.className = 'feed-entry';
-        item.innerHTML = `<b>${step.text}</b><span>${step.detail}</span>`;
-        feed.appendChild(item);
-        feed.scrollTop = feed.scrollHeight;
-        if (step.status) updateKpiTracker(step.status[0], step.status[1]);
-        document.getElementById('feed-status').textContent = `${index + 1}/${feedSteps.length}`;
-        if (index === feedSteps.length - 1) setTimeout(() => setView('assessment'), 900);
-      }
-
-      function processEvidencePackage() {
-        setView('processing');
-        Object.keys(currentStatus).forEach(key => currentStatus[key] = 'queued');
-        renderTracker();
-        const feed = document.getElementById('agent-feed');
-        feed.innerHTML = '';
-        clearTimeout(feedTimer);
-        let delay = 0;
-        feedSteps.forEach((step, index) => {
-          delay += index === 0 ? 200 : 420 + (index % 3) * 160;
-          feedTimer = setTimeout(() => renderFeedStep(step, index), delay);
-        });
-      }
-
-      function expandKpi(id) {
-        const kpi = kpis.find(item => item.kpiId === id);
-        if (!kpi) return;
-        document.querySelectorAll('[data-kpi]').forEach(el => el.classList.toggle('is-selected', el.dataset.kpi === id));
-        const drawer = document.getElementById('kpi-detail');
-        drawer.classList.add('is-open');
-        drawer.innerHTML = `<span class="drawer-kicker">${kpi.type} · ${kpi.status}</span><h3>${kpi.title}</h3><p><b>Question:</b> ${kpi.question}</p><p><b>Answer:</b> ${kpi.answer}</p><p><b>Evidence:</b> ${kpi.evidence}</p><p><b>Method:</b> ${kpi.formula}</p>`;
-      }
-
-      function renderKpis() {
-        const groups = { facility: document.getElementById('facility-kpis'), category: document.getElementById('category-kpis'), supply: document.getElementById('supply-kpis') };
-        Object.values(groups).forEach(group => group.innerHTML = '');
-        kpis.forEach((kpi, index) => {
-          const card = document.createElement('button');
-          card.type = 'button';
-          card.className = `kpi-card ${kpi.status}`;
-          card.dataset.kpi = kpi.kpiId;
-          card.innerHTML = `<span>${kpi.status}</span><h3>${kpi.title}</h3><p>${kpi.answer}</p>`;
-          card.addEventListener('click', () => expandKpi(kpi.kpiId));
-          groups[kpi.type].appendChild(card);
-          if (index > 4) card.classList.add('secondary-kpi');
-        });
-      }
-
-      function expandAction(index) {
-        const action = followups[index];
-        showToast(`${action.who}: draft opened for approval`);
-      }
-
-      function renderActions() {
-        const list = document.getElementById('followup-list');
-        list.innerHTML = followups.map((item, index) => `<article class="followup-card ${item.priority}"><div><span>${item.channel} ${item.timing}</span><b>${item.who}</b><small>${item.priority} priority</small></div><h3>${item.title}</h3><p>${item.draft}</p><button type="button" data-action="send-draft" data-index="${index}">Approve draft</button>${item.channel === '📞' ? '<button type="button" data-action="schedule-voice" data-index="' + index + '">Keep Day 7 voice follow-up</button>' : ''}</article>`).join('');
-        list.querySelectorAll('[data-action="send-draft"], [data-action="schedule-voice"]').forEach(button => button.addEventListener('click', () => {
-          expandAction(Number(button.dataset.index));
-          button.textContent = button.dataset.action === 'schedule-voice' ? 'Voice follow-up scheduled' : 'Draft approved in demo';
-          button.disabled = true;
-        }));
-      }
-
-      document.querySelectorAll('[data-jump]').forEach(button => button.addEventListener('click', () => setView(button.dataset.jump)));
-      document.querySelector('[data-action="process"]').addEventListener('click', processEvidencePackage);
-      document.querySelector('[data-action="replay-processing"]').addEventListener('click', processEvidencePackage);
-      renderTracker();
-      renderKpis();
-      renderActions();
-      expandKpi('energy-intensity');
+      let traceTimer = null;
+      function showToast(message){ toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(()=>toast.classList.remove('show'), 1500); }
+      function setView(view){ document.querySelectorAll('[data-view]').forEach(page => page.classList.toggle('is-active', page.dataset.view === view)); document.querySelectorAll('[data-jump]').forEach(btn => btn.classList.toggle('is-active', btn.dataset.jump === view)); showToast(view); }
+      function renderFeedStep(step, index){ const feed = document.getElementById('agent-feed'); const row = document.createElement('article'); row.className = 'feed-entry'; row.innerHTML = `<b>${step[0]}</b><span>${step[1]}</span>`; feed.appendChild(row); feed.scrollTop = feed.scrollHeight; document.getElementById('trace-status').textContent = `${index + 1}/${feedSteps.length}`; updateKpiTracker(index); }
+      function updateKpiTracker(){ document.getElementById('tracker-rows').innerHTML = statusRows.map(([name, status]) => `<div class="progress-row ${status.toLowerCase().replace(' ', '-')}"><span>${name}</span><b>${status}</b></div>`).join(''); }
+      function processEvidencePackage(){ setView('processing'); const feed = document.getElementById('agent-feed'); feed.innerHTML = ''; clearTimeout(traceTimer); feedSteps.forEach((step, index) => { traceTimer = setTimeout(() => renderFeedStep(step, index), 180 + index * 330); }); }
+      function toggleCompany(){ document.body.classList.toggle('drawer-open'); }
+      function expandKpi(id){ const item = kpis.find(k => k.kpiId === id); if(!item) return; document.getElementById('kpi-detail').innerHTML = `<span>Method</span><h2>${item.title}</h2><p>${item.detail}</p><p><b>Method:</b> ${item.method}</p>`; }
+      function toggleDraft(button){ const card = button.closest('.followup-card'); card.classList.toggle('is-open'); button.textContent = card.classList.contains('is-open') ? '⌃' : '⌄'; }
+      function renderAllKpis(){ document.getElementById('all-kpis').innerHTML = kpis.map(k => `<button type="button" data-kpi="${k.kpiId}"><span>${k.title}</span><b>${k.status}</b></button>`).join(''); document.querySelectorAll('[data-kpi]').forEach(btn => btn.addEventListener('click', () => expandKpi(btn.dataset.kpi))); }
+      function renderFollowups(){ document.getElementById('followup-list').innerHTML = followups.map((item, index) => `<article class="followup-card"><div class="followup-head"><div><h2>${item.title}</h2><p>To: ${item.to}</p><small>${item.timing} · ${item.impact}</small></div><button type="button" data-action="toggle-draft" aria-label="Show draft email">⌄</button></div><div class="draft-email"><h3>Draft email</h3><b>Subject: ${item.subject}</b><pre>${item.body}</pre>${item.note ? `<p>${item.note}</p>` : ''}</div></article>`).join(''); document.querySelectorAll('[data-action="toggle-draft"]').forEach(btn => btn.addEventListener('click', () => toggleDraft(btn))); }
+      document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.jump)));
+      document.querySelectorAll('[data-action="process"], [data-action="replay-processing"]').forEach(btn => btn.addEventListener('click', processEvidencePackage));
+      document.querySelectorAll('[data-action="toggle-company"]').forEach(btn => btn.addEventListener('click', toggleCompany));
+      updateKpiTracker();
+      renderAllKpis();
+      renderFollowups();
+      expandKpi('ghg-emissions');
     </script>
   </body>
 </html>

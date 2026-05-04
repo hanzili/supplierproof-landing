@@ -255,38 +255,35 @@ def test_yc_demo_separates_dashboard_state_from_transcript_copy():
         assert token in css
 
 
-def test_app_is_yc_acme_thesis_agent_demo_not_connector_dashboard():
+def test_app_request_page_is_clean_upload_workspace():
     html = read("app/index.html")
     css = read("styles.css")
     for phrase in [
-        "SupplierProof YC Demo",
+        "SupplierProof",
+        "Request",
+        "Company",
         "Acme Corporation",
-        "frozen baked goods manufacturer",
-        "Walmart THESIS",
-        "due November 15",
-        "Process evidence package",
-        "internal Hermes-style orchestrator",
-        "Human reviews and approves",
-        "9 of 14 KPIs answered",
-        "58/100",
-        "82/100",
-        "32/100",
+        "Company details",
+        "Questionnaire",
+        "Walmart THESIS Sustainability Assessment",
+        "Upload questionnaire",
+        "Documents",
+        "Upload documents",
+        "Metadata file",
+        "Upload metadata file",
+        "department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels",
+        "Process questionnaire",
+        "data-action=\"toggle-company\"",
+        "company-drawer",
     ]:
         assert phrase in html
-    for forbidden in [
-        "data-screen=\"connectors\"",
-        "Connector setup",
-        "Connectors",
-        "OAuth",
-        "read-only scan",
-        "NetSuite",
-    ]:
+    for forbidden in ["YC 60", "AI-native", "orchestrator", "OAuth", "Connectors", "NetSuite", "fixed-fee assessment package"]:
         assert forbidden not in html
-    for token in [".yc-demo-app", ".demo-stage", ".agent-feed", ".kpi-tracker", ".score-gauge", ".followup-card"]:
+    for token in [".clean-app", ".request-layout", ".upload-card", ".company-drawer", ".simple-nav"]:
         assert token in css
 
 
-def test_app_contains_ten_messy_documents_and_internal_data():
+def test_app_contains_documents_metadata_and_company_context():
     html = read("app/index.html")
     for phrase in [
         "Walmart THESIS notification email",
@@ -297,99 +294,96 @@ def test_app_contains_ten_messy_documents_and_internal_data():
         "BRC food safety certificate",
         "Environmental policy",
         "Packaging spec sheet",
-        "Past THESIS response from last year",
+        "Past THESIS response",
         "Supplier email thread",
-        "2,850,000 kWh",
-        "78,000 therms",
-        "18,200,000 gallons",
-        "840 tons total",
-        "62% diverted",
-        "4,200 metric tons",
+        "Facilities Manager",
+        "HR/EHS",
+        "Quality Manager",
+        "TruPak Packaging Co contact",
+        "PT Sawit Indo contact",
+        "4,200 metric tons production volume",
         "23 active suppliers",
+        "one overwhelmed sustainability owner",
     ]:
         assert phrase in html
 
 
-def test_app_has_timed_agent_processing_feed_and_calculations():
+def test_app_processing_page_has_plain_agent_trace_and_routing():
     html = read("app/index.html")
     for phrase in [
-        "setTimeout",
-        "processEvidencePackage",
-        "Processing ConEdison electricity bill",
-        "Extracted: 2,850,000 kWh across 12 months",
-        "Processing PSE&G natural gas bill",
-        "Extracted: 78,000 therms across 12 months",
-        "Calculating energy intensity",
-        "923 kWh per metric ton",
-        "Calculating GHG emissions",
+        "Processing questionnaire",
+        "Agent trace",
+        "SupplierProof is reading the uploaded files, calculating answers, and finding missing information.",
+        "Reading Walmart THESIS questionnaire",
+        "Found 14 required items",
+        "Reading electricity bill",
+        "Found 2,850,000 kWh",
+        "Reading natural gas bill",
+        "Found 78,000 therms",
+        "Reading production data from metadata file",
+        "Found 4,200 metric tons FY2024",
+        "Calculated from utility bills using EPA emission factors",
         "Scope 2: 1,100 tCO2e",
-        "Scope 1 (partial): 413 tCO2e",
-        "Refrigerant data missing",
-        "EXPIRES IN 30 DAYS",
-        "Recycled content: NOT SPECIFIED",
-    ]:
-        assert phrase in html
-
-
-def test_app_has_four_screen_flow_and_clickable_state_hooks():
-    html = read("app/index.html")
-    for phrase in [
-        "data-view=\"intake\"",
-        "data-view=\"processing\"",
-        "data-view=\"assessment\"",
-        "data-view=\"actions\"",
-        "function setView",
-        "function expandKpi",
-        "function expandAction",
+        "Scope 1 partial: 413 tCO2e",
+        "Checking metadata file",
+        "Found Facilities Manager contact",
+        "Found TruPak Packaging Co contact",
+        "Preparing follow-ups",
         "function renderFeedStep",
         "function updateKpiTracker",
-        "data-kpi=\"energy-intensity\"",
-        "data-kpi=\"packaging-recycled-content\"",
-        "data-kpi=\"palm-oil-rspo\"",
-        "data-action=\"send-draft\"",
-        "data-action=\"schedule-voice\"",
-        "demo-toast",
     ]:
         assert phrase in html
 
 
-def test_app_has_fourteen_kpis_but_spotlights_only_key_cards():
+def test_app_results_page_has_precise_ghg_method_and_scope_boundary():
     html = read("app/index.html")
     assert "const kpis = [" in html
     assert html.count("kpiId:") == 14
     for phrase in [
-        "Facility KPIs",
-        "Category KPIs",
-        "Supply Chain KPIs",
-        "Energy intensity",
-        "GHG emissions",
-        "Waste diversion",
-        "Packaging recycled content",
-        "Palm oil RSPO certification",
-        "Worker safety TRIR",
-        "hover or click for detail",
-        "showing 5 spotlight cards; all 14 are tracked",
+        "Results",
+        "9 / 14 answered",
+        "58 / 100 estimated score",
+        "82 / 100 if missing items are resolved",
+        "32 / 100 last year",
+        "Estimated GHG emissions from available data",
+        "Scope 2 (electricity): 1,100 tCO2e",
+        "Scope 1 (natural gas): 413 tCO2e",
+        "Scope 1 is incomplete — refrigerant data not provided",
+        "These estimates use EPA published emission factors and are suitable for THESIS reporting.",
+        "For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.",
+        "Calculated from utility bills using EPA emission factors",
+        "2,850,000 kWh × 0.000386 tCO2e/kWh",
+        "78,000 therms × 0.005302 tCO2e/therm",
+        "This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis.",
+        "All questionnaire items",
     ]:
         assert phrase in html
+    assert "GHG Emissions: 1,513 tCO2e" not in html
 
 
-def test_app_has_followups_after_x_days_and_proactive_insights():
+def test_app_followups_are_expandable_and_clean():
     html = read("app/index.html")
     for phrase in [
-        "Email follow-up now",
-        "Voice follow-up scheduled Day 7",
+        "Follow-ups",
+        "SupplierProof found the missing information needed to complete the questionnaire.",
+        "data-action=\"toggle-draft\"",
+        "Draft email",
+        "Request refrigerant records",
         "Acme Facilities Manager",
+        "Request packaging recycled content",
         "TruPak Packaging Co",
+        "Request RSPO documentation",
         "PT Sawit Indo",
-        "Acme HR/EHS",
-        "Acme Quality Manager",
-        "BRC certificate expires March 14",
-        "Same evidence library covers 45% of your CDP requirements",
-        "52% of EcoVadis requirements",
-        "3 quick wins could raise your score from 58 to 72",
-        "THESIS rewards improvement trajectories",
+        "Voice follow-up scheduled Day 7",
+        "If no response by Day 7, SupplierProof will call using the supplier contact from the metadata file.",
+        "What this also helps with",
+        "Framework reuse",
+        "CDP 45% · EcoVadis 52%",
+        "Score lift",
+        "Resolving the top 3 missing items could raise the estimate from 58 to 72.",
     ]:
         assert phrase in html
+    assert "human approval queue" not in html.lower()
 
 
 def test_app_can_be_linked_from_existing_yc_demo():
