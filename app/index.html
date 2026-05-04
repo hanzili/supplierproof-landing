@@ -16,6 +16,7 @@
           <button type="button" data-jump="processing">Processing</button>
           <button type="button" data-jump="results">Results</button>
           <button type="button" data-jump="followups">Follow-ups</button>
+          <button type="button" data-jump="packet">Packet</button>
         </nav>
       </header>
 
@@ -23,24 +24,37 @@
         <section class="clean-page is-active" data-view="request">
           <div class="page-title-row">
             <div>
-              <h1>Acme’s Walmart THESIS questionnaire</h1>
+              <h1>Start a response packet</h1>
+              <p>Enter the company, choose the customer framework, upload the questionnaire and evidence, then process it. No pre-loaded case is required.</p>
             </div>
             <button class="outline-button" type="button" data-action="toggle-company">Company details</button>
           </div>
 
           <div class="request-layout">
-            <section class="plain-card company-summary">
+            <section class="plain-card company-summary entry-card">
               <span>Company</span>
-              <h2>Acme Corporation</h2>
-              <p>Frozen baked goods manufacturer · Newark, NJ</p>
+              <h2>Company entry</h2>
+              <label class="field-label" for="company-name">Company name</label>
+              <div class="entry-row">
+                <input id="company-name" class="clean-input" type="text" placeholder="e.g. Acme Corporation" autocomplete="organization" />
+                <button class="outline-button compact" type="button" data-action="enrich-company">Enrich from internet</button>
+              </div>
+              <p id="company-enrichment" class="enrichment-note">Enter a company name to pull public company context for the case file.</p>
             </section>
 
-            <section class="plain-card questionnaire-card">
-              <span>Questionnaire</span>
-              <h2>Walmart THESIS Sustainability Assessment</h2>
-              <p>Due November 15 · Category: Frozen bakery</p>
+            <section class="plain-card questionnaire-card entry-card">
+              <span>Framework</span>
+              <h2>Questionnaire</h2>
+              <label class="field-label" for="framework-select">Select framework</label>
+              <select id="framework-select" class="clean-input">
+                <option value="THESIS">THESIS</option>
+                <option value="CDP">CDP</option>
+                <option value="EcoVadis">EcoVadis</option>
+                <option value="Custom">Custom</option>
+              </select>
+              <p id="framework-copy">THESIS response packet · Due November 15</p>
               <label class="upload-card">
-                <input type="file" aria-label="Upload questionnaire" />
+                <input id="questionnaire-upload" type="file" aria-label="Upload questionnaire" />
                 <b>Upload questionnaire</b>
                 <small>PDF, spreadsheet, portal export, or notification email</small>
               </label>
@@ -49,8 +63,9 @@
             <section class="plain-card documents-card">
               <div class="section-head">
                 <div><span>Documents</span><h2>Documents</h2></div>
-                <label class="small-upload"><input type="file" multiple aria-label="Upload documents" />Upload documents</label>
+                <label class="small-upload"><input id="documents-upload" type="file" multiple aria-label="Upload documents" />Upload documents</label>
               </div>
+              <div class="upload-status" id="document-upload-status">No documents uploaded yet. The sample list below shows the kind of evidence the agent expects.</div>
               <div class="simple-list">
                 <button type="button">Walmart THESIS notification email</button>
                 <button type="button">12-month electricity bill</button>
@@ -67,24 +82,24 @@
 
             <section class="plain-card metadata-card">
               <span>Metadata file</span>
-              <h2>Contact and company metadata</h2>
-              <p>Include department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels.</p>
+              <h2>Metadata</h2>
+              <p>Metadata is as is: department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels.</p>
               <label class="upload-card compact-upload">
-                <input type="file" aria-label="Upload metadata file" />
+                <input id="metadata-upload" type="file" aria-label="Upload metadata file" />
                 <b>Upload metadata file</b>
-                <small>Facilities Manager, HR/EHS, Quality Manager, TruPak Packaging Co contact, PT Sawit Indo contact, 4,200 metric tons production volume, 23 active suppliers.</small>
+                <small>Facilities Manager Maya Chen, HR/EHS Jordan Patel, Quality Manager Priya Shah, TruPak Packaging Co contact Leo Martin, PT Sawit Indo contact Rafi Wijaya, 4,200 metric tons production volume, 23 active suppliers.</small>
               </label>
             </section>
           </div>
 
-          <button class="primary-clean-button" type="button" data-action="process">Process questionnaire</button>
+          <button class="primary-clean-button" type="button" data-action="process">Process documents</button>
         </section>
 
         <section class="clean-page" data-view="processing">
           <div class="page-title-row">
             <div>
               <h1>Processing questionnaire</h1>
-              <p>SupplierProof is reading the uploaded files, calculating answers, and finding missing information.</p>
+              <p>Prototype trace: this browser preview replays the processing steps from the uploaded case context. A production build would connect this screen to the live document parser and enrichment service.</p>
             </div>
             <button class="primary-clean-button small" type="button" data-action="replay-processing">Replay trace</button>
           </div>
@@ -92,7 +107,7 @@
           <div class="processing-clean-layout">
             <section class="plain-card trace-card">
               <div class="section-head"><div><span>Agent trace</span><h2>Agent trace</h2></div><b id="trace-status">Ready</b></div>
-              <div class="agent-feed clean-feed" id="agent-feed"><p>Click “Process questionnaire” or “Replay trace” to start.</p></div>
+              <div class="agent-feed clean-feed" id="agent-feed"><p>Click “Process documents” or “Replay trace” to start.</p></div>
             </section>
             <aside class="plain-card progress-card is-waiting kpi-tracker">
               <span>Progress</span>
@@ -111,12 +126,14 @@
           </div>
         </section>
 
-        <section class="clean-page" data-view="results">
+        <section class="clean-page results-page" data-view="results">
           <div class="page-title-row">
             <div>
               <h1>Results</h1>
             </div>
           </div>
+          <div class="plain-card empty-results" id="empty-results"><h2>No processed results yet</h2><p>Run “Process documents” first. Results are browser-session state only and reset on reload so this page does not look pre-populated or stale.</p><button class="primary-clean-button small" type="button" data-jump="processing">Go to processing</button></div>
+          <div class="results-populated">
           <div class="result-metrics">
             <article><b>9 / 14 answered</b><span>Coverage</span></article>
             <article><b>58 / 100 estimated score</b><span>Current estimate</span></article>
@@ -152,6 +169,7 @@
               <section><b>Method</b><p>Calculated from utility bills using EPA emission factors. Electricity: 2,850,000 kWh × 0.000386 tCO2e/kWh. Natural gas: 78,000 therms × 0.005302 tCO2e/therm.</p><p>Boundary: Scope 1 is incomplete — refrigerant data not provided. These estimates use EPA published emission factors and are suitable for THESIS reporting. This is not a verified GHG inventory, audit, assurance statement, or SBTi target-setting analysis. For verified carbon accounting or SBTi target-setting, consult a carbon accounting specialist.</p></section>
             </aside>
           </div>
+          </div>
         </section>
 
         <section class="clean-page" data-view="followups">
@@ -169,6 +187,62 @@
               <article><b>Score lift</b><p>Resolving the top 3 missing items could raise the estimate from 58 to 72.</p><small>Refrigerants · packaging recycled content · environmental targets</small></article>
             </aside>
           </div>
+        </section>
+
+
+        <section class="clean-page packet-page" data-view="packet">
+          <div class="packet-toolbar">
+            <span>Printable response packet preview</span>
+            <button class="primary-clean-button small" type="button" data-action="download-pdf">Download PDF</button>
+          </div>
+
+          <article class="packet-doc" id="packet-doc">
+            <header class="packet-doc-header">
+              <h1><span id="packet-company">Acme Corporation</span> — Walmart THESIS Response Packet</h1>
+              <p>Prepared: <span id="prepared-date"></span> | Due: November 15 | Coverage: 9 of 14 ready</p>
+            </header>
+            <section>
+              <h2>Answers ready to enter</h2>
+              <div class="packet-table">
+                <div class="packet-table-row head"><b>KPI name</b><b>Answer to enter in the portal</b><b>Status</b></div>
+                <div class="packet-table-row ready"><span>Energy use</span><span>923 kWh per metric ton based on utility bills and FY2024 production volume.</span><b>ready</b></div>
+                <div class="packet-table-row yellow"><span>Greenhouse gas emissions</span><span>Scope 2: 1,100 tCO2e. Scope 1 natural gas: 413 tCO2e.</span><b>submit with note — Scope 1 incomplete; refrigerant data pending</b></div>
+                <div class="packet-table-row ready"><span>Water use</span><span>18,200,000 gallons from municipal supply.</span><b>ready</b></div>
+                <div class="packet-table-row ready"><span>Waste diversion</span><span>840 tons total waste; 62% diverted through recycling and compost.</span><b>ready</b></div>
+                <div class="packet-table-row yellow"><span>Food safety certificate</span><span>BRC Grade A certificate available.</span><b>submit with note — certificate expires soon</b></div>
+                <div class="packet-table-row red"><span>Packaging recycled content</span><span>leave blank for now.</span><b>do not submit yet — PCR percentage from TruPak is missing</b></div>
+                <div class="packet-table-row red"><span>Deforestation-free sourcing</span><span>leave blank for now.</span><b>do not submit yet — RSPO certificate from PT Sawit Indo is missing</b></div>
+              </div>
+            </section>
+
+            <section>
+              <h2>Documents to attach</h2>
+              <ul class="packet-checklist">
+                <li>✅ ConEdison electricity bill (2024) → Energy, GHG</li>
+                <li>✅ Natural gas bill (2024) → Energy, GHG</li>
+                <li>✅ Quarterly water bills (2024) → Water</li>
+                <li>✅ Waste hauler annual summary → Waste diversion</li>
+                <li>⚠️ BRC food safety certificate — expiring soon → Food safety</li>
+                <li>❌ RSPO certificate — waiting on PT Sawit Indo → Deforestation-free sourcing</li>
+                <li>❌ Packaging PCR declaration — waiting on TruPak Packaging Co → Packaging recycled content</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2>Waiting on</h2>
+              <ul class="waiting-list">
+                <li><b>Refrigerant records</b> — Maya Chen has it. Follow-up sent today. Wait for response.</li>
+                <li><b>Packaging PCR percentage</b> — Leo Martin at TruPak has it. Follow-up sent today. Escalate if no reply in 3 business days.</li>
+                <li><b>RSPO certificate</b> — Rafi Wijaya at PT Sawit Indo has it. Follow-up sent today. Submit without and note the gap if no reply by Day 7.</li>
+                <li><b>BRC renewal date</b> — Priya Shah has it. Internal alert sent. Wait for confirmation.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2>Reuse</h2>
+              <p>This evidence also covers 45% of CDP and 52% of EcoVadis. When your next request comes in, we start here.</p>
+            </section>
+          </article>
         </section>
       </main>
     </div>
@@ -223,12 +297,20 @@
       ];
 
       const followups = [
-        { title: 'Request refrigerant records', to: 'Acme Facilities Manager', timing: 'Email now', impact: 'High impact', subject: 'FY2024 refrigerant records for Walmart THESIS', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need FY2024 refrigerant purchase or service records to complete the Scope 1 emissions calculation.\n\nCould you send any records for refrigerant refills, leak repairs, or HVAC service from FY2024?\n\nThanks,\nSupplierProof' },
-        { title: 'Request packaging recycled content', to: 'TruPak Packaging Co', timing: 'Email now', impact: 'High impact', subject: 'PCR content for PET tray and LDPE film', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need the post-consumer recycled content percentage for the PET tray and LDPE film supplied for SKU-1234.\n\nCould you confirm the PCR percentage and send the supporting specification or declaration?\n\nThanks,\nSupplierProof' },
-        { title: 'Request RSPO documentation', to: 'PT Sawit Indo', timing: 'Email now · Voice follow-up scheduled Day 7', impact: 'High impact', note: 'If no response by Day 7, SupplierProof will call using the supplier contact from the metadata file.', subject: 'RSPO documentation for Acme Walmart THESIS response', body: 'Hi [Name],\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need RSPO certification documentation or deforestation-free sourcing confirmation for the palm oil supplied to Acme.\n\nCould you send the certificate or current sourcing confirmation?\n\nThanks,\nSupplierProof' },
-        { title: 'Request OSHA 300A and hours worked', to: 'Acme HR/EHS', timing: 'Email now', impact: 'Medium impact', subject: 'OSHA 300A and total hours worked for FY2024', body: 'Hi [Name],\n\nWe need the FY2024 OSHA 300A summary and total hours worked to complete the worker safety item in the Walmart THESIS questionnaire.\n\nThanks,\nSupplierProof' },
-        { title: 'Renew BRC certificate', to: 'Acme Quality Manager', timing: 'Internal alert', impact: 'High impact', subject: 'BRC certificate expires March 14', body: 'Hi [Name],\n\nThe BRC certificate included for the Walmart THESIS response expires March 14. Please schedule or confirm the renewal audit so the assessment can reference current certification status.\n\nThanks,\nSupplierProof' }
+        { title: 'Request refrigerant records', to: 'Maya Chen · Acme Facilities Manager', timing: 'Email now', impact: 'High impact', subject: 'FY2024 refrigerant records for Walmart THESIS', body: 'Hi Maya,\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need FY2024 refrigerant purchase or service records to complete the Scope 1 emissions calculation.\n\nCould you send any records for refrigerant refills, leak repairs, or HVAC service from FY2024?\n\nThanks,\nSupplierProof' },
+        { title: 'Request packaging recycled content', to: 'Leo Martin · TruPak Packaging Co', timing: 'Email now', impact: 'High impact', subject: 'PCR content for PET tray and LDPE film', body: 'Hi Leo,\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need the post-consumer recycled content percentage for the PET tray and LDPE film supplied for SKU-1234.\n\nCould you confirm the PCR percentage and send the supporting specification or declaration?\n\nThanks,\nSupplierProof' },
+        { title: 'Request RSPO documentation', to: 'Rafi Wijaya · PT Sawit Indo', timing: 'Email now · Voice follow-up scheduled Day 7', impact: 'High impact', note: 'If no response by Day 7, SupplierProof will call using the supplier contact from the metadata file.', subject: 'RSPO documentation for Acme Walmart THESIS response', body: 'Hi Rafi,\n\nWe’re completing Acme’s Walmart THESIS sustainability assessment and need RSPO certification documentation or deforestation-free sourcing confirmation for the palm oil supplied to Acme.\n\nCould you send the certificate or current sourcing confirmation?\n\nThanks,\nSupplierProof' },
+        { title: 'Request OSHA 300A and hours worked', to: 'Jordan Patel · Acme HR/EHS', timing: 'Email now', impact: 'Medium impact', subject: 'OSHA 300A and total hours worked for FY2024', body: 'Hi Jordan,\n\nWe need the FY2024 OSHA 300A summary and total hours worked to complete the worker safety item in the Walmart THESIS questionnaire.\n\nThanks,\nSupplierProof' },
+        { title: 'Renew BRC certificate', to: 'Priya Shah · Acme Quality Manager', timing: 'Internal alert', impact: 'High impact', subject: 'BRC certificate expires March 14', body: 'Hi Priya,\n\nThe BRC certificate included for the Walmart THESIS response expires March 14. Please schedule or confirm the renewal audit so the assessment can reference current certification status.\n\nThanks,\nSupplierProof' }
       ];
+
+
+      const frameworkLabels = { THESIS: 'Walmart THESIS Response Packet', CDP: 'CDP Response Packet', EcoVadis: 'EcoVadis Response Packet', Custom: 'Custom Response Packet' };
+      function currentCompany(){ return (document.getElementById('company-name')?.value || 'Acme Corporation').trim() || 'Acme Corporation'; }
+      function currentFramework(){ return document.getElementById('framework-select')?.value || 'THESIS'; }
+      function updatePacketHeader(){ const company = currentCompany(); const framework = currentFramework(); const packetTitle = framework === 'THESIS' ? 'Walmart THESIS Response Packet' : frameworkLabels[framework]; document.querySelectorAll('#packet-company').forEach(el => el.textContent = company); const h1 = document.querySelector('.packet-doc-header h1'); if(h1) h1.innerHTML = `<span id="packet-company">${company}</span> — ${packetTitle}`; const title = document.querySelector('[data-view="results"] .page-title-row h1'); if(title) title.textContent = 'Results'; }
+      function enrichCompany(){ const name = currentCompany(); document.getElementById('company-enrichment').textContent = `${name} · public company details found: food/packaging supplier profile, manufacturing footprint, likely retailer questionnaire exposure. In production this step calls web/company data sources; this static preview shows the enriched case context after entry.`; document.querySelector('#company-drawer h2').textContent = name; updatePacketHeader(); showToast('Company context enriched'); }
+      function updateUploadStatus(input){ const status = document.getElementById('document-upload-status'); const count = input.files ? input.files.length : 0; if(count) status.textContent = `${count} uploaded document${count === 1 ? '' : 's'} ready to process.`; }
 
       const statusRows = kpis.map(kpi => [kpi.title, kpi.status.replace('needs review', 'Needs review').replace('answered', 'Answered').replace('missing', 'Missing')]);
 
@@ -238,8 +320,8 @@
       function setView(view){ document.querySelectorAll('[data-view]').forEach(page => page.classList.toggle('is-active', page.dataset.view === view)); document.querySelectorAll('[data-jump]').forEach(btn => btn.classList.toggle('is-active', btn.dataset.jump === view)); }
       function renderFeedStep(step, index){ const feed = document.getElementById('agent-feed'); const row = document.createElement('article'); row.className = 'feed-entry'; row.innerHTML = `<b>${step[0]}</b><span>${step[1]}</span>`; feed.appendChild(row); feed.scrollTop = feed.scrollHeight; document.getElementById('trace-status').textContent = `${index + 1}/${feedSteps.length}`; if(index === feedSteps.length - 1) revealProgress(); }
       function updateKpiTracker(){ document.getElementById('tracker-rows').innerHTML = statusRows.map(([name, status]) => `<div class="progress-row ${status.toLowerCase().replace(' ', '-')}"><span>${name}</span><b>${status}</b></div>`).join(''); }
-      function revealProgress(){ updateKpiTracker(); document.querySelector('.progress-card').classList.remove('is-waiting'); document.getElementById('trace-status').textContent = 'Trace complete — results ready'; }
-      function processEvidencePackage(){ setView('processing'); const feed = document.getElementById('agent-feed'); feed.innerHTML = ''; document.querySelector('.progress-card').classList.add('is-waiting'); document.getElementById('tracker-rows').innerHTML = ''; document.getElementById('trace-status').textContent = 'Running'; clearTimeout(traceTimer); feedSteps.forEach((step, index) => { traceTimer = setTimeout(() => renderFeedStep(step, index), 180 + index * 330); }); }
+      function revealProgress(){ updateKpiTracker(); document.querySelector('.progress-card').classList.remove('is-waiting'); document.querySelector('.results-page').classList.add('has-results'); document.getElementById('trace-status').textContent = 'Trace complete — results ready'; }
+      function processEvidencePackage(){ updatePacketHeader(); setView('processing'); const feed = document.getElementById('agent-feed'); feed.innerHTML = ''; document.querySelector('.progress-card').classList.add('is-waiting'); document.getElementById('tracker-rows').innerHTML = ''; document.getElementById('trace-status').textContent = 'Running'; clearTimeout(traceTimer); feedSteps.forEach((step, index) => { traceTimer = setTimeout(() => renderFeedStep(step, index), 180 + index * 330); }); }
       function toggleCompany(){ document.body.classList.toggle('drawer-open'); }
       function expandKpi(id){ const item = kpis.find(k => k.kpiId === id); if(!item) return; const detail = document.getElementById('kpi-detail'); detail.innerHTML = `<span>Detailed view</span><h2>${item.title}</h2><section><b>Question</b><p>${item.question}</p></section><section><b>Answer</b><p>${item.answer}</p></section><section><b>Proof</b><p>${item.proof}</p></section><section><b>Method</b><p>${item.method}</p></section>`; document.querySelectorAll('[data-kpi]').forEach(btn => btn.classList.toggle('is-selected', btn.dataset.kpi === id)); if (window.innerWidth < 960) detail.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       function toggleDraft(button){ const card = button.closest('.followup-card'); card.classList.toggle('is-open'); button.textContent = card.classList.contains('is-open') ? '⌃' : '⌄'; }
@@ -248,8 +330,15 @@
       document.querySelectorAll('[data-jump]').forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.jump)));
       document.querySelectorAll('[data-action="process"], [data-action="replay-processing"]').forEach(btn => btn.addEventListener('click', processEvidencePackage));
       document.querySelectorAll('[data-action="toggle-company"]').forEach(btn => btn.addEventListener('click', toggleCompany));
+      document.querySelector('[data-action="enrich-company"]').addEventListener('click', enrichCompany);
+      document.getElementById('framework-select').addEventListener('change', updatePacketHeader);
+      document.getElementById('company-name').addEventListener('input', updatePacketHeader);
+      document.getElementById('documents-upload').addEventListener('change', e => updateUploadStatus(e.target));
+      document.getElementById('prepared-date').textContent = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      document.querySelector('[data-action="download-pdf"]').addEventListener('click', () => window.print());
       renderAllKpis();
       renderFollowups();
+      updatePacketHeader();
       expandKpi('ghg-emissions');
     </script>
   </body>

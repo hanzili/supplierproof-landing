@@ -272,28 +272,34 @@ def test_app_request_page_is_clean_upload_workspace():
     css = read("styles.css")
     for phrase in [
         "SupplierProof",
-        "Company",
-        "Acme Corporation",
-        "Company details",
-        "Questionnaire",
-        "Acme’s Walmart THESIS questionnaire",
-        "Walmart THESIS Sustainability Assessment",
+        "Start a response packet",
+        "Company entry",
+        "Company name",
+        'placeholder="e.g. Acme Corporation"',
+        "Enrich from internet",
+        "Select framework",
+        "THESIS",
+        "CDP",
+        "EcoVadis",
+        "Custom",
         "Upload questionnaire",
         "Documents",
         "Upload documents",
+        "No documents uploaded yet",
         "Metadata file",
         "Upload metadata file",
-        "department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels",
-        "Process questionnaire",
-        "data-action=\"toggle-company\"",
+        "Metadata is as is: department owners, supplier contacts, annual production volume, supplier list, reporting year, and preferred follow-up channels",
+        "Process documents",
+        'data-action="toggle-company"',
         "company-drawer",
     ]:
         assert phrase in html
+    assert "Acme’s Walmart THESIS questionnaire" not in html
     assert "Process Acme’s Walmart THESIS questionnaire" not in html
     assert "plain-eyebrow" not in html
     for forbidden in ["YC 60", "AI-native", "orchestrator", "OAuth", "Connectors", "NetSuite", "fixed-fee assessment package"]:
         assert forbidden not in html
-    for token in [".clean-app", ".request-layout", ".upload-card", ".company-drawer", ".simple-nav"]:
+    for token in [".clean-app", ".request-layout", ".upload-card", ".company-drawer", ".simple-nav", ".clean-input", ".entry-row"]:
         assert token in css
 
 
@@ -327,7 +333,8 @@ def test_app_processing_page_has_plain_agent_trace_and_routing():
     for phrase in [
         "Processing questionnaire",
         "Agent trace",
-        "SupplierProof is reading the uploaded files, calculating answers, and finding missing information.",
+        "Prototype trace: this browser preview replays the processing steps from the uploaded case context.",
+        "production build would connect this screen to the live document parser and enrichment service",
         "Reading Walmart THESIS questionnaire",
         "Found 14 required items",
         "Reading electricity bill",
@@ -422,6 +429,59 @@ def test_app_followups_are_expandable_and_clean():
     assert "human approval queue" not in html.lower()
     for token in [".followup-card h2", ".action-row", ".impact-badge.high", ".impact-badge.medium", ".followup-cta"]:
         assert token in read("styles.css")
+
+
+def test_app_results_reset_until_processing_runs():
+    html = read("app/index.html")
+    css = read("styles.css")
+    for phrase in [
+        "No processed results yet",
+        "Results are browser-session state only and reset on reload",
+        "results-page",
+        "results-populated",
+        "document.querySelector('.results-page').classList.add('has-results')",
+    ]:
+        assert phrase in html
+    for token in [
+        ".results-page .results-populated { display:none; }",
+        ".results-page.has-results .results-populated { display:block; }",
+        ".results-page.has-results .empty-results { display:none; }",
+    ]:
+        assert token in css
+
+
+def test_app_followups_use_metadata_contact_names_not_placeholders():
+    html = read("app/index.html")
+    for phrase in ["Hi Maya", "Hi Leo", "Hi Rafi", "Hi Jordan", "Hi Priya", "Maya Chen", "Leo Martin", "Rafi Wijaya", "Jordan Patel", "Priya Shah"]:
+        assert phrase in html
+    assert "Hi [Name]" not in html
+
+
+def test_app_packet_tab_is_printable_response_packet():
+    html = read("app/index.html")
+    css = read("styles.css")
+    for phrase in [
+        "data-jump=\"packet\"",
+        "data-view=\"packet\"",
+        "Download PDF",
+        "Walmart THESIS Response Packet",
+        "Prepared:",
+        "Due: November 15",
+        "Coverage: 9 of 14 ready",
+        "Answers ready to enter",
+        "Documents to attach",
+        "Waiting on",
+        "Reuse",
+        "Scope 1 incomplete; refrigerant data pending",
+        "leave blank",
+        "ConEdison electricity bill (2024) → Energy, GHG",
+        "RSPO certificate — waiting on PT Sawit Indo",
+        "This evidence also covers 45% of CDP and 52% of EcoVadis",
+        "window.print()",
+    ]:
+        assert phrase in html
+    for token in [".packet-doc", ".packet-table-row.ready", ".packet-table-row.yellow", ".packet-table-row.red", "@media print"]:
+        assert token in css
 
 
 def test_app_can_be_linked_from_existing_yc_demo():
