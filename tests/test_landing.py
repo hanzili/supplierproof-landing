@@ -23,10 +23,16 @@ def test_home_page_is_artifact_led_request_desk():
         "What we handle",
         "What you get back",
         "Send a redacted request",
+        "Start with one redacted request",
         "Nothing is sent without your approval",
         "Redacted files are welcome",
+        "For suppliers buried in retailer ESG, packaging, sourcing, and certification requests. SupplierProof works like an embedded evidence desk: we split the ask, chase owners and suppliers, check proof, draft safe wording, and flag anything that cannot be claimed yet.",
+        "href=\"app/index.html\"",
     ]:
         assert phrase in html
+    assert "mailto:" not in html
+    assert "See an example package" not in html
+    assert "<a href=\"app/index.html\">Ops console</a>" not in html
 
 
 def test_home_page_shows_service_labor_not_just_ui():
@@ -69,6 +75,8 @@ def test_home_page_avoids_stale_or_jargony_positioning():
         "evidence operations",
         "evidence pack",
         "gap map",
+        "page redirect",
+        "example package",
         "Scope 3 platform",
         "For investors",
         "See investor page",
