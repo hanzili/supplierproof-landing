@@ -335,6 +335,10 @@ def test_app_processing_page_has_plain_agent_trace_and_routing():
         "function updateKpiTracker",
         "Answered 9 of 14 questionnaire items",
         "statusRows = kpis.map",
+        "progress-card is-waiting",
+        "progress-panel",
+        "Trace complete — results ready",
+        "function revealProgress",
     ]:
         assert phrase in html
     assert "statusRows = [" not in html
@@ -369,8 +373,11 @@ def test_app_results_page_has_precise_ghg_method_and_scope_boundary():
         "Answer: Scope 2 electricity is 1,100 tCO2e; Scope 1 natural gas is 413 tCO2e; refrigerants are missing.",
         "Proof: 12-month electricity bill, 12-month natural gas bill, and metadata reporting year FY2024.",
         "data-kpi=\"supplier-ghg-reporting\"",
+        "results-main-column",
+        "scrollIntoView",
     ]:
         assert phrase in html
+    assert html.index('class="results-layout"') < html.index('class="plain-card all-items"') < html.index('class="plain-card result-detail"')
     assert "GHG Emissions: 1,513 tCO2e" not in html
 
 
