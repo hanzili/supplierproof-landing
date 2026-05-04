@@ -413,3 +413,25 @@ h3 { margin-bottom: 10px; font-size: 23px; letter-spacing: -0.04em; }
   .walkthrough-step { padding: 18px; border-radius: 16px; }
   .step-copy p:not(.eyebrow) { font-size: 16px; }
 }
+
+
+/* AI-native service layer treatment */
+.service-topbar { background: linear-gradient(135deg, rgba(231,255,79,.13), rgba(255,255,255,.055) 42%, rgba(104,247,200,.08)); }
+.topbar-subtitle { margin: 6px 0 0; color: rgba(239,250,242,.68); max-width: 760px; }
+.service-command-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 14px 0 18px; }
+.service-metrics { border: 1px solid rgba(231,255,79,.16); border-radius: 22px; padding: 14px; background: linear-gradient(180deg, rgba(231,255,79,.1), rgba(255,255,255,.045)); box-shadow: 0 16px 45px rgba(0,0,0,.18); display: grid; gap: 5px; }
+.service-metrics span { color: rgba(239,250,242,.62); text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; }
+.service-metrics strong { font-size: 1.15rem; color: #f8fff5; }
+.service-metrics small { color: rgba(239,250,242,.58); }
+.agent-worker-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; }
+.operator-review-card { background: linear-gradient(180deg, rgba(104,247,200,.08), rgba(255,255,255,.055)); }
+.case-runbook { display: grid; gap: 8px; margin-top: 16px; }
+.runbook-step { display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.16); border-radius: 14px; padding: 10px; color: rgba(239,250,242,.78); }
+.runbook-step b { width: 24px; height: 24px; display: inline-grid; place-items: center; border-radius: 50%; background: #e7ff4f; color: #07110d; font-size: .78rem; }
+.app-sidebar::after { content: "AI-native service"; color: rgba(231,255,79,.62); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; }
+@media (max-width: 1180px) { .service-command-strip, .agent-worker-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 760px) { .service-command-strip, .agent-worker-grid { grid-template-columns: 1fr; } }
+
+.next-action-card { border: 1px solid rgba(231,255,79,.22); background: rgba(231,255,79,.08); border-radius: 18px; padding: 13px; margin: 0 0 14px; display: grid; gap: 4px; }
+.next-action-card span { color: rgba(239,250,242,.58); text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; }
+.next-action-card small, .readiness-large small { color: rgba(239,250,242,.62); }

@@ -20,14 +20,15 @@
           <button type="button" data-nav="approvals">Approvals</button>
           <button type="button" data-nav="settings">Settings</button>
         </nav>
-        <div class="sidebar-note"><b>Guardrail</b><span>no outbound without approval</span></div>
+        <div class="sidebar-note"><b>case runbook</b><span>AI drafts, operator approves</span></div>
       </aside>
 
       <main class="app-main">
-        <header class="app-topbar">
+        <header class="app-topbar service-topbar">
           <div>
-            <p class="eyebrow">SupplierProof Ops Console</p>
+            <p class="eyebrow">AI-native evidence service · Service OS</p>
             <h1 id="screen-title">Customer request inbox</h1>
+            <p class="topbar-subtitle">A managed outcome delivered by an agent workforce with Human QA and operator review.</p>
           </div>
           <div class="topbar-actions">
             <button class="ghost-button" type="button" data-nav="connectors">Connect source</button>
@@ -35,18 +36,26 @@
           </div>
         </header>
 
+        <section class="service-command-strip" aria-label="AI native service command strip" data-rfs-note="software-margin service">
+          <article class="service-metrics"><span>Evidence ops desk</span><strong>12.4h saved</strong><small>manual evidence work avoided</small></article>
+          <article class="service-metrics"><span>Agent workforce</span><strong>4 agents running</strong><small>Intake · Evidence · ERP · Chase</small></article>
+          <article class="service-metrics"><span>Human QA</span><strong>3 approvals queued</strong><small>human-in-the-loop before outbound</small></article>
+          <article class="service-metrics"><span>Managed outcome</span><strong>draft-ready</strong><small>response-ready after QA</small></article>
+        </section>
+
         <section class="app-screen is-active" data-screen="inbox" aria-label="Request inbox">
-          <div class="app-grid three-col">
+          <div class="app-grid three-col service-inbox-grid">
             <section class="panel request-list-panel">
               <div class="panel-head"><span>Live requests</span><b>3 open</b></div>
-              <button class="request-row is-selected" type="button" data-request="walmart-thesis"><span>Detected customer request</span><strong>Walmart THESIS packaging</strong><small>Due Nov 15 · 42/100</small></button>
+              <button class="request-row is-selected" type="button" data-request="walmart-thesis"><span>Detected customer request</span><strong>Walmart THESIS packaging</strong><small>Due Nov 15 · 42 now · 78 projected</small></button>
               <button class="request-row" type="button" data-request="ecovadis-refresh"><span>Proactive readiness</span><strong>EcoVadis refresh</strong><small>Certificate expires in 24 days</small></button>
               <button class="request-row" type="button" data-request="cdp-climate"><span>Detected portal task</span><strong>CDP Climate module</strong><small>Reuse 9 approved answers</small></button>
             </section>
 
             <section class="panel active-case-panel">
               <div class="case-toolbar"><span id="case-status">Blocked</span><b id="case-title">Walmart THESIS packaging</b></div>
-              <div class="readiness-large"><strong id="case-score">42</strong><span>/100 readiness</span><div class="readiness-meter"><i id="case-bar" style="width:42%"></i></div></div>
+              <div class="readiness-large"><strong id="case-score">42</strong><span>/100 current readiness</span><div class="readiness-meter"><i id="case-bar" style="width:42%"></i></div><small id="case-projection">After 3 pending approvals: 78/100</small></div>
+              <div class="next-action-card"><span>Next autonomous action</span><b>Chase Agent drafts TruPak PCR request</b><small>waiting for operator approval</small></div>
               <div class="source-strip" id="source-strip"><span>Gmail</span><span>Google Drive</span><span>NetSuite</span></div>
               <div class="task-board" id="task-board">
                 <article><span class="pill ready-pill">matched</span><b>Scope 2 electricity</b><p>Utility bills + NetSuite production units.</p></article>
@@ -55,14 +64,20 @@
               </div>
             </section>
 
-            <aside class="panel activity-panel">
-              <div class="panel-head"><span>Agent activity</span><b>live</b></div>
+            <aside class="panel activity-panel operator-review-card">
+              <div class="panel-head"><span>Agent activity · agent trace</span><b>operator review</b></div>
               <ol class="activity-feed" id="activity-feed">
-                <li><time>0:03</time><span>Detected THESIS email in Gmail</span></li>
-                <li><time>0:09</time><span>Matched utility bills in Drive</span></li>
-                <li><time>0:14</time><span>NetSuite production volume changed</span></li>
-                <li><time>0:22</time><span>Readiness moved 42 → 78 after 3 actions</span></li>
+                <li><time>0:03</time><span>Intake Agent detected THESIS email in Gmail</span></li>
+                <li><time>0:09</time><span>Evidence Agent matched utility bills in Drive</span></li>
+                <li><time>0:14</time><span>ERP Agent noticed NetSuite production volume changed</span></li>
+                <li><time>0:22</time><span>Readiness Agent projected 42 → 78 after 3 approvals</span></li>
               </ol>
+              <div class="case-runbook">
+                <div class="runbook-step"><b>1</b><span>Parse ask</span></div>
+                <div class="runbook-step"><b>2</b><span>Match evidence</span></div>
+                <div class="runbook-step"><b>3</b><span>Chase gaps</span></div>
+                <div class="runbook-step"><b>4</b><span>Human QA</span></div>
+              </div>
             </aside>
           </div>
         </section>
@@ -106,11 +121,11 @@
         </section>
 
         <section class="app-screen" data-screen="agents" aria-label="Always-on agents">
-          <div class="agent-rule-grid">
-            <article class="panel agent-rule"><span>On</span><h2>watch inbox for new customer asks</h2><p>Classifies ESG, packaging, sourcing, food safety, CDP, and EcoVadis requests.</p></article>
-            <article class="panel agent-rule"><span>On</span><h2>monitor certificate expiries</h2><p>Creates renewal tasks before customer asks become urgent.</p></article>
-            <article class="panel agent-rule"><span>On</span><h2>reuse approved answers</h2><p>Suggests prior approved wording and source-backed evidence cards.</p></article>
-            <article class="panel agent-rule"><span>On</span><h2>scan ERP changes</h2><p>Uses NetSuite production and SKU changes to flag stale metrics.</p></article>
+          <div class="agent-worker-grid">
+            <article class="panel agent-rule"><span>Agent</span><h2>watch inbox for new customer asks</h2><p>Classifies ESG, packaging, sourcing, food safety, CDP, and EcoVadis requests.</p></article>
+            <article class="panel agent-rule"><span>Agent</span><h2>monitor certificate expiries</h2><p>Creates renewal tasks before customer asks become urgent.</p></article>
+            <article class="panel agent-rule"><span>Agent</span><h2>reuse approved answers</h2><p>Suggests prior approved wording and source-backed evidence cards.</p></article>
+            <article class="panel agent-rule"><span>Agent</span><h2>scan ERP changes</h2><p>Uses NetSuite production and SKU changes to flag stale metrics.</p></article>
           </div>
         </section>
 

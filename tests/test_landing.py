@@ -125,6 +125,33 @@ def test_demo_is_a_case_file_not_a_product_tour():
     assert "View public-artifact demo" not in html
 
 
+def test_customer_demo_is_scrollable_three_step_walkthrough():
+    html = read("demo/index.html")
+    css = read("styles.css")
+    for phrase in [
+        "demo-step-nav",
+        "Step 1",
+        "Step 2",
+        "Step 3",
+        "id=\"step-1\"",
+        "id=\"step-2\"",
+        "id=\"step-3\"",
+        "Step 1: Send us the customer request",
+        "Step 2: We work the evidence desk",
+        "Step 3: You approve the response package",
+        "What you scroll through",
+        "sticky-step-rail",
+    ]:
+        assert phrase in html
+    for token in [
+        ".walkthrough-step",
+        ".step-number",
+        ".sticky-step-rail",
+        ".demo-step-nav",
+    ]:
+        assert token in css
+
+
 def test_yc_demo_shows_service_to_agent_loop():
     html = read("yc-demo/index.html")
     for phrase in [
@@ -314,6 +341,34 @@ def test_app_surfaces_proactive_ops_layer_not_only_reactive_packet():
         assert phrase in html
     assert "forward us everything" not in html.lower()
     assert "give them a packet" not in html.lower()
+
+
+def test_app_reads_as_ai_native_service_not_generic_saas_dashboard():
+    html = read("app/index.html")
+    css = read("styles.css")
+    for phrase in [
+        "AI-native evidence service",
+        "Service OS",
+        "Agent workforce",
+        "Human QA",
+        "Evidence ops desk",
+        "software-margin service",
+        "managed outcome",
+        "case runbook",
+        "operator review",
+        "agent trace",
+        "service-metrics",
+        "human-in-the-loop",
+    ]:
+        assert phrase in html
+    for token in [
+        ".service-command-strip",
+        ".agent-worker-grid",
+        ".operator-review-card",
+        ".service-metrics",
+        ".runbook-step",
+    ]:
+        assert token in css
 
 
 def test_app_can_be_linked_from_existing_yc_demo():
