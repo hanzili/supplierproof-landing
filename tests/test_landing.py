@@ -26,7 +26,7 @@ def test_home_page_is_artifact_led_request_desk():
         "Start with one redacted request",
         "Nothing is sent without your approval",
         "Redacted files are welcome",
-        "For suppliers buried in retailer ESG, packaging, sourcing, and certification requests. SupplierProof works like an embedded evidence desk: we split the ask, chase owners and suppliers, check proof, draft safe wording, and flag anything that cannot be claimed yet.",
+        "Big retailers want sustainability and compliance docs before they'll keep buying from you. We pull together the proof, draft the response, and chase down what's missing. You review and send.",
         "href=\"app/index.html\"",
     ]:
         assert phrase in html
@@ -81,6 +81,10 @@ def test_home_page_avoids_stale_or_jargony_positioning():
         "For investors",
         "See investor page",
         "vision.html",
+        "Customer ESG + packaging evidence desk",
+        "Customer ESG + packaging request desk",
+        "For suppliers buried in retailer ESG",
+        "Embedded request desk for customer ESG and packaging proof",
     ]
     for phrase in forbidden:
         assert phrase not in html
