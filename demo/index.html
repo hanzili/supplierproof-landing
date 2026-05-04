@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SupplierProof Demo | Case file to approval packet</title>
+    <meta name="description" content="A SupplierProof case-file demo showing the customer request desk from forwarded ESG request to working log, missing-proof decisions, and approval packet." />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <main class="site-shell demo-shell">
+      <nav class="nav" aria-label="Demo navigation">
+        <a class="brand" href="../index.html"><span class="brand-mark">SP</span><span>SupplierProof</span></a>
+        <div class="nav-links" aria-label="Case file sections">
+          <a href="#case">Case file</a>
+          <a href="#log">Working log</a>
+          <a href="#packet">Approval packet</a>
+        </div>
+        <a class="nav-cta" href="mailto:hanzili0217@gmail.com?subject=SupplierProof%20redacted%20request">Start with one request</a>
+      </nav>
+
+      <section class="demo-intro" id="case">
+        <p class="demo-kicker">Public demo, private proof in real pilots</p>
+        <h1>Forward one customer request. SupplierProof turns it into a case file.</h1>
+        <p class="lede">SupplierProof runs the evidence desk for customer ESG and packaging requests: we triage the ask, chase proof, draft the response, and package it for approval. Every request becomes a structured record of asks, owners, evidence, caveats, approval status, and reusable wording.</p>
+      </section>
+
+      <section class="case-file-layout">
+        <aside class="case-summary">
+          <p class="eyebrow">Case file</p>
+          <h2>Retailer ESG + packaging request</h2>
+          <dl>
+            <div><dt>Case ID</dt><dd>SP-0241</dd></div>
+            <div><dt>Requester</dt><dd>Retailer sustainability team</dd></div>
+            <div><dt>Client owner</dt><dd>Supplier compliance team</dd></div>
+            <div><dt>Received</dt><dd>Monday 8:47 AM</dd></div>
+            <div><dt>Deadline</dt><dd>Friday 5:00 PM</dd></div>
+            <div><dt>Desk owner</dt><dd>SupplierProof</dd></div>
+            <div><dt>Status</dt><dd>In progress — approval required</dd></div>
+          </dl>
+        </aside>
+
+        <div class="case-stack">
+          <article class="paper-email">
+            <div class="paper-top"><span>Forwarded request</span><b>Retailer sustainability team</b></div>
+            <h2>Please complete our supplier ESG and packaging evidence request.</h2>
+            <div class="email-meta"><span>From: Retailer sustainability team</span><span>To: Supplier compliance inbox</span><span>Subject: ESG and packaging evidence request</span><span>Due: Friday 5:00 PM</span></div>
+            <p>We need evidence for the facilities and SKUs supplying us, including emissions data, food safety certification, responsible sourcing, and recycled-content packaging support.</p>
+            <ul class="redline-list">
+              <li>Report Scope 1 and 2 emissions for facilities supplying us.</li>
+              <li>Attach current food safety certificate.</li>
+              <li>Show palm or fiber sourcing proof.</li>
+              <li>Support packaging recycled-content and recyclability claims.</li>
+            </ul>
+          </article>
+
+          <article class="activity-log full-log" id="log">
+            <div class="paper-top"><span>SupplierProof working log</span><b>Handled by SupplierProof desk</b></div>
+            <ol>
+              <li><time>Mon 09:12</time><span>Parsed retailer request into 7 answerable asks across CDP, Walmart Gigaton, EcoVadis, food safety, sourcing, and packaging claims.</span></li>
+              <li><time>Mon 09:45</time><span><b>Requested from finance:</b> facility utility bills and current reporting boundary.</span></li>
+              <li><time>Mon 10:30</time><span><b>Requested from quality:</b> GFSI / SQF / BRCGS certificate, facility scope, and expiry.</span></li>
+              <li><time>Tue 11:05</time><span><b>Requested from supplier:</b> declaration for recycled content because public claim is not enough proof.</span></li>
+              <li><time>Tue 14:20</time><span><b>Checked evidence:</b> RSPO / FSC certificate or supplier declaration coverage for palm or fiber sourcing proof.</span></li>
+              <li><time>Wed 16:05</time><span>Draft response ready for approval. Unsupported packaging claim held until supplier proof arrives.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="section missing-proof-section">
+        <div class="section-copy">
+          <p class="eyebrow">What happens when proof is missing</p>
+          <h2>We do not paper over missing proof. We route the next move.</h2>
+          <p>Missing proof becomes an exact owner request, a customer clarification, a caveat, or a hold recommendation.</p>
+        </div>
+        <div class="decision-board">
+          <div><span class="status-dot ready"></span><strong>Ready</strong><p><b>Owner:</b> Quality. <b>Next action:</b> attach verified food safety certificate.</p></div>
+          <div><span class="status-dot waiting"></span><strong>Waiting</strong><p><b>Owner:</b> Finance. <b>Next action:</b> send Facility B utility bill.</p></div>
+          <div><span class="status-dot blocked"></span><strong>Hold claim</strong><p><b>Owner:</b> Packaging supplier. <b>Next action:</b> provide recycled-content declaration.</p></div>
+          <div><span class="status-dot caveat"></span><strong>Qualified claim</strong><p><b>Owner:</b> Client approver. <b>Next action:</b> approve limited fiber-sourcing wording.</p></div>
+        </div>
+      </section>
+
+      <section class="approval-packet" id="packet">
+        <div class="packet-copy">
+          <p class="eyebrow">Approval packet</p>
+          <h2>Ready for review, not auto-submitted.</h2>
+          <p>Your team receives the response package, checks the caveats, and approves what should be sent.</p>
+        </div>
+        <div class="package-preview large-package">
+          <div class="paper-top"><span>What you get back</span><b>Ready for review</b></div>
+          <div class="packet-row"><strong>Draft customer response</strong><span>“Facility A’s food safety certificate is current and attached. Recycled-content support is not yet complete; supplier declaration is pending for the named SKU.”</span></div>
+          <div class="packet-row"><strong>Attachments checklist</strong><span>GFSI certificate, emissions source bills, packaging spec, supplier declaration request.</span></div>
+          <div class="packet-row"><strong>Approval notes</strong><span>Ready items, pending supplier proof, held claims, and recommended caveats.</span></div>
+          <div class="packet-row"><strong>Reusable record</strong><span>Owner, source document, expiry, approved wording, unresolved blocker.</span></div>
+        </div>
+      </section>
+
+      <section class="boundary-panel">
+        <div>
+          <p class="eyebrow">Small pilot</p>
+          <h2>Send one real request. We’ll return the case file.</h2>
+        </div>
+        <p class="boundary-text">Redacted files are fine. This public demo uses representative examples, not private supplier documents. Real pilots use only your approved private documents, and nothing is sent without approval.</p>
+        <a class="cta primary" href="mailto:hanzili0217@gmail.com?subject=SupplierProof%20redacted%20request">Start with one request</a>
+      </section>
+
+      <footer class="footer"><span>SupplierProof</span><span>Case-file demo for customer ESG and packaging requests</span></footer>
+    </main>
+  </body>
+</html>
