@@ -112,7 +112,9 @@ def test_frontend_has_questionnaire_parsing_api_pipeline():
     assert 'async function uploadQuestionnaireForParsing' in HTML
     assert 'applyParsedQuestionnaireRequirements' in HTML
     assert 'questionnaireParseStatus' in HTML
-    assert 'fetch(`${API_BASE_URL}/requests`' in HTML
+    assert 'fetchWithTimeout(`${API_BASE_URL}/requests`' in HTML
     assert 'uploads/questionnaires' in HTML
     assert 'parsedQuestionnaireRequirements' in HTML
     assert 'Parsed from uploaded questionnaire' in HTML
+    assert 'AbortController' in HTML
+    assert 'Parsing timed out' in HTML

@@ -492,6 +492,15 @@
       function formatFileSize(bytes){ if(!bytes && bytes !== 0) return 'unknown size'; const units = ['B','KB','MB','GB']; let size = bytes; let unit = 0; while(size >= 1024 && unit < units.length - 1){ size /= 1024; unit += 1; } return `${size.toFixed(size >= 10 || unit === 0 ? 0 : 1)} ${units[unit]}`; }
       function renderFileList(kind, input){ const files = Array.from(input.files || []); uploadState[kind] = files; const listId = kind === 'questionnaireFiles' ? 'questionnaire-file-list' : kind === 'metadataFiles' ? 'metadata-file-list' : 'document-file-list'; const list = document.getElementById(listId); list.innerHTML = files.length ? files.map(file => `<article><b>${file.name}</b><span>${file.type || 'unknown type'} · ${formatFileSize(file.size)}</span></article>`).join('') : '<p>No file selected.</p>'; if(kind === 'documentFiles') updateUploadStatus(input); if(kind === 'questionnaireFiles'){ uploadState.parsedQuestionnaireRequirements = []; renderDocumentRequirements(); uploadQuestionnaireForParsing(files); } validateIntake(); }
       function setQuestionnaireParseStatus(message){ const status = document.getElementById('questionnaire-parse-status'); uploadState.questionnaireParseStatus = message; if(status) status.textContent = message; }
+      async function fetchWithTimeout(url, options = {}, timeoutMs = 4500){
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(new Error('Parsing timed out')), timeoutMs);
+        try {
+          return await fetch(url, { ...options, signal: controller.signal });
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
       async function ensureBackendRequest(){
         if(uploadState.backendRequest) return uploadState.backendRequest;
         const form = new FormData();
@@ -499,7 +508,7 @@
         form.append('industry', currentIndustry().id);
         form.append('framework', currentFramework().id);
         form.append('tenant_id', 'demo');
-        const response = await fetch(`${API_BASE_URL}/requests`, { method: 'POST', body: form });
+        const response = await fetchWithTimeout(`${API_BASE_URL}/requests`, { method: 'POST', body: form });
         if(!response.ok) throw new Error(`Request creation failed: ${response.status}`);
         const data = await response.json();
         uploadState.backendRequest = data.request;
@@ -518,7 +527,7 @@
           const request = await ensureBackendRequest();
           const form = new FormData();
           form.append('file', files[0]);
-          const response = await fetch(`${API_BASE_URL}/requests/${request.tenant_id}/${request.request_id}/uploads/questionnaires`, { method: 'POST', body: form });
+          const response = await fetchWithTimeout(`${API_BASE_URL}/requests/${request.tenant_id}/${request.request_id}/uploads/questionnaires`, { method: 'POST', body: form }, 9000);
           if(!response.ok) throw new Error(`Upload failed: ${response.status}`);
           const saved = await response.json();
           applyParsedQuestionnaireRequirements(saved.questionnaire_analysis);
