@@ -70,20 +70,10 @@
                 <div><span>Documents</span><h2>Documents</h2></div>
                 <label class="small-upload"><input id="documents-upload" type="file" multiple aria-label="Upload documents" accept=".pdf,.xlsx,.xls,.csv,.docx,.txt,.md,.eml,.mbox,.png,.jpg,.jpeg,.tiff,.tif,.zip" />Upload documents</label>
               </div>
-              <div class="upload-status" id="document-upload-status">No documents uploaded yet. The sample list below shows the kind of evidence the agent expects.</div>
+              <div class="upload-status" id="document-upload-status">No documents uploaded yet. The checklist below updates from the selected industry, framework, and uploaded questionnaire.</div>
               <div id="document-file-list" class="file-list" aria-live="polite"></div>
-              <div class="simple-list">
-                <button type="button">Walmart THESIS notification email</button>
-                <button type="button">12-month electricity bill</button>
-                <button type="button">12-month natural gas bill</button>
-                <button type="button">Quarterly water bill</button>
-                <button type="button">Waste hauler annual summary</button>
-                <button type="button">BRC food safety certificate</button>
-                <button type="button">Environmental policy</button>
-                <button type="button">Packaging spec sheet</button>
-                <button type="button">Past THESIS response</button>
-                <button type="button">Supplier email thread</button>
-              </div>
+              <div class="document-checklist-head"><b>Evidence checklist</b><span id="document-requirement-summary">Industry/framework checklist</span></div>
+              <div id="document-requirement-list" class="simple-list document-requirements" aria-live="polite"></div>
             </section>
 
             <section class="plain-card metadata-card">
@@ -371,6 +361,86 @@
           { id: 'custom_construction', label: 'Custom GC / developer questionnaire', due: 'Uploaded questionnaire' }
         ]}
       ];
+      const baseDocumentRequirements = [
+        { id: 'customer-notification', title: 'Customer notification email or portal export', source: 'Request intake' },
+        { id: 'environmental-policy', title: 'Environmental policy', source: 'Reusable company evidence' },
+        { id: 'supplier-email-thread', title: 'Supplier email thread', source: 'Follow-up evidence' }
+      ];
+      const documentRequirementCatalog = {
+        food_packaging: [
+          { id: 'utility-bills', title: '12-month electricity, natural gas, and water bills', source: 'Food / packaging baseline' },
+          { id: 'waste-summary', title: 'Waste hauler annual summary', source: 'Food / packaging baseline' },
+          { id: 'brc-sqf', title: 'BRC or SQF food safety certificate', source: 'Food safety' },
+          { id: 'packaging-spec', title: 'Packaging specification sheet', source: 'Packaging evidence' },
+          { id: 'supplier-declarations', title: 'Supplier declarations for priority ingredients', source: 'Responsible sourcing' }
+        ],
+        mining_metals: [
+          { id: 'site-permits', title: 'Operating permits and site-level licenses', source: 'Mining baseline' },
+          { id: 'tailings-water', title: 'Tailings, water, and reclamation reports', source: 'Mining baseline' },
+          { id: 'safety-metrics', title: 'Site safety metrics and incident logs', source: 'Mining baseline' },
+          { id: 'custody-records', title: 'Chain-of-custody and origin records', source: 'Responsible minerals' },
+          { id: 'cmrt-emrt-mining', title: 'CMRT / EMRT minerals template', source: 'Conflict minerals' }
+        ],
+        oil_gas_chemicals: [
+          { id: 'emissions-inventory', title: 'Scope 1/2 emissions inventory and calculation workbook', source: 'Energy / chemicals baseline' },
+          { id: 'sds-files', title: 'SDS files and restricted substance list', source: 'Chemical compliance' },
+          { id: 'hse-records', title: 'HSE records and worker safety metrics', source: 'HSE' },
+          { id: 'process-safety', title: 'Process safety KPIs and incident history', source: 'Operator request' },
+          { id: 'supplier-code', title: 'Supplier code of conduct acknowledgement', source: 'Procurement qualification' }
+        ],
+        apparel_textiles: [
+          { id: 'factory-audit', title: 'Factory audit report or corrective action plan', source: 'Apparel baseline' },
+          { id: 'chemical-inventory', title: 'Chemical inventory and ZDHC / MRSL evidence', source: 'Chemical management' },
+          { id: 'worker-safety', title: 'Worker safety records and training logs', source: 'Labor / EHS' },
+          { id: 'water-bills-textiles', title: 'Water bills and wastewater discharge records', source: 'Facility environmental' },
+          { id: 'material-certificates', title: 'Material certificates and traceability files', source: 'Brand scorecard' }
+        ],
+        electronics_batteries: [
+          { id: 'cmrt-emrt-electronics', title: 'CMRT / EMRT minerals template', source: 'Electronics baseline' },
+          { id: 'forced-labor', title: 'Forced-labor policy and supplier due-diligence file', source: 'Responsible sourcing' },
+          { id: 'iso-certificates-electronics', title: 'ISO 9001 / ISO 14001 certificates', source: 'Factory compliance' },
+          { id: 'battery-materials', title: 'Battery material declarations', source: 'Battery / hardware' },
+          { id: 'factory-audit-electronics', title: 'Factory audit report', source: 'Customer audit' }
+        ],
+        automotive_industrial: [
+          { id: 'saq-export', title: 'Drive Sustainability SAQ response export', source: 'Automotive SAQ' },
+          { id: 'iso-14001', title: 'ISO 14001 certificate', source: 'Environmental management' },
+          { id: 'iatf-16949', title: 'IATF 16949 certificate', source: 'Automotive quality' },
+          { id: 'energy-bills-auto', title: 'Factory energy bills and emissions workbook', source: 'Climate / OEM request' },
+          { id: 'material-declarations', title: 'Material declarations and recycled-content evidence', source: 'Product / materials' },
+          { id: 'supplier-emissions', title: 'Supplier emissions data request file', source: 'Scope 3' }
+        ],
+        construction_materials: [
+          { id: 'epd-hpd-doc', title: 'EPD / HPD product transparency document', source: 'Construction baseline' },
+          { id: 'embodied-carbon', title: 'Embodied carbon calculation or LCA report', source: 'Green building' },
+          { id: 'fsc-pefc', title: 'FSC / PEFC certificate where applicable', source: 'Responsible sourcing' },
+          { id: 'plant-energy', title: 'Plant energy and fuel-use records', source: 'Manufacturing evidence' },
+          { id: 'product-specs', title: 'Product specification and recycled-content declaration', source: 'Submittal package' }
+        ],
+        'food_packaging:walmart_thesis': [
+          { id: 'walmart-thesis-email', title: 'Walmart THESIS notification email', source: 'Walmart THESIS' },
+          { id: 'past-thesis', title: 'Past THESIS response', source: 'Walmart THESIS' },
+          { id: 'packaging-pcr', title: 'Packaging recycled-content declaration', source: 'Walmart THESIS' },
+          { id: 'palm-oil-rspo', title: 'RSPO / deforestation-free sourcing certificate', source: 'Walmart THESIS' }
+        ],
+        'automotive_industrial:drive_sustainability_saq': [
+          { id: 'saq-policy-pack', title: 'Policies covering human rights, ethics, environment, and supplier code', source: 'Drive Sustainability SAQ' },
+          { id: 'saq-training-records', title: 'Training records for compliance and EHS topics', source: 'Drive Sustainability SAQ' },
+          { id: 'saq-audit-evidence', title: 'Internal audit or corrective-action evidence', source: 'Drive Sustainability SAQ' }
+        ],
+        'automotive_industrial:iso_iatf_pack': [
+          { id: 'iso-iatf-audit', title: 'Latest ISO / IATF audit report or certificate appendix', source: 'ISO / IATF evidence pack' },
+          { id: 'quality-manual', title: 'Quality manual and management review minutes', source: 'ISO / IATF evidence pack' }
+        ],
+        'electronics_batteries:cmrt_emrt_electronics': [
+          { id: 'smelter-list', title: 'Smelter list and RMI status evidence', source: 'CMRT / EMRT' },
+          { id: 'supplier-minerals-letters', title: 'Supplier conflict-minerals letters', source: 'CMRT / EMRT' }
+        ],
+        'construction_materials:epd_hpd': [
+          { id: 'epd-pcr', title: 'EPD with valid PCR and program operator', source: 'EPD / HPD' },
+          { id: 'hpd-disclosure', title: 'HPD or product ingredient disclosure', source: 'EPD / HPD' }
+        ]
+      };
       const mockCompanyEnrichment = {
         acme: { website: 'acme.example', industry: 'Food, beverage, grocery, and packaging', location: 'Newark, NJ', size: '~200 employees · private manufacturer', frameworks: 'Walmart THESIS, Project Gigaton, EcoVadis', evidence: 'Utility bills, packaging specs, BRC/SQF certificates, supplier declarations', confidence: 'Prototype source match · medium confidence', summary: 'Acme looks like a food/packaging supplier with retailer questionnaire exposure. Evidence is likely split across utilities, quality, packaging, and supplier emails.', sources: ['Company website', 'Retailer supplier context', 'Uploaded/request metadata when available'] },
         tesla: { website: 'tesla.com', industry: 'Automotive and industrial manufacturing', location: 'Austin, TX', size: 'Large public company', frameworks: 'Drive Sustainability SAQ, CDP Supply Chain, custom OEM questionnaires', evidence: 'Factory energy, material declarations, supplier emissions, ISO/IATF evidence', confidence: 'Public-company enrichment · high confidence', summary: 'Large manufacturing footprint with supplier and product sustainability evidence needs.', sources: ['Public website', 'Sustainability / impact reporting pages'] },
@@ -382,14 +452,44 @@
       function currentCompany(){ return (document.getElementById('company-name')?.value || '').trim() || 'New request company'; }
       function currentIndustry(){ return industryCatalog.find(i => i.id === document.getElementById('industry-select')?.value) || industryCatalog[0]; }
       function currentFramework(){ const industry = currentIndustry(); return industry.frameworks.find(f => f.id === document.getElementById('framework-select')?.value) || industry.frameworks[0]; }
-      function updatePacketHeader(){ const company = currentCompany(); const framework = currentFramework(); const packetTitle = framework?.label || 'Custom Response Packet'; document.querySelectorAll('#packet-company').forEach(el => el.textContent = company); const h1 = document.querySelector('.packet-doc-header h1'); if(h1) h1.innerHTML = `<span id="packet-company">${company}</span> — ${packetTitle} Response Packet`; const title = document.querySelector('[data-view="results"] .page-title-row h1'); if(title) title.textContent = 'Results'; const copy = document.getElementById('framework-copy'); if(copy && framework) copy.textContent = `${framework.label} · ${framework.due}. Upload the real questionnaire if the customer version differs.`; validateIntake(); }
+      function uniqueRequirements(requirements){ const seen = new Set(); return requirements.filter(item => { if(seen.has(item.id)) return false; seen.add(item.id); return true; }); }
+      function inferQuestionnaireRequirements(){
+        const files = uploadState.questionnaireFiles || [];
+        if(!files.length) return [];
+        const framework = currentFramework();
+        const uploaded = files.map(file => file.name).join(', ');
+        const customFramework = framework?.id?.includes('custom');
+        const requirements = [
+          { id: 'uploaded-questionnaire-reference', title: 'Uploaded questionnaire sections / screenshots', source: `Custom uploaded questionnaire: ${uploaded}` }
+        ];
+        if(customFramework || uploaded.toLowerCase().match(/custom|questionnaire|scorecard|saq|portal/)){
+          requirements.push({ id: 'questionnaire-specific-evidence', title: 'Questionnaire-specific evidence named in upload', source: 'Custom uploaded questionnaire' });
+        }
+        return requirements;
+      }
+      function currentDocumentRequirements(){
+        const industry = currentIndustry();
+        const framework = currentFramework();
+        const industryRequirements = documentRequirementCatalog[industry.id] || [];
+        const frameworkRequirements = documentRequirementCatalog[`${industry.id}:${framework.id}`] || [];
+        return uniqueRequirements([...baseDocumentRequirements, ...industryRequirements, ...frameworkRequirements, ...inferQuestionnaireRequirements()]);
+      }
+      function renderDocumentRequirements(){
+        const list = document.getElementById('document-requirement-list');
+        if(!list) return;
+        const requirements = currentDocumentRequirements();
+        list.innerHTML = requirements.map(item => `<button type="button" data-requirement-id="${item.id}"><b>${item.title}</b><small>${item.source}</small></button>`).join('');
+        const summary = document.getElementById('document-requirement-summary');
+        if(summary) summary.textContent = `${requirements.length} expected document${requirements.length === 1 ? '' : 's'} for ${currentIndustry().label} · ${currentFramework().label}`;
+      }
+      function updatePacketHeader(){ const company = currentCompany(); const framework = currentFramework(); const packetTitle = framework?.label || 'Custom Response Packet'; document.querySelectorAll('#packet-company').forEach(el => el.textContent = company); const h1 = document.querySelector('.packet-doc-header h1'); if(h1) h1.innerHTML = `<span id="packet-company">${company}</span> — ${packetTitle} Response Packet`; const title = document.querySelector('[data-view="results"] .page-title-row h1'); if(title) title.textContent = 'Results'; const copy = document.getElementById('framework-copy'); if(copy && framework) copy.textContent = `${framework.label} · ${framework.due}. Upload the real questionnaire if the customer version differs.`; renderDocumentRequirements(); validateIntake(); }
       function populateIndustries(){ const select = document.getElementById('industry-select'); select.innerHTML = industryCatalog.map(industry => `<option value="${industry.id}">${industry.label}</option>`).join(''); populateFrameworks(); }
       function populateFrameworks(){ const industry = currentIndustry(); const frameworkSelect = document.getElementById('framework-select'); frameworkSelect.innerHTML = industry.frameworks.map(f => `<option value="${f.id}">${f.label}</option>`).join(''); document.getElementById('industry-copy').textContent = industry.copy; document.getElementById('expected-evidence').innerHTML = industry.evidence.map(item => `<span>${item}</span>`).join(''); updatePacketHeader(); }
       function updateCompanyDrawer(data){ document.querySelector('#company-drawer h2').textContent = currentCompany(); Object.entries(data).forEach(([key, value]) => { document.querySelectorAll(`[data-company-field="${key}"]`).forEach(el => el.textContent = Array.isArray(value) ? value.join(', ') : value); }); const sources = document.getElementById('company-sources'); sources.innerHTML = data.sources?.length ? `<b>Sources</b>${data.sources.map(source => `<span>${source}</span>`).join('')}` : 'No public sources found yet.'; }
       function enrichCompany(){ const name = currentCompany(); const key = Object.keys(mockCompanyEnrichment).find(k => name.toLowerCase().includes(k)); const industry = currentIndustry(); const fallback = { website: 'Suggested from public search', industry: industry.label, location: 'Needs confirmation', size: 'Needs confirmation', frameworks: industry.frameworks.slice(0, 3).map(f => f.label).join(', '), evidence: industry.evidence.join(', '), confidence: 'Prototype enrichment · needs confirmation', summary: `${name} was mapped to ${industry.label}. Confirm the public details, then uploaded metadata becomes the source of truth.`, sources: ['Public web search placeholder', 'Industry/framework catalog', 'User-entered company name'] }; const data = { name, ...(mockCompanyEnrichment[key] || fallback) }; document.getElementById('company-enrichment').textContent = `${name} enriched. Review the company details drawer and confirm anything uncertain before processing.`; updateCompanyDrawer(data); updatePacketHeader(); showToast('Company context enriched'); }
       function formatFileSize(bytes){ if(!bytes && bytes !== 0) return 'unknown size'; const units = ['B','KB','MB','GB']; let size = bytes; let unit = 0; while(size >= 1024 && unit < units.length - 1){ size /= 1024; unit += 1; } return `${size.toFixed(size >= 10 || unit === 0 ? 0 : 1)} ${units[unit]}`; }
-      function renderFileList(kind, input){ const files = Array.from(input.files || []); uploadState[kind] = files; const listId = kind === 'questionnaireFiles' ? 'questionnaire-file-list' : kind === 'metadataFiles' ? 'metadata-file-list' : 'document-file-list'; const list = document.getElementById(listId); list.innerHTML = files.length ? files.map(file => `<article><b>${file.name}</b><span>${file.type || 'unknown type'} · ${formatFileSize(file.size)}</span></article>`).join('') : '<p>No file selected.</p>'; if(kind === 'documentFiles') updateUploadStatus(input); validateIntake(); }
-      function updateUploadStatus(input){ const status = document.getElementById('document-upload-status'); const count = input.files ? input.files.length : 0; status.textContent = count ? `${count} uploaded document${count === 1 ? '' : 's'} ready to process.` : 'No documents uploaded yet. The sample list below shows the kind of evidence the agent expects.'; }
+      function renderFileList(kind, input){ const files = Array.from(input.files || []); uploadState[kind] = files; const listId = kind === 'questionnaireFiles' ? 'questionnaire-file-list' : kind === 'metadataFiles' ? 'metadata-file-list' : 'document-file-list'; const list = document.getElementById(listId); list.innerHTML = files.length ? files.map(file => `<article><b>${file.name}</b><span>${file.type || 'unknown type'} · ${formatFileSize(file.size)}</span></article>`).join('') : '<p>No file selected.</p>'; if(kind === 'documentFiles') updateUploadStatus(input); if(kind === 'questionnaireFiles') renderDocumentRequirements(); validateIntake(); }
+      function updateUploadStatus(input){ const status = document.getElementById('document-upload-status'); const count = input.files ? input.files.length : 0; status.textContent = count ? `${count} uploaded document${count === 1 ? '' : 's'} ready to process against the dynamic checklist.` : 'No documents uploaded yet. The checklist below updates from the selected industry, framework, and uploaded questionnaire.'; }
       function validateIntake(){ const status = document.getElementById('intake-status'); if(!status) return true; const missing = []; if(!document.getElementById('company-name').value.trim()) missing.push('company name'); if(!currentIndustry()) missing.push('industry'); if(!currentFramework()) missing.push('framework'); if(!uploadState.questionnaireFiles.length) missing.push('questionnaire'); if(missing.length){ status.textContent = `Missing: ${missing.join(', ')}. You can still explore the demo, but real processing needs these inputs.`; return false; } status.textContent = `Ready to process ${currentCompany()} for ${currentFramework().label}. ${uploadState.documentFiles.length} evidence document(s) and ${uploadState.metadataFiles.length} metadata file(s) attached.`; return true; }
 
       const statusRows = kpis.map(kpi => [kpi.title, kpi.status.replace('needs review', 'Needs review').replace('answered', 'Answered').replace('missing', 'Missing')]);

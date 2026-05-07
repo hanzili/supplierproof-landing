@@ -76,3 +76,31 @@ def test_process_button_has_intake_validation_hooks():
     assert 'questionnaireFiles' in HTML
     assert 'metadataFiles' in HTML
     assert 'documentFiles' in HTML
+
+
+def test_document_requirements_change_by_industry_and_framework():
+    assert 'id="document-requirement-list"' in HTML
+    assert 'const documentRequirementCatalog' in HTML
+    assert 'function currentDocumentRequirements' in HTML
+    assert 'function renderDocumentRequirements' in HTML
+    assert "documentRequirementCatalog[`${industry.id}:${framework.id}`]" in HTML
+    assert 'data-requirement-id' in HTML
+    for evidence in [
+        "Drive Sustainability SAQ response export",
+        "ISO 14001 certificate",
+        "IATF 16949 certificate",
+        "CMRT / EMRT minerals template",
+        "Walmart THESIS notification email",
+        "BRC or SQF food safety certificate",
+        "Packaging recycled-content declaration",
+        "EPD / HPD product transparency document",
+    ]:
+        assert evidence in HTML
+
+
+def test_uploaded_custom_questionnaire_adds_questionnaire_specific_requirement():
+    assert 'inferQuestionnaireRequirements' in HTML
+    assert 'Custom uploaded questionnaire' in HTML
+    assert 'Uploaded questionnaire sections / screenshots' in HTML
+    assert 'Questionnaire-specific evidence named in upload' in HTML
+    assert 'renderDocumentRequirements();' in HTML
