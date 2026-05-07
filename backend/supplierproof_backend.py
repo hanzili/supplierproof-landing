@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import io
 import json
 import mimetypes
@@ -148,15 +149,20 @@ def save_upload_stream(
     parsed = parse_file_to_text(destination)
     parsed_path = root / "parsed" / "text" / f"{destination.stem}.txt"
     parsed_path.write_text(parsed["text"], encoding="utf-8")
-    return {
+    result = {
         "filename": safe_name,
         "stored_path": str(destination.relative_to(storage_root)),
         "parsed_text_path": str(parsed_path.relative_to(storage_root)),
         "mime_type": mimetypes.guess_type(destination.name)[0] or "application/octet-stream",
         "size_bytes": destination.stat().st_size,
+        "sha256": sha256_file(destination),
         "parser": parsed["parser"],
         "text_preview": parsed["text"][:600],
     }
+    if bucket == "questionnaires":
+        result["questionnaire_analysis"] = extract_questionnaire_requirements(parsed["text"])
+    append_manifest_upload(storage_root, tenant_id, request_id, bucket, result)
+    return result
 
 
 def parse_file_to_text(path: Path) -> dict:
@@ -185,6 +191,57 @@ def parse_file_to_text(path: Path) -> dict:
             names = zf.namelist()[:200]
         return {"parser": "zip-manifest", "text": "ZIP uploaded with files:\n" + "\n".join(names)}
     return {"parser": "unknown", "text": "File uploaded and stored; parser not available yet."}
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def append_manifest_upload(storage_root: Path, tenant_id: str, request_id: str, bucket: str, upload: dict) -> None:
+    root = request_root(storage_root, tenant_id, request_id)
+    manifest_path = root / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
+    key = {"questionnaires": "questionnaire_files", "documents": "document_files", "metadata": "metadata_files"}[bucket]
+    manifest.setdefault(key, []).append(upload)
+    write_json(manifest_path, manifest)
+
+
+def extract_questionnaire_requirements(text: str) -> dict:
+    compact = re.sub(r"\s+", " ", text or " ").strip()
+    lines = [line.strip(" |\t-") for line in (text or "").splitlines() if line.strip(" |\t-")]
+    question_markers = [line for line in lines if re.search(r"(^question\b|^q\d+\b|^\d+[.)]|\?)", line, re.I)]
+    evidence_lines = [line for line in lines if re.search(r"attach|provide|upload|certificate|emissions?|declaration|records?|report|policy|audit", line, re.I)]
+    question_count = max(len(question_markers), len(evidence_lines)) or min(len(lines), 1 if compact else 0)
+    rules = [
+        ("iso-14001-certificate", "ISO 14001 certificate", r"iso\s*14001"),
+        ("iatf-16949-certificate", "IATF 16949 certificate", r"iatf\s*16949"),
+        ("scope-emissions-workbook", "Scope 1/2 emissions workbook", r"scope\s*[12]|emissions?|ghg|greenhouse"),
+        ("energy-bills", "Energy bills / utility records", r"energy|electricity|natural\s+gas|utility"),
+        ("water-records", "Water bills or withdrawal records", r"water"),
+        ("waste-records", "Waste hauler or diversion records", r"waste|landfill|recycl"),
+        ("material-recycled-content", "Material / recycled-content declarations", r"recycled\s+content|material\s+declaration|pcr"),
+        ("supplier-code-policy", "Supplier code / policy evidence", r"supplier\s+code|policy|human\s+rights|ethics"),
+        ("audit-report", "Audit report or corrective-action plan", r"audit|corrective\s+action|cap"),
+        ("safety-records", "Worker safety records", r"safety|osha|trir|incident"),
+        ("food-safety-certificate", "Food safety certificate", r"brc|sqf|food\s+safety"),
+        ("cmrt-emrt-template", "CMRT / EMRT minerals template", r"cmrt|emrt|conflict\s+minerals?|cobalt|mica|smelter"),
+        ("epd-hpd-document", "EPD / HPD product transparency document", r"\bepd\b|\bhpd\b|environmental\s+product\s+declaration"),
+    ]
+    requirements = []
+    for req_id, title, pattern in rules:
+        if re.search(pattern, compact, re.I):
+            requirements.append({"id": f"parsed-{req_id}", "title": title, "source": "Parsed from uploaded questionnaire"})
+    if compact and not requirements:
+        requirements.append({"id": "parsed-questionnaire-specific-evidence", "title": "Questionnaire-specific evidence named in upload", "source": "Parsed from uploaded questionnaire"})
+    return {
+        "question_count": question_count,
+        "requirements": requirements,
+        "preview": compact[:800],
+    }
 
 
 def csv_to_markdown(text: str) -> str:
@@ -255,7 +312,11 @@ if FastAPI is not None:
     app = FastAPI(title="SupplierProof Prototype Backend")
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:8000", "http://127.0.0.1:8000", "null"],
+        allow_origins=[
+            "http://localhost:8000", "http://127.0.0.1:8000",
+            "http://localhost:8005", "http://127.0.0.1:8005",
+            "https://hanzili.github.io", "null",
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

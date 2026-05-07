@@ -104,3 +104,15 @@ def test_uploaded_custom_questionnaire_adds_questionnaire_specific_requirement()
     assert 'Uploaded questionnaire sections / screenshots' in HTML
     assert 'Questionnaire-specific evidence named in upload' in HTML
     assert 'renderDocumentRequirements();' in HTML
+
+
+def test_frontend_has_questionnaire_parsing_api_pipeline():
+    assert 'const API_BASE_URL' in HTML
+    assert 'async function ensureBackendRequest' in HTML
+    assert 'async function uploadQuestionnaireForParsing' in HTML
+    assert 'applyParsedQuestionnaireRequirements' in HTML
+    assert 'questionnaireParseStatus' in HTML
+    assert 'fetch(`${API_BASE_URL}/requests`' in HTML
+    assert 'uploads/questionnaires' in HTML
+    assert 'parsedQuestionnaireRequirements' in HTML
+    assert 'Parsed from uploaded questionnaire' in HTML

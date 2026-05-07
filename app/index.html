@@ -63,6 +63,7 @@
                 <small>PDF, spreadsheet, DOCX, email, portal screenshot, or ZIP bundle</small>
               </label>
               <div id="questionnaire-file-list" class="file-list" aria-live="polite"></div>
+              <div id="questionnaire-parse-status" class="upload-status questionnaire-parse-status" aria-live="polite">Questionnaire parsing will run when the local FastAPI backend is available.</div>
             </section>
 
             <section class="plain-card documents-card">
@@ -447,7 +448,8 @@
         rio: { website: 'riotinto.com', industry: 'Mining, metals, and critical minerals', location: 'Global mining operations', size: 'Large public company', frameworks: 'IRMA, TSM, Copper Mark, CDP, RMI', evidence: 'Site safety, water/tailings, chain of custody, responsible sourcing records', confidence: 'Public-company enrichment · high confidence', summary: 'Mining/metals company with responsible sourcing and site-level evidence workflows.', sources: ['Public website', 'Sustainability report'] }
       };
       const frameworkLabels = {};
-      const uploadState = { questionnaireFiles: [], documentFiles: [], metadataFiles: [] };
+      const API_BASE_URL = localStorage.getItem('supplierproofApiBaseUrl') || 'http://127.0.0.1:8765';
+      const uploadState = { questionnaireFiles: [], documentFiles: [], metadataFiles: [], parsedQuestionnaireRequirements: [], backendRequest: null, questionnaireParseStatus: 'idle' };
       industryCatalog.forEach(industry => industry.frameworks.forEach(f => frameworkLabels[f.id] = f.label));
       function currentCompany(){ return (document.getElementById('company-name')?.value || '').trim() || 'New request company'; }
       function currentIndustry(){ return industryCatalog.find(i => i.id === document.getElementById('industry-select')?.value) || industryCatalog[0]; }
@@ -472,7 +474,7 @@
         const framework = currentFramework();
         const industryRequirements = documentRequirementCatalog[industry.id] || [];
         const frameworkRequirements = documentRequirementCatalog[`${industry.id}:${framework.id}`] || [];
-        return uniqueRequirements([...baseDocumentRequirements, ...industryRequirements, ...frameworkRequirements, ...inferQuestionnaireRequirements()]);
+        return uniqueRequirements([...baseDocumentRequirements, ...industryRequirements, ...frameworkRequirements, ...inferQuestionnaireRequirements(), ...uploadState.parsedQuestionnaireRequirements]);
       }
       function renderDocumentRequirements(){
         const list = document.getElementById('document-requirement-list');
@@ -488,7 +490,44 @@
       function updateCompanyDrawer(data){ document.querySelector('#company-drawer h2').textContent = currentCompany(); Object.entries(data).forEach(([key, value]) => { document.querySelectorAll(`[data-company-field="${key}"]`).forEach(el => el.textContent = Array.isArray(value) ? value.join(', ') : value); }); const sources = document.getElementById('company-sources'); sources.innerHTML = data.sources?.length ? `<b>Sources</b>${data.sources.map(source => `<span>${source}</span>`).join('')}` : 'No public sources found yet.'; }
       function enrichCompany(){ const name = currentCompany(); const key = Object.keys(mockCompanyEnrichment).find(k => name.toLowerCase().includes(k)); const industry = currentIndustry(); const fallback = { website: 'Suggested from public search', industry: industry.label, location: 'Needs confirmation', size: 'Needs confirmation', frameworks: industry.frameworks.slice(0, 3).map(f => f.label).join(', '), evidence: industry.evidence.join(', '), confidence: 'Prototype enrichment · needs confirmation', summary: `${name} was mapped to ${industry.label}. Confirm the public details, then uploaded metadata becomes the source of truth.`, sources: ['Public web search placeholder', 'Industry/framework catalog', 'User-entered company name'] }; const data = { name, ...(mockCompanyEnrichment[key] || fallback) }; document.getElementById('company-enrichment').textContent = `${name} enriched. Review the company details drawer and confirm anything uncertain before processing.`; updateCompanyDrawer(data); updatePacketHeader(); showToast('Company context enriched'); }
       function formatFileSize(bytes){ if(!bytes && bytes !== 0) return 'unknown size'; const units = ['B','KB','MB','GB']; let size = bytes; let unit = 0; while(size >= 1024 && unit < units.length - 1){ size /= 1024; unit += 1; } return `${size.toFixed(size >= 10 || unit === 0 ? 0 : 1)} ${units[unit]}`; }
-      function renderFileList(kind, input){ const files = Array.from(input.files || []); uploadState[kind] = files; const listId = kind === 'questionnaireFiles' ? 'questionnaire-file-list' : kind === 'metadataFiles' ? 'metadata-file-list' : 'document-file-list'; const list = document.getElementById(listId); list.innerHTML = files.length ? files.map(file => `<article><b>${file.name}</b><span>${file.type || 'unknown type'} · ${formatFileSize(file.size)}</span></article>`).join('') : '<p>No file selected.</p>'; if(kind === 'documentFiles') updateUploadStatus(input); if(kind === 'questionnaireFiles') renderDocumentRequirements(); validateIntake(); }
+      function renderFileList(kind, input){ const files = Array.from(input.files || []); uploadState[kind] = files; const listId = kind === 'questionnaireFiles' ? 'questionnaire-file-list' : kind === 'metadataFiles' ? 'metadata-file-list' : 'document-file-list'; const list = document.getElementById(listId); list.innerHTML = files.length ? files.map(file => `<article><b>${file.name}</b><span>${file.type || 'unknown type'} · ${formatFileSize(file.size)}</span></article>`).join('') : '<p>No file selected.</p>'; if(kind === 'documentFiles') updateUploadStatus(input); if(kind === 'questionnaireFiles'){ uploadState.parsedQuestionnaireRequirements = []; renderDocumentRequirements(); uploadQuestionnaireForParsing(files); } validateIntake(); }
+      function setQuestionnaireParseStatus(message){ const status = document.getElementById('questionnaire-parse-status'); uploadState.questionnaireParseStatus = message; if(status) status.textContent = message; }
+      async function ensureBackendRequest(){
+        if(uploadState.backendRequest) return uploadState.backendRequest;
+        const form = new FormData();
+        form.append('company_name', currentCompany());
+        form.append('industry', currentIndustry().id);
+        form.append('framework', currentFramework().id);
+        form.append('tenant_id', 'demo');
+        const response = await fetch(`${API_BASE_URL}/requests`, { method: 'POST', body: form });
+        if(!response.ok) throw new Error(`Request creation failed: ${response.status}`);
+        const data = await response.json();
+        uploadState.backendRequest = data.request;
+        return uploadState.backendRequest;
+      }
+      function applyParsedQuestionnaireRequirements(analysis){
+        const requirements = analysis?.requirements || [];
+        uploadState.parsedQuestionnaireRequirements = requirements.map(item => ({ id: item.id, title: item.title, source: item.source || 'Parsed from uploaded questionnaire' }));
+        renderDocumentRequirements();
+        setQuestionnaireParseStatus(requirements.length ? `Parsed ${analysis.question_count || 0} questionnaire item(s) and added ${requirements.length} evidence requirement(s).` : `Parsed ${analysis?.question_count || 0} questionnaire item(s); no new evidence terms found yet.`);
+      }
+      async function uploadQuestionnaireForParsing(files){
+        if(!files.length){ setQuestionnaireParseStatus('Questionnaire parsing will run when the local FastAPI backend is available.'); return; }
+        setQuestionnaireParseStatus('Parsing questionnaire with local FastAPI backend…');
+        try {
+          const request = await ensureBackendRequest();
+          const form = new FormData();
+          form.append('file', files[0]);
+          const response = await fetch(`${API_BASE_URL}/requests/${request.tenant_id}/${request.request_id}/uploads/questionnaires`, { method: 'POST', body: form });
+          if(!response.ok) throw new Error(`Upload failed: ${response.status}`);
+          const saved = await response.json();
+          applyParsedQuestionnaireRequirements(saved.questionnaire_analysis);
+        } catch (error) {
+          uploadState.parsedQuestionnaireRequirements = [];
+          renderDocumentRequirements();
+          setQuestionnaireParseStatus(`Backend parsing unavailable, using filename-based checklist only. ${error.message}`);
+        }
+      }
       function updateUploadStatus(input){ const status = document.getElementById('document-upload-status'); const count = input.files ? input.files.length : 0; status.textContent = count ? `${count} uploaded document${count === 1 ? '' : 's'} ready to process against the dynamic checklist.` : 'No documents uploaded yet. The checklist below updates from the selected industry, framework, and uploaded questionnaire.'; }
       function validateIntake(){ const status = document.getElementById('intake-status'); if(!status) return true; const missing = []; if(!document.getElementById('company-name').value.trim()) missing.push('company name'); if(!currentIndustry()) missing.push('industry'); if(!currentFramework()) missing.push('framework'); if(!uploadState.questionnaireFiles.length) missing.push('questionnaire'); if(missing.length){ status.textContent = `Missing: ${missing.join(', ')}. You can still explore the demo, but real processing needs these inputs.`; return false; } status.textContent = `Ready to process ${currentCompany()} for ${currentFramework().label}. ${uploadState.documentFiles.length} evidence document(s) and ${uploadState.metadataFiles.length} metadata file(s) attached.`; return true; }
 

@@ -4,6 +4,7 @@ from pathlib import Path
 
 from backend.supplierproof_backend import (
     create_request_case,
+    extract_questionnaire_requirements,
     parse_file_to_text,
     request_root,
     safe_filename,
@@ -65,3 +66,42 @@ def test_parse_json_file_pretty_prints(tmp_path):
     parsed = parse_file_to_text(path)
     assert parsed["parser"] == "text/json"
     assert '"owner": "Maya"' in parsed["text"]
+
+
+def test_extract_questionnaire_requirements_from_parsed_questions():
+    analysis = extract_questionnaire_requirements(
+        """
+        Question: Provide current ISO 14001 certificate.
+        2. Attach IATF 16949 certification and latest audit report.
+        3. Upload Scope 1 and Scope 2 emissions workbook with energy bills.
+        4. Do you have recycled content material declarations?
+        """
+    )
+    titles = [item["title"] for item in analysis["requirements"]]
+    assert analysis["question_count"] == 4
+    assert "ISO 14001 certificate" in titles
+    assert "IATF 16949 certificate" in titles
+    assert "Scope 1/2 emissions workbook" in titles
+    assert "Material / recycled-content declarations" in titles
+
+
+def test_questionnaire_upload_returns_analysis_and_updates_manifest(tmp_path):
+    case = create_request_case(
+        company_name="Tesla Supplier",
+        industry="automotive_industrial",
+        framework="drive_sustainability_saq",
+        storage_root=tmp_path,
+    )
+    saved = save_upload_stream(
+        stream=io.BytesIO(b"question\nAttach ISO 14001 certificate\nProvide IATF 16949 certificate"),
+        filename="saq.csv",
+        tenant_id=case.tenant_id,
+        request_id=case.request_id,
+        bucket="questionnaires",
+        storage_root=tmp_path,
+    )
+    assert saved["questionnaire_analysis"]["question_count"] >= 2
+    assert any(req["title"] == "ISO 14001 certificate" for req in saved["questionnaire_analysis"]["requirements"])
+    manifest = json.loads((request_root(tmp_path, case.tenant_id, case.request_id) / "manifest.json").read_text())
+    assert manifest["questionnaire_files"][0]["filename"] == "saq.csv"
+    assert manifest["questionnaire_files"][0]["questionnaire_analysis"]["requirements"]

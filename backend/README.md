@@ -53,6 +53,13 @@ Implemented now:
 - ZIP manifest extraction
 - PDF/image placeholders with stored file paths, ready for pypdf/OCR later
 
+Questionnaire uploads also run a first-pass evidence extractor. The response includes `questionnaire_analysis` with:
+- `question_count`
+- `requirements[]` for detected evidence such as ISO 14001, IATF 16949, emissions workbooks, utility bills, recycled-content declarations, audit reports, safety records, food safety certificates, CMRT/EMRT, and EPD/HPD
+- `preview`
+
+The same analysis is appended into `manifest.json` under `questionnaire_files[]`, so each request keeps its own parsed questionnaire outputs.
+
 ## Safety model
 
 - filenames are sanitized,
