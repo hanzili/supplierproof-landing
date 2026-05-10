@@ -1,129 +1,1531 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SupplierProof | Customer evidence request desk</title>
-    <meta name="description" content="SupplierProof is an embedded request desk for food and packaging companies. Forward one customer ESG, packaging, or sourcing evidence request and get an approval-ready response package." />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="site-shell">
-      <nav class="nav" aria-label="Main navigation">
-        <a class="brand" href="index.html"><span class="brand-mark">SP</span><span>SupplierProof</span></a>
-        <div class="nav-links" aria-label="Page sections">
-          <a href="#handoff">How it works</a>
-          <a href="#package">What you get</a>
-        </div>
-        <a class="nav-cta" href="app/index.html">Start with one request</a>
-      </nav>
+<html lang="en" data-theme="crisp">
+<head>
+<meta charset="utf-8" />
+<title>SupplierProof — Ship customer questionnaires in an afternoon</title>
+<meta name="description" content="SupplierProof reads a forwarded RFI, drafts every answer from your library, fills gaps with a magic link, and ships a redacted packet — ready for Walmart, Costco, or any customer asking." />
+<meta name="viewport" content="width=1280" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:        #f4f0e6;
+    --bg-2:     #ece6d4;
+    --paper:    #fbf9f3;
+    --panel:    #ffffff;
+    --ink:      #1a1612;
+    --ink-2:    #3a322a;
+    --ink-3:    #6a5f54;
+    --ink-4:    #9b8f7e;
+    --line:     #e0d8c2;
+    --line-2:   #c9bf9f;
+    --line-3:   #efe9d8;
+    --green:    #2d5a3d;
+    --green-2:  #e1ead8;
+    --amber:    #b85d22;
+    --amber-2:  #f8e7c8;
+    --red:      #b13a2c;
+    --blue:     #2c4d8a;
+    --blue-2:   #dde4f1;
+    --shadow-sm: 0 1px 0 rgba(26,22,18,0.04), 0 2px 6px -2px rgba(26,22,18,0.06);
+    --shadow-md: 0 1px 0 rgba(26,22,18,0.04), 0 14px 30px -16px rgba(26,22,18,0.18);
+    --shadow-lg: 0 1px 0 rgba(26,22,18,0.04), 0 36px 60px -28px rgba(26,22,18,0.22), 0 8px 16px -8px rgba(26,22,18,0.08);
+  }
 
-      <section class="hero-case" id="handoff">
-        <div class="hero-copy">
-          <h1>Send the messy customer request. We return a review-ready packet.</h1>
-          <p class="lede">
-            Big retailers want sustainability and compliance docs before they'll keep buying from you. We pull together the proof, draft the response, and chase down what's missing. You review and send.
-          </p>
-          <div class="cta-row">
-            <a class="cta primary" href="app/index.html">Send a redacted request</a>
-          </div>
-          <p class="microcopy">Redacted files are welcome. Nothing is sent without your approval. We are not auditors, certifiers, or carbon accountants.</p>
-        </div>
+  *, *::before, *::after { box-sizing: border-box; }
 
-        <div class="case-board" aria-label="Request to response transformation">
-          <article class="paper-email tilted-left">
-            <div class="paper-top"><span>What you send</span><b>Friday deadline</b></div>
-            <h2>Retailer ESG + packaging request</h2>
-            <p>Please complete our supplier evidence form for facilities, food safety certification, palm/fiber sourcing, and recycled-content packaging claims.</p>
-            <ul class="redline-list">
-              <li>CDP / emissions data scope unclear</li>
-              <li>Food safety certificate required</li>
-              <li>Palm or fiber sourcing proof requested</li>
-              <li>Packaging recycled content needs supplier proof</li>
-            </ul>
-          </article>
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-          <article class="activity-log">
-            <div class="paper-top"><span>What we handle</span><b>SupplierProof activity</b></div>
-            <ol>
-              <li><time>09:12</time><span>Parsed retailer request into owner-level evidence asks.</span></li>
-              <li><time>09:40</time><span>Asked finance for facility utility bills and reporting year.</span></li>
-              <li><time>10:25</time><span>Checked GFSI / SQF / BRCGS certificate scope and expiry.</span></li>
-              <li><time>11:10</time><span>Supplier declaration requested for SKU-level packaging claim.</span></li>
-              <li><time>14:30</time><span>Unsupported claim flagged until RSPO / FSC certificate or supplier declaration is attached.</span></li>
-              <li><time>16:05</time><span>Draft response ready for approval with caveats marked.</span></li>
-            </ol>
-          </article>
+  .serif { font-family: 'Instrument Serif', 'Times New Roman', serif; font-weight: 400; letter-spacing: -0.01em; }
+  .mono  { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 
-          <article class="package-preview tilted-right">
-            <div class="paper-top"><span>What you get back</span><b>Ready for review</b></div>
-            <h2>Approval packet</h2>
-            <div class="packet-row"><strong>Draft response</strong><span>Customer-ready wording</span></div>
-            <div class="packet-row"><strong>Attachments checklist</strong><span>Certificates, bills, specs</span></div>
-            <div class="packet-row"><strong>Approval notes</strong><span>Ready / blocked / caveat</span></div>
-            <div class="packet-row"><strong>Reusable record</strong><span>Owner, source, expiry, wording</span></div>
-          </article>
-        </div>
-      </section>
+  a { color: inherit; text-decoration: none; }
 
-      <section class="handoff-strip" aria-label="Service handoff">
-        <div><span>1</span><strong>You forward the request</strong><p>Customer email, portal export, questionnaire, or screenshot. Redacted is fine.</p></div>
-        <div><span>2</span><strong>We chase the missing evidence</strong><p>We draft internal asks, supplier follow-ups, and clarification notes with your approval.</p></div>
-        <div><span>3</span><strong>You approve the final package</strong><p>Draft response, attachments checklist, caveats, open blockers, and reusable record.</p></div>
-      </section>
+  /* ────────── shell ────────── */
+  .page { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
 
-      <section class="section narrative-section">
-        <div class="section-copy">
-          <p class="eyebrow">Why this is not another dashboard</p>
-          <h2>You see what we are chasing without having to chase it yourself.</h2>
-          <p>Most teams do not need another place to manage ESG work. They need the ugly request handled: who owns the answer, what proof supports it, what is missing, what can be safely said, and what should wait.</p>
-        </div>
-        <div class="operator-note">
-          <p class="note-label">Operator note</p>
-          <p>Food safety certificate is ready to attach. Emissions answer needs the missing Facility B bill. Recycled-content claim should be held until the packaging supplier sends the declaration.</p>
-        </div>
-      </section>
+  /* ────────── nav ────────── */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(244,240,230,0.85);
+    backdrop-filter: saturate(120%) blur(10px);
+    -webkit-backdrop-filter: saturate(120%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 28px;
+    height: 64px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 9px;
+    font-weight: 600; font-size: 16px; letter-spacing: -0.01em;
+  }
+  .brand .mark {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--ink); color: var(--paper);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+  }
+  .nav-links { display: flex; gap: 24px; font-size: 14px; color: var(--ink-2); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 
-      <section class="section package-section" id="package">
-        <div class="section-copy">
-          <p class="eyebrow">What you get back</p>
-          <h2>A response package, not homework.</h2>
-          <p>We package the customer answer and the work behind it so your team can review quickly.</p>
-        </div>
-        <div class="approval-bundle">
-          <div class="paper-top"><span>Example approval packet</span><b>Ready for review</b></div>
-          <div class="deliverable-grid">
-            <article><strong>Draft customer response</strong><p>Plain wording for supported answers, with unsupported claims removed or marked.</p></article>
-            <article><strong>Attachments checklist</strong><p>Food safety certificate, utility bills, packaging spec, supplier declaration, RSPO / FSC certificate or supplier declaration.</p></article>
-            <article><strong>Open blocker log</strong><p>What is waiting on finance, quality, procurement, or a supplier, plus the exact follow-up text.</p></article>
-            <article><strong>Approval notes</strong><p>What can be sent, what needs caveat language, and what needs internal sign-off.</p></article>
-          </div>
-        </div>
-      </section>
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 38px; padding: 0 16px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    border: 1px solid transparent; cursor: pointer; user-select: none;
+    transition: transform .08s ease, background .15s ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-ghost  { color: var(--ink-2); }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-outline { border-color: var(--line-2); color: var(--ink); background: var(--paper); }
+  .btn-outline:hover { background: #fff; }
+  .btn-primary {
+    background: var(--ink); color: #fbf9f3;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 1px 2px rgba(0,0,0,0.18);
+  }
+  .btn-primary:hover { background: #2a221c; }
+  .btn-lg { height: 46px; padding: 0 22px; font-size: 15px; }
 
-      <section class="section proof-examples" aria-label="Example request types">
-        <div class="request-type-heading"><p class="eyebrow">Common requests we help package</p><h2>Built for the requests food and packaging teams actually receive.</h2></div>
-        <div class="mini-file"><span>CDP</span><p>Facility emissions, reporting year, bills, or carbon report.</p></div>
-        <div class="mini-file"><span>Walmart Gigaton</span><p>Supplier reporting, packaging, commodities, and reduction evidence.</p></div>
-        <div class="mini-file"><span>EcoVadis</span><p>Policy, certificate, evidence, and answer support.</p></div>
-        <div class="mini-file"><span>Packaging claims</span><p>Packaging spec and supplier proof for recycled content or recyclability.</p></div>
-        <div class="mini-file"><span>Food safety certificate</span><p>GFSI / SQF / BRCGS certificate, facility scope, and expiry.</p></div>
-        <div class="mini-file"><span>Palm or fiber sourcing proof</span><p>RSPO / FSC certificate or supplier declaration by product scope.</p></div>
-      </section>
+  /* ────────── hero ────────── */
+  .hero { padding: 80px 0 60px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-3);
+    padding: 6px 12px; border-radius: 999px;
+    background: var(--paper); border: 1px solid var(--line);
+  }
+  .eyebrow .pulse {
+    width: 6px; height: 6px; border-radius: 999px; background: var(--green);
+    box-shadow: 0 0 0 4px rgba(45,90,61,0.15);
+  }
+  .h1 {
+    font-size: 86px; line-height: 0.98; letter-spacing: -0.025em;
+    margin: 22px 0 22px; max-width: 1000px;
+  }
+  .h1 em { font-style: italic; color: var(--green); }
+  .lede {
+    font-size: 19px; line-height: 1.55; color: var(--ink-2);
+    max-width: 640px;
+  }
+  .hero-cta { margin-top: 28px; display: flex; gap: 12px; align-items: center; }
+  .hero-meta { display: flex; gap: 22px; margin-top: 22px; font-size: 13px; color: var(--ink-3); }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta .dot { width: 5px; height: 5px; border-radius: 999px; background: var(--ink-4); display: inline-block; }
 
-      <section class="boundary-panel" id="boundaries">
+  /* ────────── dashboard mockup ────────── */
+  .mock-wrap {
+    margin-top: 56px;
+    position: relative;
+  }
+  .mock-wrap::before {
+    content: ''; position: absolute; inset: -40px -80px auto -80px; height: 60%;
+    background: radial-gradient(60% 80% at 50% 30%, rgba(45,90,61,0.08) 0%, transparent 70%);
+    z-index: -1;
+  }
+  .browser {
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    background: var(--paper);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 11px 14px;
+    background: linear-gradient(to bottom, #f6f1e2, #ece6d4);
+    border-bottom: 1px solid var(--line);
+  }
+  .traffic { display: flex; gap: 6px; }
+  .traffic i {
+    width: 11px; height: 11px; border-radius: 999px; display: inline-block;
+    background: #d8cdb1; border: 1px solid rgba(0,0,0,0.04);
+  }
+  .traffic i:nth-child(1) { background: #e08977; }
+  .traffic i:nth-child(2) { background: #e3c46f; }
+  .traffic i:nth-child(3) { background: #94be8b; }
+  .url-pill {
+    flex: 1; max-width: 480px; margin: 0 auto;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 7px; padding: 4px 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--ink-3); text-align: center;
+  }
+  .url-pill .lock { color: var(--green); margin-right: 6px; }
+
+  /* app shell */
+  .app {
+    display: grid;
+    grid-template-columns: 232px 1fr;
+    min-height: 660px;
+    background: var(--paper);
+  }
+  .sidebar {
+    background: #f6f1e2;
+    border-right: 1px solid var(--line);
+    padding: 18px 14px;
+    display: flex; flex-direction: column;
+  }
+  .side-brand {
+    display: flex; align-items: center; gap: 9px;
+    padding: 4px 6px 16px;
+    border-bottom: 1px dashed var(--line-2);
+  }
+  .side-brand .mark {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--ink); color: var(--paper);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  }
+  .side-brand b { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+
+  .side-section { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-4); margin: 16px 6px 6px; font-weight: 600; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 10px; border-radius: 7px;
+    font-size: 13px; color: var(--ink-2);
+    cursor: pointer;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.5); }
+  .nav-item.active { background: #fff; box-shadow: var(--shadow-sm); color: var(--ink); font-weight: 600; }
+  .nav-item .ico {
+    width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;
+    color: var(--ink-3);
+  }
+  .nav-item.active .ico { color: var(--ink); }
+  .nav-item .count {
+    margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3);
+    background: var(--bg-2); padding: 1px 7px; border-radius: 99px;
+  }
+  .nav-item.active .count { background: #f0ead4; color: var(--ink-2); }
+  .nav-item .count.hot { background: var(--amber-2); color: var(--amber); }
+
+  .side-user {
+    margin-top: auto;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 8px; border-top: 1px dashed var(--line-2);
+    font-size: 12.5px; color: var(--ink-2);
+  }
+  .avatar { width: 26px; height: 26px; border-radius: 999px; background: linear-gradient(135deg, #d9a87a, #b8763f); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+
+  /* main */
+  .main { display: flex; flex-direction: column; min-width: 0; background: var(--paper); }
+  .topbar {
+    height: 52px; padding: 0 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px;
+  }
+  .crumbs { color: var(--ink-3); display: flex; gap: 8px; align-items: center; }
+  .crumbs b { color: var(--ink); font-weight: 600; }
+  .crumbs span.sep { opacity: 0.5; }
+  .top-search {
+    margin-left: auto;
+    width: 220px; height: 32px; border: 1px solid var(--line); border-radius: 7px;
+    display: flex; align-items: center; padding: 0 10px; gap: 8px;
+    font-size: 12.5px; color: var(--ink-4); background: var(--panel);
+  }
+  .top-search .kbd { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; border: 1px solid var(--line); padding: 0 5px; border-radius: 4px; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 7px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); cursor: pointer; background: var(--panel); }
+  .icon-btn:hover { color: var(--ink); }
+
+  .main-body { padding: 24px 28px 28px; flex: 1; overflow: hidden; }
+  .page-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 4px; }
+  .page-head h2 { font-size: 28px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  .page-head .sub { font-size: 13px; color: var(--ink-3); }
+  .page-sub { font-size: 14px; color: var(--ink-2); margin: 0 0 22px; max-width: 700px; }
+  .page-sub b { color: var(--ink); font-weight: 600; }
+
+  /* stat row */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat .k { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+  .stat .v { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; margin-top: 2px; display: flex; align-items: baseline; gap: 6px; }
+  .stat .v small { font-size: 12px; color: var(--ink-3); font-weight: 400; }
+  .stat .delta { font-size: 11.5px; color: var(--green); margin-top: 2px; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; }
+  .stat .delta.warn { color: var(--amber); }
+
+  /* request rows */
+  .req-list { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .req-head {
+    display: grid;
+    grid-template-columns: 180px 1fr 130px 120px 100px;
+    padding: 10px 18px;
+    font-size: 11px; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+    background: #fdfaf0; border-bottom: 1px solid var(--line);
+  }
+  .req {
+    display: grid; grid-template-columns: 180px 1fr 130px 120px 100px;
+    padding: 14px 18px; gap: 10px; align-items: center;
+    border-bottom: 1px solid var(--line-3);
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .req:last-child { border-bottom: none; }
+  .req:hover { background: #fdfaf0; }
+  .req.hot { background: linear-gradient(to right, rgba(184,93,34,0.06), transparent 40%); }
+  .req .customer { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  .req .logo {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    color: #fff;
+  }
+  .logo.wm { background: #2c4d8a; }
+  .logo.cs { background: #b13a2c; }
+  .logo.wf { background: #2d5a3d; }
+  .logo.tg { background: #4a4138; }
+  .logo.kr { background: #9b6a4a; }
+
+  .req .title { font-weight: 500; }
+  .req .meta { font-size: 12px; color: var(--ink-3); margin-top: 3px; display: flex; align-items: center; gap: 8px; }
+  .req .meta b { color: var(--green); font-weight: 600; }
+  .req .meta .sep { opacity: 0.4; }
+
+  .due { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-2); }
+  .due.urgent { color: var(--amber); font-weight: 600; }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    padding: 4px 10px; border-radius: 999px;
+    line-height: 1;
+  }
+  .pill.green { background: var(--green-2); color: var(--green); }
+  .pill.amber { background: var(--amber-2); color: var(--amber); }
+  .pill.blue  { background: var(--blue-2);  color: var(--blue); }
+  .pill.muted { background: var(--bg-2); color: var(--ink-3); }
+  .pill .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+
+  .progress { width: 80px; height: 6px; border-radius: 99px; background: var(--bg-2); overflow: hidden; }
+  .progress > i { display: block; height: 100%; background: var(--green); border-radius: 99px; }
+  .progress.amber > i { background: var(--amber); }
+
+  /* annotated arrow on the hero mock */
+  .anno {
+    position: absolute;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink-2);
+    line-height: 1.2;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .anno svg { display: block; }
+
+  /* ────────── sections ────────── */
+  section { padding: 88px 0; }
+  [id] { scroll-margin-top: 80px; }
+  .section-eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--green); margin-bottom: 14px; }
+  .section-title { font-size: 56px; line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 18px; max-width: 900px; }
+  .section-lede { font-size: 18px; color: var(--ink-2); max-width: 640px; line-height: 1.55; margin: 0; }
+
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  /* logo strip */
+  .logos { padding: 32px 0 8px; display: flex; gap: 48px; align-items: center; flex-wrap: wrap; justify-content: center; color: var(--ink-4); }
+  .logos .label { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-4); }
+  .logos .name { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--ink-3); letter-spacing: -0.01em; }
+
+  /* how it works steps */
+  .steps {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 44px;
+  }
+  .step {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 16px 18px;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 168px;
+    position: relative;
+  }
+  .step .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-4); }
+  .step .name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .step .desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.45; }
+  .step .glyph {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--bg-2); display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 6px; color: var(--ink-2);
+  }
+  .step:nth-child(1) .glyph { background: var(--blue-2); color: var(--blue); }
+  .step:nth-child(2) .glyph { background: var(--bg-2); color: var(--ink-2); }
+  .step:nth-child(3) .glyph { background: var(--green-2); color: var(--green); }
+  .step:nth-child(4) .glyph { background: var(--amber-2); color: var(--amber); }
+  .step:nth-child(5) .glyph { background: var(--green-2); color: var(--green); }
+  .step:nth-child(6) .glyph { background: var(--bg-2); color: var(--ink-2); }
+
+  /* feature panels */
+  .feature {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .feature.reverse { grid-template-columns: 1.3fr 1fr; }
+  .feature.reverse .feat-text { order: 2; }
+
+  .feat-text h3 { font-size: 44px; line-height: 1.05; margin: 8px 0 16px; letter-spacing: -0.02em; font-weight: 600; }
+  .feat-text p { font-size: 16px; color: var(--ink-2); line-height: 1.6; margin: 0 0 16px; }
+  .feat-text .bullets { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .feat-text .bullets li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 14.5px; color: var(--ink-2); line-height: 1.5;
+  }
+  .feat-text .bullets b { font-weight: 600; color: var(--ink); }
+  .feat-text .check {
+    width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+    background: var(--green-2); color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+
+  /* workspace mock */
+  .ws {
+    background: var(--paper); border: 1px solid var(--line-2); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .ws-top { padding: 14px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; background: #fdfaf0; }
+  .ws-top .title { font-weight: 600; font-size: 14.5px; }
+  .ws-top .due { margin-left: auto; }
+  .ws-tabs { display: flex; gap: 6px; padding: 10px 14px 0; border-bottom: 1px solid var(--line); background: #fdfaf0; }
+  .ws-tab {
+    font-size: 12.5px; padding: 7px 12px; border-radius: 7px 7px 0 0; border: 1px solid transparent; border-bottom: none;
+    color: var(--ink-3); cursor: pointer;
+  }
+  .ws-tab.on { background: var(--paper); border-color: var(--line); color: var(--ink); font-weight: 600; }
+
+  .ws-row {
+    display: grid;
+    grid-template-columns: 32px 110px 1fr 110px;
+    align-items: center; gap: 10px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--line-3);
+    font-size: 13px;
+  }
+  .ws-row:last-child { border-bottom: none; }
+  .ws-row .q { color: var(--ink-3); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
+  .ws-row .text b { font-weight: 600; }
+  .ws-row .text small { color: var(--ink-3); font-size: 11.5px; display: block; margin-top: 2px; }
+  .ws-row.auto { background: linear-gradient(to right, rgba(45,90,61,0.045), transparent 70%); }
+  .ws-row.ask  { background: linear-gradient(to right, rgba(184,93,34,0.045), transparent 70%); }
+
+  /* magic link panel */
+  .ml {
+    background: var(--paper); border: 1px solid var(--line-2); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .ml-top { padding: 14px 18px; border-bottom: 1px solid var(--line); background: #fdfaf0; display: flex; align-items: center; gap: 12px; }
+  .ml-top .url { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-3); padding: 4px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; flex: 1; }
+  .ml-body { padding: 22px 22px 18px; }
+  .ml h4 { font-family: 'Instrument Serif', serif; font-size: 30px; line-height: 1.1; margin: 0 0 6px; font-weight: 400; }
+  .ml-sub { font-size: 13.5px; color: var(--ink-3); margin: 0 0 18px; }
+
+  .drop {
+    padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px;
+    margin-top: 10px; background: var(--panel);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .drop.done { background: var(--green-2); border-color: rgba(45,90,61,0.25); }
+  .drop.live { background: #fdfaf0; }
+  .drop .ico { width: 38px; height: 38px; border-radius: 9px; background: var(--bg-2); display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); flex-shrink: 0; }
+  .drop.done .ico { background: rgba(45,90,61,0.15); color: var(--green); }
+  .drop .name { font-weight: 600; font-size: 14px; }
+  .drop .hint { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .drop .status { margin-left: auto; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+  .drop.done .status { color: var(--green); font-weight: 600; }
+  .bar-prog { width: 90px; height: 5px; background: var(--bg-2); border-radius: 99px; overflow: hidden; }
+  .bar-prog i { display: block; height: 100%; width: 64%; background: var(--amber); border-radius: 99px; }
+
+  /* library */
+  .lib {
+    background: var(--paper); border: 1px solid var(--line-2); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .lib-top { padding: 16px 20px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid var(--line); background: #fdfaf0; }
+  .lib-stats { display: flex; gap: 22px; margin-left: auto; font-size: 12px; }
+  .lib-stats div b { font-size: 18px; font-weight: 600; display: block; letter-spacing: -0.01em; }
+  .lib-stats .ok b { color: var(--green); }
+  .lib-stats .warn b { color: var(--amber); }
+  .lib-stats .neutral b { color: var(--ink); }
+
+  .lib-row {
+    display: grid;
+    grid-template-columns: 2.2fr 110px 110px 110px 1fr;
+    padding: 12px 20px; gap: 12px; align-items: center;
+    border-bottom: 1px solid var(--line-3); font-size: 13px;
+  }
+  .lib-row.head { background: #fdfaf0; color: var(--ink-4); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; padding: 9px 20px; }
+  .lib-row b { font-weight: 600; }
+  .lib-row .mini { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+  .lib-row .reuse { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; }
+  .lib-row .reuse small { color: var(--ink-3); font-weight: 400; }
+  .lib-bar { width: 110px; height: 6px; background: var(--bg-2); border-radius: 99px; overflow: hidden; }
+  .lib-bar i { display: block; height: 100%; background: var(--green); }
+  .lib-bar i.warn { background: var(--amber); }
+
+  /* compounding viz */
+  .compound {
+    background: var(--paper); border: 1px solid var(--line-2); border-radius: 14px;
+    padding: 24px; box-shadow: var(--shadow-md);
+  }
+  .bars { display: flex; align-items: stretch; justify-content: space-between; height: 240px; gap: 12px; padding: 0 6px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; height: 100%; }
+  .bar-wrap { flex: 1; width: 100%; max-width: 64px; display: flex; align-items: flex-end; justify-content: center; }
+  .bar {
+    width: 100%; max-width: 64px; position: relative; border-radius: 6px 6px 0 0;
+    background: linear-gradient(to top, var(--green) 0%, #4d8a64 100%);
+    overflow: visible;
+  }
+  .bar .new {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, var(--amber) 0%, #d28552 100%);
+    border-radius: 0;
+  }
+  .bar .pct { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 11.5px; font-weight: 600; color: var(--green); white-space: nowrap; }
+  .bar-label { font-size: 11.5px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+  .legend { display: flex; gap: 22px; margin-top: 18px; font-size: 12px; color: var(--ink-3); }
+  .legend .sq { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: middle; }
+
+  /* customers grid */
+  .customer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 30px; }
+  .ccard { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .ccard .head { display: flex; align-items: center; gap: 10px; }
+  .ccard .logo { width: 28px; height: 28px; border-radius: 6px; }
+  .ccard .name { font-weight: 600; font-size: 14px; }
+  .ccard .sub { font-size: 11.5px; color: var(--ink-3); }
+  .ccard .body { font-size: 12.5px; color: var(--ink-2); margin-top: 10px; line-height: 1.45; }
+  .ccard .row { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); margin-top: 8px; }
+  .ccard .row b { color: var(--ink); font-weight: 600; }
+
+  /* big quote */
+  .quote {
+    background: linear-gradient(135deg, #2a221c, #1a1612);
+    color: #fbf9f3;
+    border-radius: 18px;
+    padding: 60px 60px;
+    position: relative; overflow: hidden;
+  }
+  .quote::before {
+    content: '"'; position: absolute; top: -40px; left: 40px;
+    font-family: 'Instrument Serif', serif; font-size: 240px; color: rgba(255,255,255,0.06); line-height: 1;
+  }
+  .quote q { font-family: 'Instrument Serif', serif; font-size: 38px; line-height: 1.2; quotes: none; display: block; max-width: 800px; position: relative; letter-spacing: -0.01em; }
+  .quote q em { font-style: italic; color: #c8d8c4; }
+  .quote .who { margin-top: 26px; display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(251,249,243,0.7); }
+  .quote .avatar { background: #3a4a3c; }
+
+  /* pricing/cta */
+  .cta {
+    text-align: center; padding: 100px 0 100px;
+  }
+  .cta h2 { font-size: 64px; line-height: 1.02; margin: 0 0 18px; letter-spacing: -0.02em; }
+  .cta p { font-size: 18px; color: var(--ink-2); max-width: 540px; margin: 0 auto 28px; }
+  .cta .row { display: inline-flex; gap: 12px; }
+
+  /* footer */
+  footer { padding: 40px 0 60px; border-top: 1px solid var(--line); }
+  .foot { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--ink-3); }
+  .foot .links { display: flex; gap: 22px; }
+
+  /* ─── THEME: CRISP (Linear / Stripe / Vercel-ish) ─── */
+  html[data-theme="crisp"] {
+    --bg:     #ffffff;
+    --bg-2:   #f4f5f7;
+    --paper:  #ffffff;
+    --panel:  #ffffff;
+    --ink:    #0b0d12;
+    --ink-2:  #2a2f3a;
+    --ink-3:  #5a6273;
+    --ink-4:  #9098a6;
+    --line:   #e6e8ec;
+    --line-2: #d3d6dc;
+    --line-3: #f0f1f4;
+    --green:  #0b7a3f;
+    --green-2:#e3f3ea;
+    --amber:  #b25a09;
+    --amber-2:#fef0d8;
+    --red:    #c0392b;
+    --blue:   #2853e5;
+    --blue-2: #e4ebff;
+  }
+  html[data-theme="crisp"] body { background: var(--bg); font-feature-settings: 'ss01','cv11'; }
+  html[data-theme="crisp"] .serif {
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-weight: 600 !important; letter-spacing: -0.025em !important; font-style: normal !important;
+  }
+  html[data-theme="crisp"] .serif em { font-style: normal; color: var(--blue); }
+  html[data-theme="crisp"] .h1 { font-size: 78px; font-weight: 600; }
+  html[data-theme="crisp"] .h1 em { color: var(--blue); }
+  html[data-theme="crisp"] .section-eyebrow { color: var(--blue); }
+  html[data-theme="crisp"] .eyebrow .pulse { background: var(--blue); box-shadow: 0 0 0 4px rgba(40,83,229,0.18); }
+  html[data-theme="crisp"] .nav { background: rgba(255,255,255,0.85); border-bottom-color: var(--line); }
+  html[data-theme="crisp"] .btn-primary { background: var(--blue); color: #fff; }
+  html[data-theme="crisp"] .btn-primary:hover { background: #1f44c8; }
+  html[data-theme="crisp"] .browser-bar { background: linear-gradient(to bottom, #fafbfc, #f1f2f5); }
+  html[data-theme="crisp"] .sidebar { background: #fafbfc; }
+  html[data-theme="crisp"] .topbar, html[data-theme="crisp"] .req-head, html[data-theme="crisp"] .ws-top, html[data-theme="crisp"] .ws-tabs, html[data-theme="crisp"] .ml-top, html[data-theme="crisp"] .lib-top, html[data-theme="crisp"] .lib-row.head { background: #fafbfc !important; }
+  html[data-theme="crisp"] .req:hover { background: #fafbfc; }
+  html[data-theme="crisp"] .req.hot { background: linear-gradient(to right, rgba(40,83,229,0.05), transparent 40%); }
+  html[data-theme="crisp"] .ws-row.auto { background: linear-gradient(to right, rgba(11,122,63,0.04), transparent 70%); }
+  html[data-theme="crisp"] .ws-row.ask { background: linear-gradient(to right, rgba(178,90,9,0.04), transparent 70%); }
+  html[data-theme="crisp"] .stat, html[data-theme="crisp"] .ccard, html[data-theme="crisp"] .step { background: #fafbfc; }
+  html[data-theme="crisp"] .quote { background: linear-gradient(135deg, #0b1538 0%, #0b0d12 100%); }
+  html[data-theme="crisp"] .quote q em { color: #8ab0ff; }
+  html[data-theme="crisp"] .h1 em, html[data-theme="crisp"] .section-title em, html[data-theme="crisp"] .cta h2 em { color: var(--blue) !important; font-style: normal !important; }
+  html[data-theme="crisp"] .compound .bar { background: linear-gradient(to top, var(--blue) 0%, #5a7df0 100%); }
+  html[data-theme="crisp"] .compound .pct { color: var(--blue); }
+  html[data-theme="crisp"] .legend .sq[style*="--green"] { background: var(--blue) !important; }
+  html[data-theme="crisp"] .lib-bar i { background: var(--blue); }
+  html[data-theme="crisp"] .lib-bar i.warn { background: var(--amber); }
+  html[data-theme="crisp"] .progress > i { background: var(--blue); }
+  html[data-theme="crisp"] .ml-sub, html[data-theme="crisp"] .ml h4 { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; }
+  html[data-theme="crisp"] .ml h4 { font-size: 24px; letter-spacing: -0.015em; }
+  html[data-theme="crisp"] .quote q { font-family: 'Inter', system-ui, sans-serif; font-weight: 500; font-size: 32px; letter-spacing: -0.015em; }
+  html[data-theme="crisp"] .quote::before { display: none; }
+  html[data-theme="crisp"] .url-pill { background: #fff; border-color: var(--line); }
+
+  /* ─── THEME: BOLD (high-contrast, large geo type, vivid accent) ─── */
+  html[data-theme="bold"] {
+    --bg:     #ededea;
+    --bg-2:   #e2e2dd;
+    --paper:  #ffffff;
+    --panel:  #ffffff;
+    --ink:    #0a0a0a;
+    --ink-2:  #1f1f1f;
+    --ink-3:  #555555;
+    --ink-4:  #888888;
+    --line:   #d8d8d4;
+    --line-2: #b8b8b2;
+    --line-3: #ebebe7;
+    --green:  #1b6a3a;
+    --green-2:#dff0e2;
+    --amber:  #a04500;
+    --amber-2:#ffe5b8;
+    --red:    #b71f1f;
+    --blue:   #2e2e2e;
+    --blue-2: #e4e4e0;
+    --accent: #dcff3c;
+  }
+  html[data-theme="bold"] body { background: var(--bg); }
+  html[data-theme="bold"] .serif {
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-weight: 700 !important; letter-spacing: -0.035em !important; font-style: normal !important;
+  }
+  html[data-theme="bold"] .h1 { font-size: 104px; font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; }
+  html[data-theme="bold"] .h1 em, html[data-theme="bold"] .section-title em, html[data-theme="bold"] .cta h2 em { color: var(--ink) !important; font-style: normal !important; background: var(--accent); padding: 0 0.18em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  html[data-theme="bold"] .section-eyebrow { color: var(--ink); }
+  html[data-theme="bold"] .eyebrow { background: var(--ink); color: #f0f0ec; border-color: var(--ink); }
+  html[data-theme="bold"] .eyebrow .pulse { background: var(--accent); box-shadow: none; }
+  html[data-theme="bold"] .btn-primary { background: var(--ink); color: var(--accent); }
+  html[data-theme="bold"] .btn-primary:hover { background: #1f1f1f; }
+  html[data-theme="bold"] .btn-outline { border-width: 1.5px; border-color: var(--ink); }
+  html[data-theme="bold"] .nav { background: rgba(237,237,234,0.9); }
+  html[data-theme="bold"] .browser, html[data-theme="bold"] .ws, html[data-theme="bold"] .ml, html[data-theme="bold"] .lib, html[data-theme="bold"] .compound { border-width: 1.5px; border-color: var(--ink); border-radius: 4px; }
+  html[data-theme="bold"] .browser-bar { background: var(--ink); }
+  html[data-theme="bold"] .traffic i { border-color: rgba(255,255,255,0.2); }
+  html[data-theme="bold"] .url-pill { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.15); }
+  html[data-theme="bold"] .step, html[data-theme="bold"] .stat, html[data-theme="bold"] .ccard { border-radius: 4px; border-color: var(--ink); border-width: 1.5px; background: var(--paper); }
+  html[data-theme="bold"] .pill.green { background: var(--accent); color: var(--ink); }
+  html[data-theme="bold"] .compound .bar { background: var(--ink); border-radius: 0; }
+  html[data-theme="bold"] .compound .pct { color: var(--ink); font-weight: 700; }
+  html[data-theme="bold"] .lib-bar i { background: var(--ink); }
+  html[data-theme="bold"] .progress > i { background: var(--ink); }
+  html[data-theme="bold"] .quote { background: var(--ink); }
+  html[data-theme="bold"] .quote q em { color: var(--accent); }
+  html[data-theme="bold"] .cta h2 { font-size: 76px; font-weight: 800; letter-spacing: -0.04em; }
+  html[data-theme="bold"] .section-title { font-size: 64px; font-weight: 800; letter-spacing: -0.04em; }
+  html[data-theme="bold"] .ml h4 { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; }
+  html[data-theme="bold"] .quote q { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 42px; letter-spacing: -0.02em; }
+  html[data-theme="bold"] .quote::before { color: rgba(220,255,60,0.1); }
+  html[data-theme="bold"] .badge-float { border-color: var(--ink); border-width: 1.5px; border-radius: 4px; }
+  html[data-theme="bold"] .badge-float .ico { background: var(--ink) !important; color: var(--accent) !important; }
+
+  /* ─── THEME: DARK (deep ink bg, luminous teal/lime) ─── */
+  html[data-theme="dark"] {
+    --bg:     #0a0c10;
+    --bg-2:   #14171d;
+    --paper:  #0f1217;
+    --panel:  #141821;
+    --ink:    #ebeef5;
+    --ink-2:  #c2c8d4;
+    --ink-3:  #8b94a6;
+    --ink-4:  #5d6678;
+    --line:   #232734;
+    --line-2: #2f3442;
+    --line-3: #1a1e26;
+    --green:  #4ade80;
+    --green-2:#0e2418;
+    --amber:  #fbbf24;
+    --amber-2:#2a1f0a;
+    --red:    #f87171;
+    --blue:   #60a5fa;
+    --blue-2: #0e1a2e;
+    --accent: #4ade80;
+  }
+  html[data-theme="dark"] body { background: var(--bg); color: var(--ink); }
+  html[data-theme="dark"] .serif {
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-weight: 500 !important; letter-spacing: -0.025em !important; font-style: normal !important;
+  }
+  html[data-theme="dark"] .h1 em, html[data-theme="dark"] .section-title em, html[data-theme="dark"] .cta h2 em { color: var(--accent) !important; font-style: normal !important; }
+  html[data-theme="dark"] .section-eyebrow { color: var(--accent); }
+  html[data-theme="dark"] .eyebrow { background: var(--panel); border-color: var(--line); color: var(--ink-3); }
+  html[data-theme="dark"] .eyebrow .pulse { background: var(--accent); box-shadow: 0 0 0 4px rgba(74,222,128,0.2), 0 0 12px rgba(74,222,128,0.6); }
+  html[data-theme="dark"] .nav { background: rgba(10,12,16,0.8); border-bottom-color: var(--line); }
+  html[data-theme="dark"] .nav-links a:hover { color: var(--accent); }
+  html[data-theme="dark"] .btn-primary { background: var(--accent); color: #0a0c10; box-shadow: 0 0 24px rgba(74,222,128,0.25); }
+  html[data-theme="dark"] .btn-primary:hover { background: #6ee297; }
+  html[data-theme="dark"] .btn-outline { background: var(--panel); border-color: var(--line-2); color: var(--ink); }
+  html[data-theme="dark"] .btn-ghost { color: var(--ink-3); }
+  html[data-theme="dark"] .browser, html[data-theme="dark"] .ws, html[data-theme="dark"] .ml, html[data-theme="dark"] .lib, html[data-theme="dark"] .compound, html[data-theme="dark"] .step, html[data-theme="dark"] .stat, html[data-theme="dark"] .ccard, html[data-theme="dark"] .badge-float { background: var(--panel); border-color: var(--line); color: var(--ink); }
+  html[data-theme="dark"] .browser-bar { background: #161a22; border-bottom-color: var(--line); }
+  html[data-theme="dark"] .traffic i { background: #2a2f3a; border-color: rgba(255,255,255,0.05); }
+  html[data-theme="dark"] .url-pill { background: var(--bg-2); color: var(--ink-3); border-color: var(--line); }
+  html[data-theme="dark"] .sidebar { background: #0d1015; border-right-color: var(--line); }
+  html[data-theme="dark"] .side-brand { border-bottom-color: var(--line); }
+  html[data-theme="dark"] .side-user { border-top-color: var(--line); color: var(--ink-2); }
+  html[data-theme="dark"] .nav-item { color: var(--ink-2); }
+  html[data-theme="dark"] .nav-item:hover { background: rgba(255,255,255,0.03); }
+  html[data-theme="dark"] .nav-item.active { background: var(--panel); color: var(--ink); box-shadow: 0 0 0 1px var(--line); }
+  html[data-theme="dark"] .nav-item .count { background: var(--bg-2); color: var(--ink-3); }
+  html[data-theme="dark"] .nav-item .count.hot { background: rgba(251,191,36,0.15); color: var(--amber); }
+  html[data-theme="dark"] .main, html[data-theme="dark"] .ml-body { background: var(--paper); }
+  html[data-theme="dark"] .topbar { background: var(--paper); border-bottom-color: var(--line); }
+  html[data-theme="dark"] .top-search { background: var(--bg-2); border-color: var(--line); color: var(--ink-3); }
+  html[data-theme="dark"] .top-search .kbd { background: var(--panel); border-color: var(--line); }
+  html[data-theme="dark"] .icon-btn { background: var(--panel); border-color: var(--line); color: var(--ink-3); }
+  html[data-theme="dark"] .req-list { background: var(--paper); }
+  html[data-theme="dark"] .req-head, html[data-theme="dark"] .ws-top, html[data-theme="dark"] .ws-tabs, html[data-theme="dark"] .ml-top, html[data-theme="dark"] .lib-top, html[data-theme="dark"] .lib-row.head { background: #0d1015 !important; }
+  html[data-theme="dark"] .req { border-bottom-color: var(--line-3); }
+  html[data-theme="dark"] .req:hover { background: #11151c; }
+  html[data-theme="dark"] .req.hot { background: linear-gradient(to right, rgba(74,222,128,0.06), transparent 40%); }
+  html[data-theme="dark"] .ws-row { border-bottom-color: var(--line-3); }
+  html[data-theme="dark"] .ws-row.auto { background: linear-gradient(to right, rgba(74,222,128,0.05), transparent 70%); }
+  html[data-theme="dark"] .ws-row.ask { background: linear-gradient(to right, rgba(251,191,36,0.04), transparent 70%); }
+  html[data-theme="dark"] .ws-tab.on { background: var(--paper); border-color: var(--line); }
+  html[data-theme="dark"] .lib-row { border-bottom-color: var(--line-3); }
+  html[data-theme="dark"] .pill.green { background: rgba(74,222,128,0.12); color: var(--accent); }
+  html[data-theme="dark"] .pill.amber { background: rgba(251,191,36,0.12); color: var(--amber); }
+  html[data-theme="dark"] .pill.muted { background: var(--bg-2); color: var(--ink-3); }
+  html[data-theme="dark"] .pill.blue  { background: rgba(96,165,250,0.12); color: var(--blue); }
+  html[data-theme="dark"] .progress { background: var(--bg-2); }
+  html[data-theme="dark"] .progress > i { background: var(--accent); }
+  html[data-theme="dark"] .progress.amber > i { background: var(--amber); }
+  html[data-theme="dark"] .lib-bar { background: var(--bg-2); }
+  html[data-theme="dark"] .lib-bar i { background: var(--accent); }
+  html[data-theme="dark"] .lib-bar i.warn { background: var(--amber); }
+  html[data-theme="dark"] .compound .bar { background: linear-gradient(to top, var(--accent) 0%, #6ee297 100%); box-shadow: 0 0 20px rgba(74,222,128,0.3); }
+  html[data-theme="dark"] .compound .pct { color: var(--accent); }
+  html[data-theme="dark"] .bar-prog { background: var(--bg-2); }
+  html[data-theme="dark"] .quote { background: linear-gradient(135deg, #0d1015 0%, #050608 100%); border: 1px solid var(--line); }
+  html[data-theme="dark"] .quote q em { color: var(--accent); }
+  html[data-theme="dark"] .divider { border-top-color: var(--line); }
+  html[data-theme="dark"] footer { border-top-color: var(--line); }
+  html[data-theme="dark"] .drop { background: var(--bg-2); border-color: var(--line); }
+  html[data-theme="dark"] .drop.done { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.25); }
+  html[data-theme="dark"] .drop.live { background: rgba(251,191,36,0.05); border-color: rgba(251,191,36,0.2); }
+
+  /* ─── theme switcher ─── */
+  .theme-switch {
+    position: fixed; bottom: 22px; right: 22px; z-index: 100;
+    display: flex; gap: 4px;
+    padding: 5px; border-radius: 999px;
+    background: var(--panel); border: 1px solid var(--line-2);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .theme-switch button {
+    appearance: none; border: 0; cursor: pointer;
+    padding: 8px 14px; border-radius: 999px;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 12.5px; font-weight: 500;
+    background: transparent; color: var(--ink-3);
+    transition: all .15s ease;
+  }
+  .theme-switch button:hover { color: var(--ink); }
+  .theme-switch button.on { background: var(--ink); color: var(--paper); }
+  html[data-theme="dark"] .theme-switch button.on { background: var(--accent); color: #0a0c10; }
+  html[data-theme="bold"] .theme-switch button.on { background: var(--ink); color: var(--accent); }
+
+  /* small annotation card overlay on hero */
+  .badge-float {
+    position: absolute; z-index: 6;
+    background: var(--panel); border: 1px solid var(--line-2);
+    border-radius: 12px; padding: 12px 14px;
+    box-shadow: var(--shadow-md);
+    font-size: 12.5px;
+    display: flex; align-items: center; gap: 10px;
+    max-width: 280px;
+  }
+  .badge-float .ico {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--green-2); color: var(--green);
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .badge-float b { font-weight: 600; font-size: 13px; }
+  .badge-float small { color: var(--ink-3); font-size: 11.5px; display: block; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+<nav class="nav">
+  <div class="page nav-inner">
+    <a class="brand" href="#">
+      <span class="mark">SP</span>
+      SupplierProof
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#workspace">Workspace</a>
+      <a href="#library">Library</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#changelog">Changelog</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-ghost" href="#">Sign in</a>
+      <a class="btn btn-primary" href="#">Start free trial</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="hero">
+  <div class="page">
+    <div class="eyebrow">
+      <span class="pulse"></span>
+      For sustainability &amp; QA leads at small-to-mid suppliers
+    </div>
+    <h1 class="serif h1">
+      Ship customer<br />questionnaires in an <em>afternoon</em>,<br />not a fortnight.
+    </h1>
+    <p class="lede">
+      SupplierProof reads a forwarded RFI, drafts every answer from your library,
+      fills the gaps with one magic-link to a supplier, and ships a redacted packet —
+      ready for Walmart, Costco, or any customer who's asking.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="#">Start free trial &nbsp;→</a>
+      <a class="btn btn-outline btn-lg" href="demo/index.html">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2.5v9l8-4.5L3 2.5z" fill="currentColor"/></svg>
+        Watch 90-second tour
+      </a>
+    </div>
+    <div class="hero-meta">
+      <span><span class="dot"></span>Free for 14 days · no card</span>
+      <span><span class="dot"></span>SOC 2 in progress</span>
+      <span><span class="dot"></span>Forward your first RFI and we'll draft it</span>
+    </div>
+
+    <!-- DASHBOARD MOCKUP -->
+    <div class="mock-wrap">
+
+      <!-- floating annotations -->
+      <div class="badge-float" style="top: -18px; right: 40px;">
+        <span class="ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
         <div>
-          <p class="eyebrow">Trust boundary</p>
-          <h2>We help finish the request. We do not invent proof.</h2>
+          <b>67% auto-filled</b>
+          <small>from your library, on average</small>
         </div>
-        <div class="boundary-grid">
-          <article><b>We do</b><p>Read the customer ask, route owner requests, chase evidence, draft wording, organize attachments, and flag caveats.</p></article>
-          <article><b>We do not</b><p>Certify claims, conduct audits, calculate final carbon numbers, submit without approval, or replace legal/compliance sign-off.</p></article>
-        </div>
-        <a class="cta primary" href="app/index.html">Start with one redacted request</a>
-      </section>
+      </div>
 
-      <footer class="footer"><span>SupplierProof@2026</span></footer>
-    </main>
-  </body>
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="traffic"><i></i><i></i><i></i></div>
+          <div class="url-pill"><span class="lock">⚿</span>app.supplierproof.com/inbox</div>
+          <div style="width: 50px;"></div>
+        </div>
+
+        <div class="app">
+          <!-- SIDEBAR -->
+          <aside class="sidebar">
+            <div class="side-brand">
+              <span class="mark">SP</span>
+              <b>SupplierProof</b>
+            </div>
+
+            <div class="side-section">Work</div>
+            <div class="nav-item active">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4l5 3 5-3M2 4v6h10V4M2 4l5-3 5 3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              Inbox
+              <span class="count hot">3</span>
+            </div>
+            <div class="nav-item">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 5.5h5M4.5 8h3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Requests
+              <span class="count">7</span>
+            </div>
+            <div class="nav-item">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 4.5L7 8l4.5-3.5M2.5 4.5v6h9v-6M2.5 4.5L7 1l4.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              Asks
+              <span class="count">4</span>
+            </div>
+
+            <div class="side-section">Memory</div>
+            <div class="nav-item">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2h6l2 2v8H3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 2v2h2" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+              Library
+              <span class="count">47</span>
+            </div>
+            <div class="nav-item">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 12c.5-2.5 2.5-4 4.5-4s4 1.5 4.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+              Customers
+              <span class="count">12</span>
+            </div>
+            <div class="nav-item">
+              <span class="ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-3 2 2 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5h4v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Suppliers
+              <span class="count">8</span>
+            </div>
+
+            <div class="side-user">
+              <span class="avatar">SV</span>
+              <div>
+                <div style="font-weight: 600;">Sara Vance</div>
+                <div style="font-size: 11px; color: var(--ink-3);">Acme Foods · admin</div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- MAIN -->
+          <div class="main">
+            <div class="topbar">
+              <div class="crumbs"><b>Inbox</b> <span class="sep">/</span> Today · May 8</div>
+              <div class="top-search">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M8.5 8.5l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                Search packets, evidence…
+                <span class="kbd">⌘K</span>
+              </div>
+              <button class="icon-btn" title="Notifications">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 10V6.5a4 4 0 018 0V10l1 1.5H2L3 10z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 12a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/></svg>
+              </button>
+              <button class="btn btn-primary" style="height: 32px; padding: 0 12px; font-size: 13px;">+ New request</button>
+            </div>
+
+            <div class="main-body">
+              <div class="page-head">
+                <h2 class="serif" style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 36px;">Good morning, Sara.</h2>
+              </div>
+              <p class="page-sub">
+                <b>3 open requests.</b> Walmart needs you today — the others are tracking.
+                Forward new RFIs to <span class="mono" style="font-size: 13px;">requests-acme@in.supplierproof.com</span>.
+              </p>
+
+              <div class="stats">
+                <div class="stat">
+                  <div class="k">Open packets</div>
+                  <div class="v">7 <small>/ 12 month</small></div>
+                  <div class="delta">↑ 2 vs. last month</div>
+                </div>
+                <div class="stat">
+                  <div class="k">Avg. turnaround</div>
+                  <div class="v">2.3 <small>days</small></div>
+                  <div class="delta">↓ from 11 days</div>
+                </div>
+                <div class="stat">
+                  <div class="k">Library reuse</div>
+                  <div class="v">67<small>%</small></div>
+                  <div class="delta">↑ compounding</div>
+                </div>
+                <div class="stat">
+                  <div class="k">Expiring evidence</div>
+                  <div class="v">2 <small>items</small></div>
+                  <div class="delta warn">⚠ within 30 days</div>
+                </div>
+              </div>
+
+              <div class="req-list">
+                <div class="req-head">
+                  <span>Customer</span>
+                  <span>Request</span>
+                  <span>Progress</span>
+                  <span>Due</span>
+                  <span>Status</span>
+                </div>
+
+                <div class="req hot">
+                  <div class="customer">
+                    <span class="logo wm">W</span>
+                    <span>Walmart</span>
+                  </div>
+                  <div>
+                    <div class="title">Q3 sustainability questionnaire</div>
+                    <div class="meta">12 questions · <b>8 auto-filled</b> · 3 supplier asks · 1 fresh</div>
+                  </div>
+                  <div>
+                    <div class="progress"><i style="width: 67%"></i></div>
+                    <div style="font-size: 11px; color: var(--ink-3); margin-top: 4px;">8 of 12</div>
+                  </div>
+                  <div class="due urgent">May 14 · 6d</div>
+                  <div><span class="pill amber"><span class="dot"></span>Needs you</span></div>
+                </div>
+
+                <div class="req">
+                  <div class="customer">
+                    <span class="logo cs">C</span>
+                    <span>Costco</span>
+                  </div>
+                  <div>
+                    <div class="title">Recycled-content disclosure</div>
+                    <div class="meta">9 questions · waiting on Pak-Tech · sent 2d ago</div>
+                  </div>
+                  <div>
+                    <div class="progress amber"><i style="width: 78%"></i></div>
+                    <div style="font-size: 11px; color: var(--ink-3); margin-top: 4px;">7 of 9</div>
+                  </div>
+                  <div class="due">May 16 · 8d</div>
+                  <div><span class="pill muted"><span class="dot"></span>Waiting</span></div>
+                </div>
+
+                <div class="req">
+                  <div class="customer">
+                    <span class="logo wf">W</span>
+                    <span>Whole Foods</span>
+                  </div>
+                  <div>
+                    <div class="title">EPR registration audit</div>
+                    <div class="meta">5 questions · all answered · ready for review</div>
+                  </div>
+                  <div>
+                    <div class="progress"><i style="width: 100%"></i></div>
+                    <div style="font-size: 11px; color: var(--ink-3); margin-top: 4px;">5 of 5</div>
+                  </div>
+                  <div class="due">May 22 · 14d</div>
+                  <div><span class="pill green"><span class="dot"></span>Ready to ship</span></div>
+                </div>
+
+                <div class="req" style="opacity: 0.7;">
+                  <div class="customer">
+                    <span class="logo tg">T</span>
+                    <span>Target</span>
+                  </div>
+                  <div>
+                    <div class="title">Annual supplier scorecard · Q1</div>
+                    <div class="meta">Shipped May 2 · 28 questions · 84% reused</div>
+                  </div>
+                  <div>
+                    <div class="progress"><i style="width: 100%"></i></div>
+                    <div style="font-size: 11px; color: var(--ink-3); margin-top: 4px;">Shipped</div>
+                  </div>
+                  <div class="due">—</div>
+                  <div><span class="pill green"><span class="dot"></span>Shipped</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom floating badge -->
+      <div class="badge-float" style="bottom: -22px; left: -30px;">
+        <span class="ico" style="background: var(--blue-2); color: var(--blue);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>
+        <div>
+          <b>3 open · 1 ready to ship</b>
+          <small>The entire inbox fits on one screen.</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ════════════ LOGO STRIP ════════════ -->
+<div class="page">
+  <div class="logos">
+    <span class="label">Sample customer RFIs we parse</span>
+    <span class="name">Walmart</span>
+    <span class="name">Costco</span>
+    <span class="name" style="font-style: italic;">Whole Foods</span>
+    <span class="name">Target</span>
+    <span class="name">Kroger</span>
+    <span class="name" style="font-style: italic;">CVS Health</span>
+    <span class="name">Sysco</span>
+  </div>
+</div>
+
+<!-- ════════════ HOW IT WORKS ════════════ -->
+<section id="how">
+  <div class="page">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="serif section-title">Six screens. One path. <em style="font-style: italic; color: var(--ink-3);">From inbox to shipped packet.</em></h2>
+    <p class="section-lede">No teams, no taxonomies, no settings nightmare. Your sustainability or QA lead walks top-to-bottom and a request goes from “landed” to “delivered” in the same afternoon.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4l6 4 6-4M2 4v8h12V4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+        <div class="n">01</div>
+        <div class="name">Inbox</div>
+        <div class="desc">Today's open requests, all on one screen. No folders. No filters.</div>
+      </div>
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3h10v10H2z" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 6h5M4.5 9h5M4.5 11.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M11 1l3 3-1 1-3-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+        <div class="n">02</div>
+        <div class="name">Intake</div>
+        <div class="desc">Forward the email. AI extracts 12 trackable questions in ~30 seconds.</div>
+      </div>
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="n">03</div>
+        <div class="name">Workspace</div>
+        <div class="desc">AI auto-fills 8 of 12 from your Library. Approve all in one click.</div>
+      </div>
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6c2-3 5-3 7 0M11 6l3-2-2 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="11" r="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="11" r="1.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
+        <div class="n">04</div>
+        <div class="name">Ask</div>
+        <div class="desc">Magic-link to a supplier, colleague, or regulator. No account needed.</div>
+      </div>
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l5-5h7v7l-5 5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="11" cy="5" r="1" fill="currentColor"/></svg></span>
+        <div class="n">05</div>
+        <div class="name">Ship</div>
+        <div class="desc">Customer's disclosure rules apply automatically. Hit send.</div>
+      </div>
+      <div class="step">
+        <span class="glyph"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3h8l2 2v8H3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 3v2h2M6 8h4M6 10.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <div class="n">06</div>
+        <div class="name">Library</div>
+        <div class="desc">Every shipped answer is saved. Next request reuses more, asks less.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════ WORKSPACE FEATURE ════════════ -->
+<section id="workspace">
+  <div class="page">
+    <div class="feature">
+
+      <div class="feat-text">
+        <div class="section-eyebrow">The Workspace</div>
+        <h3 class="serif">AI auto-fills your answers. <em style="font-style:italic; color: var(--green);">You approve them.</em></h3>
+        <p>The center of gravity. Every question from the forwarded RFI lands here, matched to the strongest evidence in your library and graded by confidence. Approve eight at once, or step through and edit any one.</p>
+        <ul class="bullets">
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>Source-of-truth attribution.</b> Every auto-filled answer cites the specific file and version it came from — auditable on day one.</span>
+          </li>
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>Confidence-graded.</b> High, medium, “check this” — never silent guesses. You see why we filled it before you approve.</span>
+          </li>
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>One-click bulk approve.</b> All eight auto-filled in a single keystroke. The other four route to a supplier ask or a fresh answer.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="ws">
+        <div class="ws-top">
+          <span class="logo wm" style="width: 24px; height: 24px; border-radius: 5px; color: #fff; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; background: #2c4d8a;">W</span>
+          <div>
+            <div class="title">Walmart · Q3 sustainability</div>
+            <div style="font-size: 11.5px; color: var(--ink-3);">12 proof items · due May 14</div>
+          </div>
+          <div class="due">
+            <span class="pill green" style="background: var(--green-2); color: var(--green);">8 of 12 auto-filled</span>
+          </div>
+        </div>
+        <div class="ws-tabs">
+          <div class="ws-tab on">All · 12</div>
+          <div class="ws-tab">Auto-filled · 8</div>
+          <div class="ws-tab">Ask · 3</div>
+          <div class="ws-tab">Fresh · 1</div>
+        </div>
+
+        <div class="ws-row auto">
+          <div class="q">Q1</div>
+          <div><span class="pill green"><span class="dot"></span>Auto · high</span></div>
+          <div class="text">
+            <b>FSC chain-of-custody · paperboard</b>
+            <small>Reused from Costco Q1 '25 · <span class="mono">FSC-COC-Pak-Tech-2025.pdf</span></small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--ink-3);">Review →</div>
+        </div>
+        <div class="ws-row auto">
+          <div class="q">Q2</div>
+          <div><span class="pill green"><span class="dot"></span>Auto · high</span></div>
+          <div class="text">
+            <b>Recycled-content claim · 9 SKUs</b>
+            <small>Reused from Walmart Q2 '25 · <span class="mono">Recycled-content-table-Q2.xlsx</span></small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--ink-3);">Review →</div>
+        </div>
+        <div class="ws-row auto">
+          <div class="q">Q3</div>
+          <div><span class="pill green"><span class="dot"></span>Auto · high</span></div>
+          <div class="text">
+            <b>Prop 65 disclosure · inks</b>
+            <small>Standing answer · used 4 times · <span class="mono">Prop65-statement-2024.pdf</span></small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--ink-3);">Review →</div>
+        </div>
+        <div class="ws-row ask">
+          <div class="q">Q9</div>
+          <div><span class="pill amber"><span class="dot"></span>Ask supplier</span></div>
+          <div class="text">
+            <b>Scope 3 carbon · third-party verified</b>
+            <small>Gap → magic link · Pak-Tech · need verification letter</small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--amber); font-weight: 600;">Send →</div>
+        </div>
+        <div class="ws-row ask">
+          <div class="q">Q10</div>
+          <div><span class="pill amber"><span class="dot"></span>Ask supplier</span></div>
+          <div class="text">
+            <b>Heavy-metal compliance · ink</b>
+            <small>Gap → magic link · Pak-Tech · per-batch lab report</small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--amber); font-weight: 600;">Send →</div>
+        </div>
+        <div class="ws-row">
+          <div class="q">Q12</div>
+          <div><span class="pill muted"><span class="dot"></span>Write fresh</span></div>
+          <div class="text">
+            <b>Packaging weight optimization memo</b>
+            <small>No prior answer · 1-page narrative needed · ~10 min</small>
+          </div>
+          <div style="text-align: right; font-size: 12px; color: var(--ink-3);">Write →</div>
+        </div>
+
+        <div style="display: flex; gap: 10px; padding: 14px 18px; background: #fdfaf0; border-top: 1px solid var(--line);">
+          <button class="btn btn-primary" style="height: 34px; font-size: 13px;">Approve all 8 auto-filled</button>
+          <button class="btn btn-outline" style="height: 34px; font-size: 13px;">Send 3 supplier asks</button>
+          <span style="margin-left: auto; font-size: 12px; color: var(--ink-3); align-self: center;">Estimated time to ship: <b style="color: var(--ink);">~14 min</b></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════ MAGIC LINK ════════════ -->
+<section>
+  <div class="page">
+    <div class="feature reverse">
+
+      <div class="ml">
+        <div class="ml-top">
+          <span class="logo" style="width: 26px; height: 26px; border-radius: 6px; background: var(--ink); color: var(--paper); display: inline-flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;">SP</span>
+          <div class="url">supplierproof.app/u/8h2k4n</div>
+          <span style="font-size: 11px; color: var(--ink-3);">expires May 16</span>
+        </div>
+        <div class="ml-body">
+          <h4>Acme needs 3 files for their Walmart Q3 packet.</h4>
+          <p class="ml-sub">No account, no password. Drop the files below — they go straight to Acme's secure library.</p>
+
+          <div class="drop done">
+            <span class="ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div style="flex: 1;">
+              <div class="name">Scope 3 verification letter · 2025</div>
+              <div class="hint">PakTech-Scope3-Verification-2025.pdf · 412 KB</div>
+            </div>
+            <div class="status">✓ Uploaded</div>
+          </div>
+
+          <div class="drop live">
+            <span class="ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M8 8V4M8 8l2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <div style="flex: 1;">
+              <div class="name">Heavy-metal lab report · Q1 inks</div>
+              <div class="hint">HM-Lab-2025Q1.pdf · uploading…</div>
+            </div>
+            <div class="status">
+              <div class="bar-prog"><i></i></div>
+              <span>64%</span>
+            </div>
+          </div>
+
+          <div class="drop">
+            <span class="ico">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4.5 7.5L8 11l3.5-3.5M3 13.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div style="flex: 1;">
+              <div class="name">EPR registration · CA &amp; WA</div>
+              <div class="hint">Drop file here · or <u>pick from computer</u> · <u>email instead</u></div>
+            </div>
+            <div class="status">○ Waiting</div>
+          </div>
+
+          <div style="display: flex; gap: 8px; padding: 14px 0 0 0; align-items: center;">
+            <span style="font-size: 12px; color: var(--ink-3);">1 of 3 done · ~6 min left</span>
+            <button class="btn btn-primary" style="margin-left: auto; height: 32px; font-size: 13px;">Save &amp; close</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="feat-text">
+        <div class="section-eyebrow">The Magic Link</div>
+        <h3 class="serif">One pattern for every gap. <em style="font-style:italic; color: var(--ink-3);">Anyone, anywhere.</em></h3>
+        <p>Anywhere the system is missing something, send a link. Suppliers, colleagues, regulators, contractors — same shape every time. They drop a file; it lands in your library and back-fills the packet you're working on.</p>
+        <ul class="bullets">
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>No account, no learning curve.</b> Your supplier clicks one link, sees exactly what you need, and uploads. That's the whole interaction.</span>
+          </li>
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>“What good looks like” guidance.</b> Every item ships with the file format, contents, and signers you actually need — no back-and-forth.</span>
+          </li>
+          <li><span class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l2.5 2.5 5.5-5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><b>Auto-nudges.</b> 48-hour follow-up if they go quiet. You stop being the supplier chase-the-supplier department.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════ LIBRARY / COMPOUNDING ════════════ -->
+<section id="library">
+  <a id="package" aria-hidden="true"></a>
+  <div class="page">
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 56px;">
+      <div class="section-eyebrow">The Library</div>
+      <h2 class="serif section-title" style="margin: 0 auto 18px;">Month six looks nothing like month one. <em style="font-style: italic; color: var(--green);">The product compounds.</em></h2>
+      <p class="section-lede" style="margin: 0 auto;">Every shipped answer becomes a standing answer. The next request reuses more, the request after that reuses more still. The library is the moat.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; align-items: start;">
+
+      <!-- library table -->
+      <div class="lib">
+        <div class="lib-top">
+          <div>
+            <div style="font-weight: 600; font-size: 14.5px;">Your evidence library</div>
+            <div style="font-size: 11.5px; color: var(--ink-3); margin-top: 2px;">47 standing answers · 9 customers · 6 months active</div>
+          </div>
+          <div class="lib-stats">
+            <div class="ok"><b>41</b><span>Fresh</span></div>
+            <div class="warn"><b>4</b><span>Aging</span></div>
+            <div class="neutral"><b>2</b><span>Expiring &lt; 30d</span></div>
+          </div>
+        </div>
+        <div class="lib-row head">
+          <span>Topic</span><span>Reused</span><span>Freshness</span><span>Expires</span><span>Used by</span>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>Code of conduct · ack</b>
+            <div class="mini">Standing answer · signed</div>
+          </div>
+          <div class="reuse">14× <small>uses</small></div>
+          <div><div class="lib-bar"><i style="width: 92%"></i></div><div style="font-size: 10.5px; color: var(--ink-3); margin-top: 3px;">Standing</div></div>
+          <div style="font-size: 12px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace;">—</div>
+          <div style="font-size: 11.5px; color: var(--ink-3);">Walmart · Costco · Target · +5</div>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>Prop 65 disclosure · inks</b>
+            <div class="mini">Statement · 2024 · valid</div>
+          </div>
+          <div class="reuse">11× <small>uses</small></div>
+          <div><div class="lib-bar"><i style="width: 78%"></i></div><div style="font-size: 10.5px; color: var(--ink-3); margin-top: 3px;">Fresh</div></div>
+          <div style="font-size: 12px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace;">Dec 2025</div>
+          <div style="font-size: 11.5px; color: var(--ink-3);">Walmart · CVS · +3</div>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>Annual energy use · facility</b>
+            <div class="mini">Pulled from Sustainability/Energy</div>
+          </div>
+          <div class="reuse">9× <small>uses</small></div>
+          <div><div class="lib-bar"><i style="width: 70%"></i></div><div style="font-size: 10.5px; color: var(--ink-3); margin-top: 3px;">2024</div></div>
+          <div style="font-size: 12px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace;">Q1 2026</div>
+          <div style="font-size: 11.5px; color: var(--ink-3);">Costco · Whole Foods · +4</div>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>FSC chain-of-custody · paperboard</b>
+            <div class="mini">Cert valid through 2026</div>
+          </div>
+          <div class="reuse">8× <small>uses</small></div>
+          <div><div class="lib-bar"><i style="width: 88%"></i></div><div style="font-size: 10.5px; color: var(--ink-3); margin-top: 3px;">Fresh</div></div>
+          <div style="font-size: 12px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace;">Apr 2026</div>
+          <div style="font-size: 11.5px; color: var(--ink-3);">Walmart · Costco · +3</div>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>Plastic packaging % by weight</b>
+            <div class="mini">2024 · aging</div>
+          </div>
+          <div class="reuse">4× <small>uses</small></div>
+          <div><div class="lib-bar"><i class="warn" style="width: 32%"></i></div><div style="font-size: 10.5px; color: var(--amber); margin-top: 3px;">Aging</div></div>
+          <div style="font-size: 12px; color: var(--amber); font-family: 'JetBrains Mono', monospace; font-weight: 600;">Jul 2025</div>
+          <div style="font-size: 11.5px; color: var(--ink-3);">Kroger · Sysco</div>
+        </div>
+        <div class="lib-row">
+          <div>
+            <b>Scope 3 carbon · third-party verified</b>
+            <div class="mini">Just added · 2025</div>
+          </div>
+          <div class="reuse">1× <small>uses</small></div>
+          <div><div class="lib-bar"><i style="width: 95%"></i></div><div style="font-size: 10.5px; color: var(--green); margin-top: 3px;">New · 2025</div></div>
+          <div style="font-size: 12px; color: var(--ink-3); font-family: 'JetBrains Mono', monospace;">Q2 2026</div>
+          <div style="font-size: 11.5px; color: var(--green); font-weight: 600;">Walmart Q3</div>
+        </div>
+      </div>
+
+      <!-- compounding chart -->
+      <div class="compound">
+        <div style="font-weight: 600; font-size: 14.5px;">Library reuse, by quarter</div>
+        <div style="font-size: 12px; color: var(--ink-3); margin: 4px 0 28px;">Percent of each packet's questions answered from existing evidence.</div>
+
+        <div class="bars">
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 22%;"><span class="pct">12%</span></div></div>
+            <div class="bar-label">Q2 '24</div>
+          </div>
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 38%;"><span class="pct">28%</span></div></div>
+            <div class="bar-label">Q3 '24</div>
+          </div>
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 56%;"><span class="pct">41%</span></div></div>
+            <div class="bar-label">Q4 '24</div>
+          </div>
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 70%;"><span class="pct">52%</span></div></div>
+            <div class="bar-label">Q1 '25</div>
+          </div>
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 86%;"><span class="pct">67%</span></div></div>
+            <div class="bar-label">Q2 '25</div>
+          </div>
+          <div class="bar-col">
+            <div class="bar-wrap"><div class="bar" style="height: 100%; opacity: 0.6; background: repeating-linear-gradient(45deg, var(--green), var(--green) 6px, #5a8b6e 6px, #5a8b6e 12px);"><span class="pct" style="color: var(--ink-3);">~80% est.</span></div></div>
+            <div class="bar-label">Q3 '25</div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span><span class="sq" style="background: var(--green);"></span>Reused from library</span>
+          <span><span class="sq" style="background: var(--bg-2); border: 1px dashed var(--line-2);"></span>Projected (forecast)</span>
+        </div>
+
+        <div style="margin-top: 28px; padding: 16px; background: var(--green-2); border-radius: 10px; border: 1px solid rgba(45,90,61,0.2);">
+          <div style="font-size: 12px; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">Math behind it</div>
+          <div style="font-size: 14px; color: var(--ink-2); margin-top: 6px; line-height: 1.55;">
+            A Walmart Q3 packet that took <b style="color: var(--ink);">11 days</b> in Q2 '24 now takes
+            <b style="color: var(--green);">~14 minutes</b> of human attention.
+            The other ~10 hours never happen because the answers already exist.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════ CUSTOMERS / RFI TYPES ════════════ -->
+<section>
+  <div class="page">
+    <div class="section-eyebrow">Built for the requests you actually get</div>
+    <h2 class="serif section-title" style="font-size: 44px;">One product across every customer's questionnaire.</h2>
+    <p class="section-lede">Whether it's a 4-question scorecard or a 90-question audit, the path is the same: extract, auto-fill, ask, ship.</p>
+
+    <div class="customer-grid">
+      <div class="ccard">
+        <div class="head"><span class="logo wm" style="display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700;">W</span><div><div class="name">Walmart</div><div class="sub">Quarterly · ~12 Q</div></div></div>
+        <div class="body">Sustainability + recycled-content + Prop 65. Strict disclosure: no supplier names.</div>
+        <div class="row"><span>Auto-fill rate</span><b>67%</b></div>
+        <div class="row"><span>Last shipped</span><b>2d ago</b></div>
+      </div>
+      <div class="ccard">
+        <div class="head"><span class="logo cs" style="display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700;">C</span><div><div class="name">Costco</div><div class="sub">Bi-annual · ~9 Q</div></div></div>
+        <div class="body">Item-level recycled content. Loose disclosure rules. Spreadsheet-heavy.</div>
+        <div class="row"><span>Auto-fill rate</span><b>71%</b></div>
+        <div class="row"><span>Last shipped</span><b>1 wk</b></div>
+      </div>
+      <div class="ccard">
+        <div class="head"><span class="logo wf" style="display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700;">W</span><div><div class="name">Whole Foods</div><div class="sub">Annual + audits · ~5 Q</div></div></div>
+        <div class="body">EPR-focused. CA + WA registration screenshots. Confirms-by-state.</div>
+        <div class="row"><span>Auto-fill rate</span><b>80%</b></div>
+        <div class="row"><span>Last shipped</span><b>Today</b></div>
+      </div>
+      <div class="ccard">
+        <div class="head"><span class="logo tg" style="display:inline-flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700;">T</span><div><div class="name">Target</div><div class="sub">Quarterly · ~28 Q</div></div></div>
+        <div class="body">Long scorecard. Supplier diversity, CoC, energy, water, waste. Heavy reuse.</div>
+        <div class="row"><span>Auto-fill rate</span><b>84%</b></div>
+        <div class="row"><span>Last shipped</span><b>May 2</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ════════════ QUOTE ════════════ -->
+<section>
+  <div class="page">
+    <div class="quote">
+      <q>The Walmart Q3 packet used to eat a week of my month. <em>Last quarter we shipped it in an afternoon, with better evidence than we'd ever attached.</em></q>
+      <div class="who">
+        <span class="avatar" style="width: 38px; height: 38px; font-size: 14px;">SV</span>
+        <div>
+          <div style="color: #fbf9f3; font-weight: 600;">Sara Vance</div>
+          <div>Head of Sustainability, Acme Foods · 14 active customer programs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FINAL CTA ════════════ -->
+<section class="cta">
+  <div class="page">
+    <div class="section-eyebrow" style="margin-bottom: 18px;">Start today</div>
+    <h2 class="serif">Forward your first RFI. <br />We'll draft the packet by lunch.</h2>
+    <p>Free for 14 days. Bring one customer questionnaire and watch SupplierProof match it against your existing files. No card, no contract.</p>
+    <div class="row">
+      <a class="btn btn-primary btn-lg" href="#">Start free trial &nbsp;→</a>
+      <a class="btn btn-outline btn-lg" href="#">Book a 20-min walkthrough</a>
+    </div>
+    <div style="font-size: 12.5px; color: var(--ink-3); margin-top: 22px;">
+      Already a customer? <a href="#" style="color: var(--ink); text-decoration: underline;">Sign in</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="page foot">
+    <div class="brand"><span class="mark">SP</span> SupplierProof</div>
+    <div class="links">
+      <a href="#">Product</a>
+      <a href="#">Pricing</a>
+      <a href="#">Security</a>
+      <a href="#">Changelog</a>
+      <a href="#">Contact</a>
+    </div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">© 2026 SupplierProof, Inc.</div>
+  </div>
+</footer>
+
+</body>
 </html>
