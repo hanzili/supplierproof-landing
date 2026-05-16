@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>SupplierProof — One library answers every brand RFI. Built for co-packers.</title>
-<meta name="viewport" content="width=1280" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="Co-packers and contract manufacturers answer the same 50 questions for 40 different brands. SupplierProof builds the library that answers them once — and keeps it fresh between RFIs." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -524,6 +524,110 @@
   .foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 12.5px; color: var(--ink-3); }
   .foot .links { display: flex; gap: 22px; }
   .foot .brand { font-size: 13px; }
+
+  /* ─── responsive · tablet ─────────────────────────────────── */
+  @media (max-width: 920px) {
+    .h1 { font-size: 52px; }
+    .section-title { font-size: 42px; }
+    .thesis-text h3 { font-size: 38px; }
+    .cta-block h2 { font-size: 44px; }
+
+    /* two-column content grids stack */
+    .pain-grid { grid-template-columns: 1fr; gap: 32px; }
+    .thesis { grid-template-columns: 1fr; gap: 36px; }
+    .faq-grid { grid-template-columns: 1fr; gap: 28px; }
+    .pain-aside, .faq-aside { position: static; }
+
+    .ways { grid-template-columns: 1fr; gap: 16px; }
+    .ways::before { display: none; }
+
+    .beats { gap: 64px; }
+    .beat, .beat.alt { grid-template-columns: 1fr; gap: 28px; }
+    .beat.alt .beat-text { order: 0; }
+
+    .quotes { grid-template-columns: 1fr 1fr; }
+    .price-grid {
+      grid-template-columns: 1fr;
+      max-width: 440px; margin-left: auto; margin-right: auto;
+    }
+  }
+
+  /* ─── responsive · phone ──────────────────────────────────── */
+  @media (max-width: 760px) {
+    .page { padding: 0 18px; }
+    section { padding: 56px 0; }
+
+    /* nav — drop the link list and the secondary action */
+    .nav-inner { gap: 12px; height: 56px; }
+    .nav-links { display: none; }
+    .nav-right { gap: 8px; }
+    .nav-right .btn-ghost { display: none; }
+
+    /* hero */
+    header.hero { padding: 40px 0 16px; }
+    .eyebrow { font-size: 11px; }
+    .h1 { font-size: 33px; line-height: 1.06; margin: 18px 0; }
+    .lede { font-size: 16px; }
+    .hero-cta { flex-direction: column; align-items: stretch; gap: 10px; }
+    .hero-cta .btn { justify-content: center; }
+    .mock-wrap { margin-top: 36px; }
+
+    /* section type */
+    .section-title { font-size: 30px; }
+    .section-lede { font-size: 16px; }
+    .thesis-text h3 { font-size: 30px; }
+    .way h4 { font-size: 26px; }
+    .beat-text h3 { font-size: 28px; }
+    .beats { gap: 56px; }
+    .ways-rejoin { font-size: 19px; }
+    .cta-block { padding: 48px 24px; }
+    .cta-block h2 { font-size: 32px; }
+    .cta-block p { font-size: 15px; }
+
+    /* browser / app mock — drop the sidebar, stack the rest */
+    .app { grid-template-columns: 1fr; min-height: 0; }
+    .sidebar { display: none; }
+    .main-body { padding: 16px 14px; }
+    .topbar { padding: 0 14px; }
+    .top-search { display: none; }
+    .ph h2 { font-size: 22px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .att-h { flex-wrap: wrap; }
+    .att-h .cta { margin-left: 0; }
+    .att-head { display: none; }
+    .att-row { grid-template-columns: 1fr auto; }
+    .att-row .why, .att-row .who { display: none; }
+
+    /* library card */
+    .libcard-top { flex-wrap: wrap; gap: 10px; }
+    .libcard-top .stats-mini { margin-left: 0; gap: 14px; }
+    .libcard-row { grid-template-columns: 1fr auto; }
+    .libcard-row .reuse,
+    .libcard-row > div:nth-child(3) { display: none; }
+
+    /* workspace mock */
+    .ws-head { flex-wrap: wrap; }
+    .ws-head .progress { margin-left: 0; }
+    .ws-row { grid-template-columns: 1fr auto; }
+    .ws-row .qn,
+    .ws-row > *:nth-child(2) { display: none; }
+
+    /* magic-link mock */
+    .ml-head .url { display: none; }
+
+    /* compounding chart — scroll rather than crush 7 bars */
+    .compound-wrap { padding: 22px 18px; overflow-x: auto; }
+    .compound-head { flex-wrap: wrap; gap: 4px 14px; }
+    .bars { min-width: 460px; }
+
+    /* quotes */
+    .quotes { grid-template-columns: 1fr; }
+
+    /* audience strip + footer */
+    .audience { gap: 14px 20px; }
+    .foot { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .foot .links { flex-wrap: wrap; gap: 14px; }
+  }
 </style>
 </head>
 <body>
